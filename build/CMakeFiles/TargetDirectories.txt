@@ -1,0 +1,5 @@
+C:/Users/fredd/source/repos/TheGraphicsEngine/TheGraphicsEngine/build/CMakeFiles/TheGraphicsEngine.dir
+C:/Users/fredd/source/repos/TheGraphicsEngine/TheGraphicsEngine/build/CMakeFiles/STB_IMAGE.dir
+C:/Users/fredd/source/repos/TheGraphicsEngine/TheGraphicsEngine/build/CMakeFiles/GLAD.dir
+C:/Users/fredd/source/repos/TheGraphicsEngine/TheGraphicsEngine/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/fredd/source/repos/TheGraphicsEngine/TheGraphicsEngine/build/CMakeFiles/ZERO_CHECK.dir
