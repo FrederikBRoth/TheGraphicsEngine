@@ -3,11 +3,12 @@
 #include <GLFW\glfw3.h>
 #include <iostream>
 #include <rendering/Shader.h>
-#include <rendering/Camera.h>
+#include <controls/Camera.h>
 #include <stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "includes/entities/Entity.h"
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -151,7 +152,7 @@ int main() {
 		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
-
+	Entity e = Entity(vertices);
 
 	//unsigned int indices[] = { // note that we start from 0!
 	//	0, 1, 3, // first triangle
