@@ -6,6 +6,7 @@
 #include <includes/chunk/Block.h>
 #include <vector>
 #include <includes/rendering/RenderInformation.h>
+#include <array>
 class Chunk
 {
 static const int CHUNKSIZE_X = 30;

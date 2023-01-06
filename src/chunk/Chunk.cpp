@@ -1,4 +1,29 @@
 #include <includes/chunk/Chunk.h>
+namespace {
+
+const std::array<float, 12> frontFace{
+	0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1,
+};
+
+const std::array<float, 12> backFace{
+	1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0,
+};
+
+const std::array<float, 12> leftFace{
+	0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0,
+};
+
+const std::array<float, 12> rightFace{
+	1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1,
+};
+
+const std::array<float, 12> topFace{
+	0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0,
+};
+
+const std::array<float, 12> bottomFace{ 
+	0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1 };
+
 
 Chunk::Chunk(glm::vec3 location)
 {
@@ -46,6 +71,8 @@ RenderInformation Chunk::getMesh()
 	}*/
 	return ri;
 }
+}
+
 
 
 //Blockfaces can be stores as constant arrays of 12 values
