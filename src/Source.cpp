@@ -8,7 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "includes/entities/Entity.h"
+#include "includes/entities/Mesh.h"
+#include <includes/chunk/Chunk.h>
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -152,23 +153,55 @@ int main() {
 		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
-	Entity e = Entity(vertices);
+	float vertices2[] = {
+		// positions // normals // texture coords
+		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		1.5f, 0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		1.5f, 1.5f, 0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		1.5f, 1.5f, 0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		0.5f, 1.5f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 1.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		1.5f, 0.5f, 1.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+		1.5f, 1.5f, 1.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		1.5f, 1.5f, 1.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		0.5f, 1.5f, 1.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 1.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5f, 1.5f, 1.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 1.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 1.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 1.5f, 1.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		1.5f, 1.5f, 1.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		1.5f, 1.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		1.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		1.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		1.5f, 0.5f, 1.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		1.5f, 1.5f, 1.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		1.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		1.5f, 0.5f, 1.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		1.5f, 0.5f, 1.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 1.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, 1.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		1.5f, 1.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		1.5f, 1.5f, 1.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		1.5f, 1.5f, 1.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 1.5f, 1.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 1.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
+	};
+	Mesh* e = new Mesh(vertices, 36);
+	Mesh* e2 = new Mesh(vertices2, 36);
 
+	Chunk* chunk = new Chunk(glm::vec3(1.0f));
+	chunk->createSolidChunk();
 	//unsigned int indices[] = { // note that we start from 0!
 	//	0, 1, 3, // first triangle
 	//	1, 2, 3 // second triangle
 	//};
 	//texture load
-
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-
-	unsigned int lightVAO;
-	glGenVertexArrays(1, &lightVAO);
-
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-
 
 	//unsigned int EBO;
 	//glGenBuffers(1, &EBO);
@@ -178,19 +211,7 @@ int main() {
 	unsigned int texture2;
 	glGenTextures(1, &texture2);
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
-	glBindVertexArray(lightVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
 	//Can also be GL_STREAM_DRAW: Only used very little, GL_DYMANIC DRAW: Used a lot, but the data is changed aswell a lot
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -208,7 +229,7 @@ int main() {
 	glfwSetScrollCallback(window, scroll_callback);
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-	const float radius = 3.0f;
+	const float radius = 1.0f;
 	while (!glfwWindowShouldClose(window))
 	{
 		//Gets the current frame for input processing
@@ -226,7 +247,6 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Binds the normal cube
-		glBindVertexArray(VAO);
 		//Sets projection matrices
 		view = camera.GetViewMatrix();
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -240,7 +260,9 @@ int main() {
 		lighting.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		e->render();
+		e2->render();
+
 		//Preps light source cube 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, lightPos);
@@ -249,8 +271,8 @@ int main() {
 		lightSource.setMat4("model", model);
 		lightSource.setMat4("view", view);
 		lightSource.setMat4("projection", projection);
-		glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		e->render();
+
 
 
 		glfwSwapBuffers(window);
