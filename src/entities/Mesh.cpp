@@ -1,4 +1,4 @@
-#include <includes/entities/Mesh.h>
+#include <entities/Mesh.h>
 
 Mesh::Mesh(float* vertices, int triangleCount)
 {

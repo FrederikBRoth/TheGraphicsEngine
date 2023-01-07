@@ -1,6 +1,6 @@
 #ifndef VERTEXARRAY_H
 #define VERTEXARRAY_H
-#include <includes/rendering/VertexBuffer.h>
+#include <rendering/VertexBuffer.h>
 
 class VertexArray
 {
@@ -11,5 +11,6 @@ public:
 	~VertexArray();
 	void init(int size);
 	void bind();
+
 };
 #endif // !VERTEXARRAY_H

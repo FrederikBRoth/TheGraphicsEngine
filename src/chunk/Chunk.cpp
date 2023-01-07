@@ -1,33 +1,8 @@
-#include <includes/chunk/Chunk.h>
-namespace {
+#include <chunk/Chunk.h>
 
-const std::array<float, 12> frontFace{
-	0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1,
-};
-
-const std::array<float, 12> backFace{
-	1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0,
-};
-
-const std::array<float, 12> leftFace{
-	0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0,
-};
-
-const std::array<float, 12> rightFace{
-	1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1,
-};
-
-const std::array<float, 12> topFace{
-	0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0,
-};
-
-const std::array<float, 12> bottomFace{ 
-	0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1 };
-
-
-Chunk::Chunk(glm::vec3 location)
+Chunk::Chunk(glm::vec3 position)
 {
-	this->location = location;
+	this->position = position;
 	this->chunk = std::vector<std::vector<std::vector<Block*>>>(CHUNKSIZE_X, 
 			std::vector<std::vector<Block*>>(CHUNKSIZE_Y, 
 				std::vector<Block*>(CHUNKSIZE_Z)));
@@ -48,10 +23,10 @@ Chunk::~Chunk()
 
 void Chunk::createSolidChunk()
 {
-	for (int z = 0; z < CHUNKSIZE_Z; z++) {
+	for (int x = 0; x < CHUNKSIZE_X; x++) {
 		for (int y = 0; y < CHUNKSIZE_Y; y++) {
-			for (int x = 0; x < CHUNKSIZE_X; x++) {
-				this->chunk[z][y][x] = new Block(BlockType::GRASS);
+			for (int z = 0; z < CHUNKSIZE_Z; z++) {
+				this->chunk[x][y][z] = new Block(BlockType::GRASS);
 			}
 		}
 	}
@@ -60,18 +35,19 @@ void Chunk::createSolidChunk()
 RenderInformation Chunk::getMesh()
 {
 	RenderInformation ri = RenderInformation();
-	/*for (int z = 0; z < CHUNKSIZE_Z; z++) {
+	for (int x = 0; x < CHUNKSIZE_X; x++) {
 		for (int y = 0; y < CHUNKSIZE_Y; y++) {
-			for (int x = 0; x < CHUNKSIZE_X; x++) {
-				if (this->chunk[z][y][x]->type != BlockType::AIR) {
-					ri.vertices.push_back()
+			for (int z = 0; z < CHUNKSIZE_Z; z++) {
+				if (this->chunk[x][y][z]->type != BlockType::AIR) {
+
 				}
 			}
 		}
-	}*/
+	}
 	return ri;
 }
-}
+
+
 
 
 

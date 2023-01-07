@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <includes/chunk/Block.h>
+#include <chunk/Block.h>
 #include <vector>
-#include <includes/rendering/RenderInformation.h>
+#include <rendering/RenderInformation.h>
 #include <array>
 class Chunk
 {
@@ -13,7 +13,7 @@ static const int CHUNKSIZE_X = 30;
 static const int CHUNKSIZE_Y = 30;
 static const int CHUNKSIZE_Z = 30;
 public:
-	glm::vec3 location;
+	glm::vec3 position;
 	std::vector<std::vector<std::vector<Block*>>> chunk;
 	Chunk(glm::vec3 location);
 	~Chunk();

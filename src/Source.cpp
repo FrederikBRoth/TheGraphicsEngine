@@ -8,8 +8,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "includes/entities/Mesh.h"
-#include <includes/chunk/Chunk.h>
+#include <chunk/Block.h>
+#include <chunk/Chunk.h>
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 

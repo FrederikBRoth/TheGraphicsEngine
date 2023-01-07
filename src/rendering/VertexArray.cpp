@@ -1,4 +1,4 @@
-#include <includes/rendering/VertexArray.h>
+#include <rendering/VertexArray.h>
 
 VertexArray::VertexArray(float* vertices, int triangleCount)
 {
@@ -25,3 +25,5 @@ void VertexArray::bind()
 {
 	glBindVertexArray(this->ID);
 }
+
+

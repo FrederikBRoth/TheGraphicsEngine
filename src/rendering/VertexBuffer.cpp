@@ -1,4 +1,4 @@
-#include <includes/rendering/VertexBuffer.h>
+#include <rendering/VertexBuffer.h>
 
 VertexBuffer::VertexBuffer(float* vertices, int triangleCount)
 {

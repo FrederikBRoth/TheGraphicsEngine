@@ -1,6 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
-#include <includes/rendering/VertexArray.h>
+#include <rendering/VertexArray.h>
 class Mesh
 {
 public:
