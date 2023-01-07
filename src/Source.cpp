@@ -9,9 +9,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <entities/Mesh.h>
+#include <entities/IndexedMesh.h>
 #include <chunk/Chunk.h>
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+#include <chunk/ChunkBuilder.h>
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 750;
 
 // camera
 Camera camera(glm::vec3(-0.5f, 1.4f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
@@ -99,7 +101,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Window setup
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -114,7 +116,7 @@ int main() {
 	}
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//Triangle setup
-	float vertices[] = {
+	std::vector<float> vertices {
 		// positions // normals // texture coords
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
 		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
@@ -153,7 +155,7 @@ int main() {
 		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
-	float vertices2[] = {
+	std::vector<float> vertices2 {
 		// positions // normals // texture coords
 		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
 		1.5f, 0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
@@ -192,15 +194,37 @@ int main() {
 		0.5f, 1.5f, 1.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
 		0.5f, 1.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
+
+	std::vector<float> triangleTestvert{
+		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
+	};
+	std::vector<float> triangleTestvert2{
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
+	};
+	std::vector<unsigned int> indices{
+		0, 1, 3,
+		1, 2, 3
+	};
 	Mesh* e = new Mesh(vertices, 36);
 	Mesh* e2 = new Mesh(vertices2, 36);
-
+	Mesh* e3 = new Mesh(triangleTestvert2, 6);
+	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
 	Chunk* chunk = new Chunk(glm::vec3(1.0f));
 	chunk->createSolidChunk();
-	//unsigned int indices[] = { // note that we start from 0!
-	//	0, 1, 3, // first triangle
-	//	1, 2, 3 // second triangle
-	//};
+
+	ChunkBuilder* builder = new ChunkBuilder(chunk);
+
+	RenderInformation ri = builder->getChunkMesh();
+
+	IndexedMesh* chunkMesh = new IndexedMesh(ri);
 	//texture load
 
 	//unsigned int EBO;
@@ -260,18 +284,26 @@ int main() {
 		lighting.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
-		e->render();
-		e2->render();
+		chunkMesh->render();
+		model = glm::translate(model, glm::vec3(30.0f, 0.0f, 0.0f));
+		lighting.setMat4("model", model);
 
-		//Preps light source cube 
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f));
-		lightSource.use();
-		lightSource.setMat4("model", model);
-		lightSource.setMat4("view", view);
-		lightSource.setMat4("projection", projection);
-		e->render();
+		chunkMesh->render();
+
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 3.0f));
+		//lighting.setMat4("model", model);
+
+
+
+		////Preps light source cube 
+		//model = glm::mat4(1.0f);
+		//model = glm::translate(model, lightPos);
+		//model = glm::scale(model, glm::vec3(0.2f));
+		//lightSource.use();
+		//lightSource.setMat4("model", model);
+		//lightSource.setMat4("view", view);
+		//lightSource.setMat4("projection", projection);
+		//e->render();
 
 
 

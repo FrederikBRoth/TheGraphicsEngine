@@ -5,6 +5,7 @@
 
 class IndexBuffer
 {
+public:
 	unsigned int ID;
 	std::vector<unsigned int> indices;
 	IndexBuffer(std::vector<unsigned int> indices);

@@ -1,11 +1,8 @@
 #include <rendering/VertexBuffer.h>
 
-VertexBuffer::VertexBuffer(float* vertices, int triangleCount)
+VertexBuffer::VertexBuffer(std::vector<float> vertices)
 {
-	this->vertices.reserve(triangleCount * 8);
-	for (int i = 0; i < triangleCount * 8; i++) {
-		this->vertices.emplace_back(vertices[i]);
-	}
+	this->vertices = vertices;
 	glGenBuffers(1, &this->ID);
 }
 

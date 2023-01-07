@@ -1,12 +1,13 @@
 #ifndef MESH_H
 #define MESH_H
-#include <rendering/VertexArray.h>
-class Mesh
+#include <entities/IMesh.h>
+#include <rendering/IndexBuffer.h>
+
+class Mesh : public IMesh
 {
 public:
-	VertexArray* vao;
 	int triangleCount;
-	Mesh(float* vertices, int triangleCount);
+	Mesh(std::vector<float> vertices, int triangleCount);
 	~Mesh();
 	void render();
 };

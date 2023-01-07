@@ -7,7 +7,7 @@ class VertexArray
 public:
 	unsigned int ID;
 	VertexBuffer* vbo;
-	VertexArray(float* vertices, int triangleCount);
+	VertexArray(std::vector<float> vertices);
 	~VertexArray();
 	void init(int size);
 	void bind();

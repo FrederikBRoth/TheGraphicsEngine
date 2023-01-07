@@ -7,7 +7,7 @@ class VertexBuffer
 public:
 	unsigned int ID;
 	std::vector<float> vertices;
-	VertexBuffer(float* vertices, int triangleCount);
+	VertexBuffer(std::vector<float> vertices);
 	void init();
 };
 #endif

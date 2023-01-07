@@ -26,26 +26,29 @@ void Chunk::createSolidChunk()
 	for (int x = 0; x < CHUNKSIZE_X; x++) {
 		for (int y = 0; y < CHUNKSIZE_Y; y++) {
 			for (int z = 0; z < CHUNKSIZE_Z; z++) {
-				this->chunk[x][y][z] = new Block(BlockType::GRASS);
+				this->chunk[x][y][z] = new Block(BlockType::GRASS);	
 			}
 		}
 	}
 }
 
-RenderInformation Chunk::getMesh()
+void Chunk::createStripePattern()
 {
-	RenderInformation ri = RenderInformation();
 	for (int x = 0; x < CHUNKSIZE_X; x++) {
 		for (int y = 0; y < CHUNKSIZE_Y; y++) {
 			for (int z = 0; z < CHUNKSIZE_Z; z++) {
-				if (this->chunk[x][y][z]->type != BlockType::AIR) {
-
+				if (y % 2 == 0) {
+					this->chunk[x][y][z] = new Block(BlockType::GRASS);
+				}
+				else {
+					this->chunk[x][y][z] = new Block(BlockType::AIR);
 				}
 			}
 		}
 	}
-	return ri;
 }
+
+
 
 
 

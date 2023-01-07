@@ -1,9 +1,11 @@
 #include <rendering/VertexArray.h>
 
-VertexArray::VertexArray(float* vertices, int triangleCount)
+VertexArray::VertexArray(std::vector<float> vertices)
 {
-	this->vbo = new VertexBuffer(vertices, triangleCount);
+	this->vbo = new VertexBuffer(vertices);
 	glGenVertexArrays(1, &this->ID);
+	this->vbo->init();
+
 }
 
 VertexArray::~VertexArray()
@@ -13,12 +15,13 @@ VertexArray::~VertexArray()
 
 void VertexArray::init(int size)
 {
-	this->vbo->init();
 	glBindVertexArray(this->ID);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 }
 
 void VertexArray::bind()

@@ -9,15 +9,16 @@
 #include <array>
 class Chunk
 {
-static const int CHUNKSIZE_X = 30;
-static const int CHUNKSIZE_Y = 30;
-static const int CHUNKSIZE_Z = 30;
 public:
+	static const int CHUNKSIZE_X = 16;
+	static const int CHUNKSIZE_Y = 16;
+	static const int CHUNKSIZE_Z = 16;
+
 	glm::vec3 position;
 	std::vector<std::vector<std::vector<Block*>>> chunk;
 	Chunk(glm::vec3 location);
 	~Chunk();
 	void createSolidChunk();
-	RenderInformation getMesh();
+	void createStripePattern();
 };
 #endif // !CHUNK_H

@@ -6,6 +6,7 @@ IndexBuffer::IndexBuffer(std::vector<unsigned int> indices)
 	glGenBuffers(1, &this->ID);
 }
 
+
 void IndexBuffer::init()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ID);
