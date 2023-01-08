@@ -217,24 +217,18 @@ int main() {
 	Mesh* e = new Mesh(vertices, 36);
 	Mesh* e2 = new Mesh(vertices2, 36);
 	Mesh* e3 = new Mesh(triangleTestvert2, 6);
+
 	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
-	Chunk* chunk = new Chunk(glm::vec3(1.0f));
+	Chunk* chunk = new Chunk(glm::vec3(0.0f, 1.0f, 0.0f));
 	chunk->createSolidChunk();
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
-	ChunkBuilder* builder = new ChunkBuilder(chunk, tm->getTexCoords(2, 0));
+	ChunkBuilder* builder = new ChunkBuilder(chunk, tm->getTexCoords(1, 3));
 	RenderInformation ri = builder->getChunkMesh();
 	IndexedMesh* chunkMesh = new IndexedMesh(ri);
-	//texture load
-
-	//unsigned int EBO;
-	//glGenBuffers(1, &EBO);
 
 
 	tm->loadTexture(GL_RGBA);
 
-	//Can also be GL_STREAM_DRAW: Only used very little, GL_DYMANIC DRAW: Used a lot, but the data is changed aswell a lot
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
@@ -290,15 +284,15 @@ int main() {
 
 
 
-		////Preps light source cube 
-		//model = glm::mat4(1.0f);
-		//model = glm::translate(model, lightPos);
-		//model = glm::scale(model, glm::vec3(0.2f));
-		//lightSource.use();
-		//lightSource.setMat4("model", model);
-		//lightSource.setMat4("view", view);
-		//lightSource.setMat4("projection", projection);
-		//e->render();
+		//Preps light source cube 
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightSource.use();
+		lightSource.setMat4("model", model);
+		lightSource.setMat4("view", view);
+		lightSource.setMat4("projection", projection);
+		e->render();
 
 
 
