@@ -12,6 +12,7 @@
 #include <entities/IndexedMesh.h>
 #include <chunk/Chunk.h>
 #include <chunk/ChunkBuilder.h>
+#include <texturing/TextureMap.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
@@ -45,26 +46,26 @@ void processInput(GLFWwindow* window) {
 }
 
 
-void loadTexture(unsigned int texture, const char* filepath, int type = GL_MIRRORED_REPEAT, int colorType = GL_RGB) {
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, type);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, type);
-	//Sets the texture filtering based on if the texture is upscaled on a larger object or downscaled if on a smaller object
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	int width, height, nrChannels;
-	unsigned char* data = stbi_load(filepath, &width, &height,
-		&nrChannels, 0);
-	if (data) {
-		glTexImage2D(GL_TEXTURE_2D, 0, colorType, width, height, 0, colorType,
-			GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else {
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
-}
+//void loadTexture(unsigned int texture, const char* filepath, int type = GL_MIRRORED_REPEAT, int colorType = GL_RGB) {
+//	glBindTexture(GL_TEXTURE_2D, texture);
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, type);
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, type);
+//	//Sets the texture filtering based on if the texture is upscaled on a larger object or downscaled if on a smaller object
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//	int width, height, nrChannels;
+//	unsigned char* data = stbi_load(filepath, &width, &height,
+//		&nrChannels, 0);
+//	if (data) {
+//		glTexImage2D(GL_TEXTURE_2D, 0, colorType, width, height, 0, colorType,
+//			GL_UNSIGNED_BYTE, data);
+//		glGenerateMipmap(GL_TEXTURE_2D);
+//	}
+//	else {
+//		std::cout << "Failed to load texture" << std::endl;
+//	}
+//	stbi_image_free(data);
+//}
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
@@ -219,22 +220,17 @@ int main() {
 	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
 	Chunk* chunk = new Chunk(glm::vec3(1.0f));
 	chunk->createSolidChunk();
-
-	ChunkBuilder* builder = new ChunkBuilder(chunk);
-
+	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
+	ChunkBuilder* builder = new ChunkBuilder(chunk, tm->getTexCoords(2, 0));
 	RenderInformation ri = builder->getChunkMesh();
-
 	IndexedMesh* chunkMesh = new IndexedMesh(ri);
 	//texture load
 
 	//unsigned int EBO;
 	//glGenBuffers(1, &EBO);
 
-	unsigned int texture1;
-	glGenTextures(1, &texture1);
-	unsigned int texture2;
-	glGenTextures(1, &texture2);
 
+	tm->loadTexture(GL_RGBA);
 
 	//Can also be GL_STREAM_DRAW: Only used very little, GL_DYMANIC DRAW: Used a lot, but the data is changed aswell a lot
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -284,11 +280,10 @@ int main() {
 		lighting.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
+		tm->bind();
 		chunkMesh->render();
-		model = glm::translate(model, glm::vec3(30.0f, 0.0f, 0.0f));
-		lighting.setMat4("model", model);
 
-		chunkMesh->render();
+		e->render();
 
 		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 3.0f));
 		//lighting.setMat4("model", model);

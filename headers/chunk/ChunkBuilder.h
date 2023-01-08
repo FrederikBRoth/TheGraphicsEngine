@@ -2,6 +2,7 @@
 #define CHUNKBUILD_H
 #include <array>
 #include <chunk/Chunk.h>
+#include <texturing/TextureCoords.h>
 class ChunkBuilder
 {
     const std::array<float, 12> frontFace{
@@ -30,8 +31,10 @@ class ChunkBuilder
 
 public:
     Chunk* currentChunk;
+    std::vector<TextureCoord> tcs;
     ChunkBuilder(Chunk* currentChunk);
-
+    ChunkBuilder(Chunk* currentChunk, std::vector<TextureCoord> tcs);
+    ~ChunkBuilder();
     RenderInformation getChunkMesh();
 private:
     void addFaces(RenderInformation* ri, 

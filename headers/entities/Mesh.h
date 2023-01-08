@@ -9,6 +9,6 @@ public:
 	int triangleCount;
 	Mesh(std::vector<float> vertices, int triangleCount);
 	~Mesh();
-	void render();
+	virtual void render() override;
 };
 #endif

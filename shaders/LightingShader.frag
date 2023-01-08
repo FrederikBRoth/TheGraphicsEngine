@@ -1,6 +1,7 @@
 #version 330 core
 in vec3 Normals;
 in vec3 FragPos;
+in vec2 TexCoord;
 
 out vec4 FragColor;
 
@@ -8,6 +9,8 @@ uniform vec3 objectColor;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+
+uniform sampler2D ourTexture;
 
 void main()
 {
@@ -31,5 +34,5 @@ void main()
 
 	vec3 result = (ambient + diffuse + specular) * objectColor;
 
-	FragColor = vec4(result * lightColor, 1.0);
+	FragColor = texture(ourTexture, TexCoord);
 }

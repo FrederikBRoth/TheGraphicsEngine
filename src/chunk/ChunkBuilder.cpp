@@ -3,6 +3,18 @@
 ChunkBuilder::ChunkBuilder(Chunk* currentChunk)
 {
 	this->currentChunk = currentChunk;
+	this->tcs = std::vector<TextureCoord>(4);
+}
+
+ChunkBuilder::ChunkBuilder(Chunk* currentChunk, std::vector<TextureCoord> tcs)
+{
+	this->currentChunk = currentChunk;
+	this->tcs = tcs;
+}
+
+ChunkBuilder::~ChunkBuilder()
+{
+	delete this->currentChunk;
 }
 
 RenderInformation ChunkBuilder::getChunkMesh()
@@ -41,10 +53,13 @@ void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3 gridPosition, glm::v
 		ri->vertices.push_back(faces[faceIndex++] + chunkPosition.x + gridPosition.x);
 		ri->vertices.push_back(faces[faceIndex++] + chunkPosition.y + gridPosition.y);
 		ri->vertices.push_back(faces[faceIndex++] + chunkPosition.z + gridPosition.z);
-		//Temp to get each triangle to 8 vectors. Should be normal vectors for light and texture coordinates
-		for (int j = 0; j < 5; j++) {
+		//adding 3 vectors for normals
+		for (int j = 0; j < 3; j++) {
 			ri->vertices.push_back(0.0f);
 		}
+		ri->vertices.push_back(this->tcs[i].xCoord);
+		ri->vertices.push_back(this->tcs[i].yCoord);
+
 	}
 	ri->indices.push_back(*indicesIndex);
 	ri->indices.push_back(*indicesIndex + 1);

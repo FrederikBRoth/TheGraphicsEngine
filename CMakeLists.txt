@@ -8,11 +8,13 @@ file(GLOB_RECURSE SOURCE_FILES
 	${CMAKE_SOURCE_DIR}/src/*.c
 	${CMAKE_SOURCE_DIR}/src/*.cpp
 	${CMAKE_SOURCE_DIR}/shaders/*.vert
-	${CMAKE_SOURCE_DIR}/shaders/*.frag)
+	${CMAKE_SOURCE_DIR}/shaders/*.frag
+	${CMAKE_SOURCE_DIR}/assets/*)
 # Add header files
 file(GLOB_RECURSE HEADER_FILES 
 	${CMAKE_SOURCE_DIR}/headers/*.h
 	${CMAKE_SOURCE_DIR}/headers/*.hpp)
+
 
 # TODO: Add tests and install targets if needed.
 link_directories(${CMAKE_SOURCE_DIR}/lib)
@@ -22,6 +24,7 @@ include_directories(${CMAKE_BINARY_DIR}/headers)
 include_directories(${CMAKE_BINARY_DIR}/shaders)
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 
 # OpenGL
 set(OpenGL_GL_PREFERENCE GLVND)
@@ -45,6 +48,10 @@ add_library(STB_IMAGE "thirdparty/stb_image.cpp")
 # GLAD
 add_library(GLAD "thirdparty/glad.c")
 
+add_custom_target(Assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
+)
+add_dependencies(Assets TheGraphicsEngine)
 # Put all libraries into a variable
 set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS} ${ASSIMP_LIBRARY} STB_IMAGE)
 include_directories(

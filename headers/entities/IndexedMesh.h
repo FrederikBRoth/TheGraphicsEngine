@@ -12,6 +12,7 @@ public:
 	IndexedMesh(RenderInformation ri);
 
 	~IndexedMesh();
-	void render();
+	virtual void render() override;
+
 };
 #endif
