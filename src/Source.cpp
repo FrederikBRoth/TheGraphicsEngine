@@ -120,42 +120,49 @@ int main() {
 	//Triangle setup
 	std::vector<float> vertices {
 		// positions // normals // texture coords
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
 		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+
 		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 		0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
 		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
 		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+
 		-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 		-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 		-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 		-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 		-0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		
+		0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f
+
 	};
 	std::vector<float> vertices2 {
 		// positions // normals // texture coords
@@ -225,13 +232,14 @@ int main() {
 	grass->createSolidChunk();	
 	Chunk* dirt = new Chunk(glm::vec3(5.0f, -3.0f, 0.0f), 8, 3, 8);
 	dirt->createSolidChunk();
-	Chunk* stone = new Chunk(glm::vec3(5.0f, -259.0f, 0.0f), 16, 256, 16);
+	Chunk* stone = new Chunk(glm::vec3(5.0f, -19, 0.0f), 16, 16, 16);
 	stone->createSolidChunk();
 
+
+	ChunkBuilder* grassChunkBuilder = new ChunkBuilder(grass, tm->getTexCoords(2, 3));
+	ChunkBuilder* dirtChunkBuilder = new ChunkBuilder(dirt, tm->getTexCoords(0, 3));
 	auto start = std::chrono::high_resolution_clock::now();
 
-	ChunkBuilder* grassChunkBuilder = new ChunkBuilder(grass, tm->getTexCoords(1, 3));
-	ChunkBuilder* dirtChunkBuilder = new ChunkBuilder(dirt, tm->getTexCoords(0, 3));
 	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(stone, tm->getTexCoords(0, 2));
 
 	RenderInformation* ri = stoneChunkBuilder->getChunkMesh();
@@ -254,10 +262,12 @@ int main() {
 	Shader lighting = Shader("LightingShader.vert", "LightingShader.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 
-	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
+	tm->bind();
 
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 	const float radius = 1.0f;
@@ -273,7 +283,7 @@ int main() {
 		float camZ = cos((float)glfwGetTime()) * radius;
 
 		lightPos = glm::vec3(camX, 0.0f, camZ);
-
+		lightPos = glm::vec3(5.0f, 10.0f, 5.0f);
 		//Clears the screen for the new frame render
 		glClearColor(0.44f, 0.73f, 0.83f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -288,14 +298,12 @@ int main() {
 		lighting.setMat4("view", view);
 		lighting.setMat4("projection", projection);
  		lighting.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-		lighting.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+		lighting.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
-		tm->bind();
 		grassMesh->render();
 		dirtMesh->render();
 		stoneMesh->render();
-
 		e->render();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
 		lighting.setMat4("model", model);
@@ -303,6 +311,7 @@ int main() {
 		e3->render();
 		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 3.0f));
 		//lighting.setMat4("model", model);
+		
 
 
 
@@ -315,6 +324,12 @@ int main() {
 		lightSource.setMat4("view", view);
 		lightSource.setMat4("projection", projection);
 		e->render();
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(5.0f, 10.0f, 5.0f));
+		lightSource.setMat4("model", model);
+		e->render();
+
 
 
 

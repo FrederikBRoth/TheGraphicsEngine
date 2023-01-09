@@ -23,7 +23,7 @@ public:
 
 	~Chunk();
 	void createSolidChunk();
-	void createStripePatternChunk();
+	void CreateHollowCube();
 	void createStairsChunk();
 	int getIndex(int x, int y, int z);
 

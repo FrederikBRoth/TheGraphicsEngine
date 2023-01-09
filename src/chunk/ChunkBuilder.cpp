@@ -40,59 +40,42 @@ RenderInformation* ChunkBuilder::getChunkMesh()
 {
 	RenderInformation* ri = new RenderInformation();
 	int indicesIndex = 0;
-	//int chunkVolume = this->currentChunk->CHUNKSIZE_X * this->currentChunk->CHUNKSIZE_Y * this->currentChunk->CHUNKSIZE_Z;
-	//for (int i = 0; i < chunkVolume; i++) {
-	//	int x = i % this->currentChunk->CHUNKSIZE_X;
-	//	int y = (i / this->currentChunk->CHUNKSIZE_Z) % this->currentChunk->CHUNKSIZE_Y;
-	//	int z = i / (this->currentChunk->CHUNKSIZE_X * this->currentChunk->CHUNKSIZE_Y);
-	//	
-	//}
 
 	AdjacentBlockPositions directions;
 
 	for (int i = 0; i < currentChunk->CHUNKVOLUME; i++)
 	{
-		int x = i % this->currentChunk->CHUNKSIZE_X;
-		int y = (i / this->currentChunk->CHUNKSIZE_Z) % this->currentChunk->CHUNKSIZE_Y;
-		int z = i / (this->currentChunk->CHUNKSIZE_X * this->currentChunk->CHUNKSIZE_Y);
-		directions.update(x, y, z);
-		glm::vec3 pos = glm::vec3(x, y, z);
-		addFace(ri, &pos, frontFace, &indicesIndex, &directions.front);
-		addFace(ri, &pos, backFace, &indicesIndex, &directions.back);
-		addFace(ri, &pos, rightFace, &indicesIndex, &directions.right);
-		addFace(ri, &pos, leftFace, &indicesIndex, &directions.left);
-		addFace(ri, &pos, topFace, &indicesIndex, &directions.up);
-		addFace(ri, &pos, bottomFace, &indicesIndex, &directions.down);
-		
-		
-			
-		
+		if (currentChunk->chunk[i]->type != BlockType::AIR) {
+			int x = i % this->currentChunk->CHUNKSIZE_X;
+			int y = (i / this->currentChunk->CHUNKSIZE_Z) % this->currentChunk->CHUNKSIZE_Y;
+			int z = i / (this->currentChunk->CHUNKSIZE_X * this->currentChunk->CHUNKSIZE_Y);
+			directions.update(x, y, z);
+			glm::vec3 pos = glm::vec3(x, y, z);
+			addFace(ri, &pos, front, &indicesIndex, &directions.front, frontNormals);
+			addFace(ri, &pos, back, &indicesIndex, &directions.back, backNormals);
+			addFace(ri, &pos, right, &indicesIndex, &directions.right, rightNormals);
+			addFace(ri, &pos, left, &indicesIndex, &directions.left, leftNormals);
+			addFace(ri, &pos, top, &indicesIndex, &directions.up, topNormals);
+			addFace(ri, &pos, bottom, &indicesIndex, &directions.down, bottomNormals);
+		}
 	}
 	return ri;
 }
 
 
 
-void ChunkBuilder::addFaces(RenderInformation* ri, glm::vec3* gridPosition, int* indicesIndex)
+
+void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3* gridPosition, const std::array<float, 12> &faces, int* indicesIndex, glm::vec3* directions, const glm::vec3 &lightPos)
 {
-	
-
-
-}
-
-void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3* gridPosition, const std::array<float, 12> &faces, int* indicesIndex, glm::vec3* directions)
-{
-	if (!outOfBounds(directions->x, directions->y, directions->z) && currentChunk->chunk[currentChunk->getIndex(directions->x, directions->y, directions->z)]->type != BlockType::AIR) {
+	if (canPlaceFace(directions->x, directions->y, directions->z)) {
 		for (int i = 0, faceIndex = 0; i < 4; i++) {
 			ri->vertices.push_back(faces[faceIndex++] + currentChunk->position.x + gridPosition->x);
 			ri->vertices.push_back(faces[faceIndex++] + currentChunk->position.y + gridPosition->y);
 			ri->vertices.push_back(faces[faceIndex++] + currentChunk->position.z + gridPosition->z);
 			//adding 3 vectors for normals
-
-			ri->vertices.push_back(0.0f);
-			ri->vertices.push_back(0.0f);
-			ri->vertices.push_back(0.0f);
-
+			ri->vertices.push_back(lightPos.x);
+			ri->vertices.push_back(lightPos.y);
+			ri->vertices.push_back(lightPos.z);
 			ri->vertices.push_back(tcs[i].xCoord);
 			ri->vertices.push_back(tcs[i].yCoord);
 
@@ -127,5 +110,11 @@ bool ChunkBuilder::outOfBounds(int x, int y, int z)
 
 bool ChunkBuilder::canPlaceFace(int x, int y, int z)
 {
+	if (outOfBounds(x, y, z)) {
+		return true;
+	}
+	if (currentChunk->chunk[currentChunk->getIndex(x, y, z)]->type == BlockType::AIR) {
+		return true;
+	}
 	return false;
 }
