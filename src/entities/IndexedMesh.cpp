@@ -8,10 +8,10 @@ IndexedMesh::IndexedMesh(std::vector<unsigned int> indices, std::vector<float> v
 
 }
 
-IndexedMesh::IndexedMesh(RenderInformation ri)
+IndexedMesh::IndexedMesh(RenderInformation* ri)
 {
-	this->vao = new VertexArray(ri.vertices);
-	this->ebo = new IndexBuffer(ri.indices);
+	this->vao = new VertexArray(ri->vertices);
+	this->ebo = new IndexBuffer(ri->indices);
 	this->ebo->init();
 	this->vao->init(8);
 }

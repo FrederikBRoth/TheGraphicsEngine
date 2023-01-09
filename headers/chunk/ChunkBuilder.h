@@ -35,19 +35,17 @@ public:
     ChunkBuilder(Chunk* currentChunk);
     ChunkBuilder(Chunk* currentChunk, std::vector<TextureCoord> tcs);
     ~ChunkBuilder();
-    RenderInformation getChunkMesh();
+    RenderInformation* getChunkMesh();
 private:
     void addFaces(RenderInformation* ri, 
-        glm::vec3 gridPosition, 
-        glm::vec3 chunkPosition, 
+        glm::vec3* gridPosition,
         int* indicesIndex);
     void addFace(RenderInformation* ri, 
-        glm::vec3 gridPosition, 
-        glm::vec3 chunkPosition, 
-        std::array<float, 12> faces,
-        int* indicesIndex);
-
-
-
+        glm::vec3* gridPosition,
+        const std::array<float, 12> &faces,
+        int* indicesIndex, 
+        glm::vec3* direction);
+    bool outOfBounds(int x, int y, int z);
+    bool canPlaceFace(int x, int y, int z);
 };
 #endif 

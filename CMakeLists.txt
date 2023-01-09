@@ -48,10 +48,10 @@ add_library(STB_IMAGE "thirdparty/stb_image.cpp")
 # GLAD
 add_library(GLAD "thirdparty/glad.c")
 
-add_custom_target(Assets ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
-)
-add_dependencies(Assets TheGraphicsEngine)
+#add_custom_target(Assets ALL
+#    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
+#)
+#add_dependencies(Assets TheGraphicsEngine)
 # Put all libraries into a variable
 set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS} ${ASSIMP_LIBRARY} STB_IMAGE)
 include_directories(

@@ -13,8 +13,8 @@ void TextureMap::setupTextureCoordinates()
 			float yCoord = (float)y * yTexSize;
 			tc.bottomleft = TextureCoord(xCoord, yCoord);
 			tc.bottomright = TextureCoord(xCoord + xTexSize, yCoord);
-			tc.topleft = TextureCoord(xCoord, yCoord + yTexSize);
 			tc.topright = TextureCoord(xCoord + xTexSize, yCoord + yTexSize);
+			tc.topleft = TextureCoord(xCoord, yCoord + yTexSize);
 			this->textures[x][y] = tc;
 		}
 	}
@@ -53,7 +53,7 @@ void TextureMap::loadTexture(int COLORTYPE)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	//Sets the texture filtering based on if the texture is upscaled on a larger object or downscaled if on a smaller object
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, COLORTYPE, this->textureWidth, this->textureHeight, 0, COLORTYPE,
@@ -74,9 +74,9 @@ std::vector<TextureCoord> TextureMap::getTexCoords(int x, int y)
 {
 	std::vector<TextureCoord> tcs = std::vector<TextureCoord>();
 	tcs.push_back(this->textures[x][y].bottomleft);
-	tcs.push_back(this->textures[x][y].topleft);
-	tcs.push_back(this->textures[x][y].topright);
 	tcs.push_back(this->textures[x][y].bottomright);
+	tcs.push_back(this->textures[x][y].topright);
+	tcs.push_back(this->textures[x][y].topleft);
 
 	return tcs;
 }

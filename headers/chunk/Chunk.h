@@ -10,16 +10,23 @@
 class Chunk
 {
 public:
-	static const int CHUNKSIZE_X = 2;
-	static const int CHUNKSIZE_Y = 2;
-	static const int CHUNKSIZE_Z = 2;
+	const int CHUNKSIZE_X;
+	const int CHUNKSIZE_Y;
+	const int CHUNKSIZE_Z;
+	const int CHUNKAREA = CHUNKSIZE_X * CHUNKSIZE_Y;
+	const int CHUNKVOLUME = CHUNKAREA * CHUNKSIZE_Z;
 
 	glm::vec3 position;
-	std::vector<std::vector<std::vector<Block*>>> chunk;
+	std::vector<Block*> chunk;
 	Chunk(glm::vec3 location);
+	Chunk(glm::vec3 location, int x, int y, int z);
+
 	~Chunk();
 	void createSolidChunk();
 	void createStripePatternChunk();
 	void createStairsChunk();
+	int getIndex(int x, int y, int z);
+
+	
 };
 #endif // !CHUNK_H

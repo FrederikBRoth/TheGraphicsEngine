@@ -13,6 +13,7 @@
 #include <chunk/Chunk.h>
 #include <chunk/ChunkBuilder.h>
 #include <texturing/TextureMap.h>
+#include <chrono>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
@@ -203,12 +204,12 @@ int main() {
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
 	};
 	std::vector<float> triangleTestvert2{
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
 	};
 	std::vector<unsigned int> indices{
 		0, 1, 3,
@@ -217,14 +218,30 @@ int main() {
 	Mesh* e = new Mesh(vertices, 36);
 	Mesh* e2 = new Mesh(vertices2, 36);
 	Mesh* e3 = new Mesh(triangleTestvert2, 6);
-
-	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
-	Chunk* chunk = new Chunk(glm::vec3(0.0f, 1.0f, 0.0f));
-	chunk->createSolidChunk();
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
-	ChunkBuilder* builder = new ChunkBuilder(chunk, tm->getTexCoords(1, 3));
-	RenderInformation ri = builder->getChunkMesh();
-	IndexedMesh* chunkMesh = new IndexedMesh(ri);
+	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
+
+	Chunk* grass = new Chunk(glm::vec3(5.0f, 0.0f, 0.0f), 8, 1, 8);
+	grass->createSolidChunk();	
+	Chunk* dirt = new Chunk(glm::vec3(5.0f, -3.0f, 0.0f), 8, 3, 8);
+	dirt->createSolidChunk();
+	Chunk* stone = new Chunk(glm::vec3(5.0f, -259.0f, 0.0f), 16, 256, 16);
+	stone->createSolidChunk();
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	ChunkBuilder* grassChunkBuilder = new ChunkBuilder(grass, tm->getTexCoords(1, 3));
+	ChunkBuilder* dirtChunkBuilder = new ChunkBuilder(dirt, tm->getTexCoords(0, 3));
+	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(stone, tm->getTexCoords(0, 2));
+
+	RenderInformation* ri = stoneChunkBuilder->getChunkMesh();
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
+	IndexedMesh* grassMesh = new IndexedMesh(grassChunkBuilder->getChunkMesh());
+	IndexedMesh* dirtMesh = new IndexedMesh(dirtChunkBuilder->getChunkMesh());
+	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh());
+
 
 
 	tm->loadTexture(GL_RGBA);
@@ -238,7 +255,7 @@ int main() {
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 
 	glEnable(GL_DEPTH_TEST);
-
+	glEnable(GL_CULL_FACE);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
@@ -258,7 +275,7 @@ int main() {
 		lightPos = glm::vec3(camX, 0.0f, camZ);
 
 		//Clears the screen for the new frame render
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.44f, 0.73f, 0.83f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Binds the normal cube
 		//Sets projection matrices
@@ -275,10 +292,15 @@ int main() {
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
 		tm->bind();
-		chunkMesh->render();
+		grassMesh->render();
+		dirtMesh->render();
+		stoneMesh->render();
 
 		e->render();
+		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+		lighting.setMat4("model", model);
 
+		e3->render();
 		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 3.0f));
 		//lighting.setMat4("model", model);
 
