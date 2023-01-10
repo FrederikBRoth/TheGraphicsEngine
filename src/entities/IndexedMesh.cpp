@@ -1,5 +1,5 @@
 #include <entities/IndexedMesh.h>
-IndexedMesh::IndexedMesh(std::vector<unsigned int> indices, std::vector<float> vertices)
+IndexedMesh::IndexedMesh(std::vector<unsigned short> indices, std::vector<float> vertices)
 {
 	this->vao = new VertexArray(vertices);
 	this->ebo = new IndexBuffer(indices);
@@ -27,5 +27,5 @@ void IndexedMesh::render()
 	this->vao->bind();
 	this->ebo->bind();
 	// Draw the triangles !
-	glDrawElements(GL_TRIANGLES, this->ebo->indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, this->ebo->indices.size(), GL_UNSIGNED_SHORT, 0);
 }

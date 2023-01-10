@@ -3,6 +3,6 @@
 #include <vector>
 struct RenderInformation {
 	std::vector<float> vertices;
-	std::vector<unsigned int> indices;
+	std::vector<unsigned short> indices;
 };
 #endif // !RENDERINFORMATION_H

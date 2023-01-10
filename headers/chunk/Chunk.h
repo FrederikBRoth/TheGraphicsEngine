@@ -7,25 +7,20 @@
 #include <vector>
 #include <rendering/RenderInformation.h>
 #include <array>
+#include <world/World.h>
 class Chunk
 {
 public:
-	const int CHUNKSIZE_X;
-	const int CHUNKSIZE_Y;
-	const int CHUNKSIZE_Z;
-	const int CHUNKAREA = CHUNKSIZE_X * CHUNKSIZE_Y;
-	const int CHUNKVOLUME = CHUNKAREA * CHUNKSIZE_Z;
+
 
 	glm::vec3 position;
 	std::vector<Block*> chunk;
 	Chunk(glm::vec3 location);
-	Chunk(glm::vec3 location, int x, int y, int z);
 
 	~Chunk();
 	void createSolidChunk();
 	void CreateHollowCube();
 	void createStairsChunk();
-	int getIndex(int x, int y, int z);
 
 	
 };

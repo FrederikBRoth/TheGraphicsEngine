@@ -7,8 +7,8 @@ class IndexBuffer
 {
 public:
 	unsigned int ID;
-	std::vector<unsigned int> indices;
-	IndexBuffer(std::vector<unsigned int> indices);
+	std::vector<unsigned short> indices;
+	IndexBuffer(std::vector<unsigned short> indices);
 	void init();
 	void bind();
 };

@@ -218,7 +218,7 @@ int main() {
 		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
 	};
-	std::vector<unsigned int> indices{
+	std::vector<unsigned short> indices{
 		0, 1, 3,
 		1, 2, 3
 	};
@@ -228,27 +228,27 @@ int main() {
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
 
-	Chunk* grass = new Chunk(glm::vec3(5.0f, 0.0f, 0.0f), 8, 1, 8);
+	Chunk* grass = new Chunk(glm::vec3(5.0f, 0.0f, 0.0f));
 	grass->createSolidChunk();	
-	Chunk* dirt = new Chunk(glm::vec3(5.0f, -3.0f, 0.0f), 8, 3, 8);
+	Chunk* dirt = new Chunk(glm::vec3(5.0f, -3.0f, 0.0f));
 	dirt->createSolidChunk();
-	Chunk* stone = new Chunk(glm::vec3(5.0f, -19, 0.0f), 16, 16, 16);
+	Chunk* stone = new Chunk(glm::vec3(5.0f, -19, 0.0f));
 	stone->createSolidChunk();
 
 
-	ChunkBuilder* grassChunkBuilder = new ChunkBuilder(grass, tm->getTexCoords(2, 3));
-	ChunkBuilder* dirtChunkBuilder = new ChunkBuilder(dirt, tm->getTexCoords(0, 3));
+	ChunkBuilder* grassChunkBuilder = new ChunkBuilder(tm->getTexCoords(2, 3));
+	ChunkBuilder* dirtChunkBuilder = new ChunkBuilder(tm->getTexCoords(0, 3));
 	auto start = std::chrono::high_resolution_clock::now();
 
-	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(stone, tm->getTexCoords(0, 2));
+	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(tm->getTexCoords(0, 2));
 
-	RenderInformation* ri = stoneChunkBuilder->getChunkMesh();
+	RenderInformation* ri = stoneChunkBuilder->getChunkMesh(stone);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
-	IndexedMesh* grassMesh = new IndexedMesh(grassChunkBuilder->getChunkMesh());
-	IndexedMesh* dirtMesh = new IndexedMesh(dirtChunkBuilder->getChunkMesh());
-	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh());
+	IndexedMesh* grassMesh = new IndexedMesh(grassChunkBuilder->getChunkMesh(grass));
+	IndexedMesh* dirtMesh = new IndexedMesh(dirtChunkBuilder->getChunkMesh(dirt));
+	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh(stone));
 
 
 

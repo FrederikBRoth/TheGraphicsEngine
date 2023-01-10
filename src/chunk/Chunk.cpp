@@ -1,11 +1,6 @@
 #include <chunk/Chunk.h>
 
-Chunk::Chunk(glm::vec3 position) : CHUNKSIZE_X(16), CHUNKSIZE_Y(16), CHUNKSIZE_Z(16)
-{
-	this->position = position;
-	this->chunk = std::vector<Block*>(CHUNKVOLUME);
-}
-Chunk::Chunk(glm::vec3 position, int x, int y, int z) : CHUNKSIZE_X(x), CHUNKSIZE_Y(y), CHUNKSIZE_Z(z)
+Chunk::Chunk(glm::vec3 position)
 {
 	this->position = position;
 	this->chunk = std::vector<Block*>(CHUNKVOLUME);
@@ -65,10 +60,7 @@ void Chunk::createStairsChunk()
 	}*/
 }
 
-int Chunk::getIndex(int x, int y, int z)
-{
-	return z * CHUNKAREA + y * CHUNKSIZE_X + x;
-}
+
 
 
 
