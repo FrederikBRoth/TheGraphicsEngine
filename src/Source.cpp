@@ -15,6 +15,7 @@
 #include <texturing/TextureMap.h>
 #include <chrono>
 #include <world/World.h>
+#include <chunk/ChunkGenerator.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
@@ -241,7 +242,7 @@ int main() {
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh(stone));
 
-
+	ChunkGenerator* cg = new ChunkGenerator(world);
 
 	tm->loadTexture(GL_RGBA);
 
@@ -270,7 +271,10 @@ int main() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		processInput(window);
-		std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << std::endl;
+		glm::vec3 chunkPos = world->getChunkWorldPosition();
+		//std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << std::endl;
+		std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
+
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
 
@@ -293,10 +297,8 @@ int main() {
 		lighting.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
-		world->update();
+		cg->update();
 
-		stoneMesh->render();
-		e->render();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
 		lighting.setMat4("model", model);
 
@@ -321,7 +323,6 @@ int main() {
 		model = glm::translate(model, glm::vec3(5.0f, 10.0f, 5.0f));
 		lightSource.setMat4("model", model);
 		e->render();
-
 
 
 

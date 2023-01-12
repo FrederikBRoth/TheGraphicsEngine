@@ -13,27 +13,20 @@ glm::vec3 World::getWorldPosition()
 	return glm::vec3();
 }
 
-void World::generateChunk()
+glm::vec3 World::getChunkWorldPosition()
 {
-	if ((worldX % 16 == 0 || worldZ % 16 == 0) && hasFinishedRendering) {
-		Chunk* newChunk = new Chunk(glm::vec3(worldX, -16.0f, worldZ));
-		newChunk->createSolidChunk();
-		TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
-		ChunkBuilder cb = ChunkBuilder(tm->getTexCoords(0, 2));
-		chunks.push_back(new IndexedMesh((cb.getChunkMesh(newChunk))));
-		hasFinishedRendering = false;
-	}
-	else {
-		hasFinishedRendering = true;
-	}
+	return glm::vec3(worldX/16, worldY, worldZ / 16);
 }
+
+
+
 
 void World::update()
 {
-	generateChunk();
+	/*generateChunk();
 	for (auto chunk : chunks) {
 		chunk->render();
-	}
+	}*/
 }
 
 World::World()

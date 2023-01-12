@@ -17,10 +17,11 @@ public:
 	int worldX;
 	int worldY;
 	int worldZ;
+
 	std::vector<IndexedMesh*> chunks;
 	void updateWorldPosition(glm::vec3& position);
 	glm::vec3 getWorldPosition();
-	void generateChunk();
+	glm::vec3 getChunkWorldPosition();
 	void update();
 	World();
 };
