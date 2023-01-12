@@ -26,7 +26,7 @@ void Chunk::createSolidChunk()
 	}
 }
 
-void Chunk::CreateHollowCube()
+void Chunk::createHollowCube()
 {
 	int min = 3;
 	int max = CHUNKSIZE_X - 3;

@@ -1,19 +1,27 @@
+
 #ifndef WORLD_H
 #define WORLD_H
-#include <vector>
 #include <chunk/Chunk.h>
+
+#include <vector>
 #include <glm/detail/type_vec3.hpp>
 #include <math.h>
-constexpr int CHUNKSIZE_X = 16, CHUNKSIZE_Y = 16, CHUNKSIZE_Z = 16, CHUNKAREA = CHUNKSIZE_X * CHUNKSIZE_Y,
-CHUNKVOLUME = CHUNKAREA * CHUNKSIZE_Z, WATER_LEVEL = 64;
+#include <entities/IndexedMesh.h>
+#include <chunk/ChunkBuilder.h>
+#include <string>
+#include <texturing/TextureMap.h>
 class World
 {
-	Chunk* chunks;
-	int worldX, worldY, worldZ;
-	void updateWorldPosition(float x, float y, float z);
-	glm::u32vec3 getWorldPosition();
+public:
+	bool hasFinishedRendering;
+	int worldX;
+	int worldY;
+	int worldZ;
+	std::vector<IndexedMesh*> chunks;
+	void updateWorldPosition(glm::vec3& position);
+	glm::vec3 getWorldPosition();
 	void generateChunk();
 	void update();
-	
+	World();
 };
 #endif // !WORLD_H

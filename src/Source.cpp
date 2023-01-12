@@ -14,6 +14,7 @@
 #include <chunk/ChunkBuilder.h>
 #include <texturing/TextureMap.h>
 #include <chrono>
+#include <world/World.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
@@ -22,7 +23,7 @@ Camera camera(glm::vec3(-0.5f, 1.4f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
-
+World* world = new World();
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -228,26 +229,16 @@ int main() {
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
 
-	Chunk* grass = new Chunk(glm::vec3(5.0f, 0.0f, 0.0f));
-	grass->createSolidChunk();	
-	Chunk* dirt = new Chunk(glm::vec3(5.0f, -3.0f, 0.0f));
-	dirt->createSolidChunk();
-	Chunk* stone = new Chunk(glm::vec3(5.0f, -19, 0.0f));
+	Chunk* stone = new Chunk(glm::vec3(0.0f, -16.0f, 0.0f));
 	stone->createSolidChunk();
 
-
-	ChunkBuilder* grassChunkBuilder = new ChunkBuilder(tm->getTexCoords(2, 3));
-	ChunkBuilder* dirtChunkBuilder = new ChunkBuilder(tm->getTexCoords(0, 3));
-	auto start = std::chrono::high_resolution_clock::now();
-
 	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(tm->getTexCoords(0, 2));
+	auto start = std::chrono::high_resolution_clock::now();
 
 	RenderInformation* ri = stoneChunkBuilder->getChunkMesh(stone);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
-	IndexedMesh* grassMesh = new IndexedMesh(grassChunkBuilder->getChunkMesh(grass));
-	IndexedMesh* dirtMesh = new IndexedMesh(dirtChunkBuilder->getChunkMesh(dirt));
 	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh(stone));
 
 
@@ -273,12 +264,13 @@ int main() {
 	const float radius = 1.0f;
 	while (!glfwWindowShouldClose(window))
 	{
+		world->updateWorldPosition(camera.Position);
 		//Gets the current frame for input processing
 		float currentFrame = (float)glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		processInput(window);
-
+		std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << std::endl;
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
 
@@ -301,8 +293,8 @@ int main() {
 		lighting.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
-		grassMesh->render();
-		dirtMesh->render();
+		world->update();
+
 		stoneMesh->render();
 		e->render();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));

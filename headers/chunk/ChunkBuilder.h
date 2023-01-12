@@ -3,6 +3,7 @@
 #include <array>
 #include <chunk/Chunk.h>
 #include <texturing/TextureCoords.h>
+
 class ChunkBuilder
 {
     const std::array<float, 12> front{

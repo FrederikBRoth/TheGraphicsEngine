@@ -63,9 +63,9 @@ void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3* gridPosition, const
 {
 	if (canPlaceFace(directions->x, directions->y, directions->z, currentChunk)) {
 		for (int i = 0, faceIndex = 0; i < 4; i++) {
-			ri->vertices.push_back(faces[faceIndex++] + currentChunk->position.x + gridPosition->x);
-			ri->vertices.push_back(faces[faceIndex++] + currentChunk->position.y + gridPosition->y);
-			ri->vertices.push_back(faces[faceIndex++] + currentChunk->position.z + gridPosition->z);
+			ri->vertices.push_back((faces[faceIndex++] + currentChunk->position.x + gridPosition->x) * 0.5);
+			ri->vertices.push_back((faces[faceIndex++] + currentChunk->position.y + gridPosition->y) * 0.5);
+			ri->vertices.push_back((faces[faceIndex++] + currentChunk->position.z + gridPosition->z) * 0.5);
 			//adding 3 vectors for normals
 			ri->vertices.push_back(lightPos.x);
 			ri->vertices.push_back(lightPos.y);

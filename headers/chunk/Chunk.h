@@ -7,19 +7,17 @@
 #include <vector>
 #include <rendering/RenderInformation.h>
 #include <array>
-#include <world/World.h>
+#include <world/Constants.h>
 class Chunk
 {
 public:
-
-
 	glm::vec3 position;
 	std::vector<Block*> chunk;
 	Chunk(glm::vec3 location);
 
 	~Chunk();
 	void createSolidChunk();
-	void CreateHollowCube();
+	void createHollowCube();
 	void createStairsChunk();
 
 	
