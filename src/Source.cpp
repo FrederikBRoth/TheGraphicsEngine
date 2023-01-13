@@ -16,6 +16,7 @@
 #include <chrono>
 #include <world/World.h>
 #include <chunk/ChunkGenerator.h>
+#include <chunk/ChunkController.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
@@ -25,6 +26,8 @@ float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 World* world = new World();
+ChunkController* cc = new ChunkController(world);
+
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -46,6 +49,8 @@ void processInput(GLFWwindow* window) {
 		camera.ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+		cc->updateBlock(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
 }
 
 
@@ -242,7 +247,6 @@ int main() {
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh(stone));
 
-	ChunkGenerator* cg = new ChunkGenerator(world);
 
 	tm->loadTexture(GL_RGBA);
 
@@ -297,7 +301,7 @@ int main() {
 		lighting.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
 		lighting.setVec3("lightPos", lightPos);
 		lighting.setVec3("viewPos", camera.Position);
-		cg->update();
+		cc->update();
 
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
 		lighting.setMat4("model", model);

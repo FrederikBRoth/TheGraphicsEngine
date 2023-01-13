@@ -13,7 +13,6 @@
 class World
 {
 public:
-	bool hasFinishedRendering;
 	int worldX;
 	int worldY;
 	int worldZ;

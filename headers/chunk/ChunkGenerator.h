@@ -10,15 +10,12 @@
 class ChunkGenerator
 {
 public:
+	RenderInformation* test;
 	World* world;
+	TextureMap* tm;
+	ChunkBuilder* cb;
 	std::unordered_map<std::string, IndexedMesh*> chunkMap;
-	ChunkGenerator(World* world);
-	bool chunkExists(int x, int z);
-	void createChunk();
-	void createChunk(int x, int z);
-
-	void update();
-	std::string makeMapKey(int x, int z);
-	void infiniteTest();
-
+	ChunkGenerator(World* world, BlockType type);
+	void createChunkMesh(std::string& key, Chunk* chunk);
+	void updateChunkMesh(std::string& key, Chunk* chunk);
 };

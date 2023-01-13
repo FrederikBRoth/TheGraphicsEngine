@@ -3,9 +3,9 @@
 
 void World::updateWorldPosition(glm::vec3& position)
 {
-	worldX = (int)floorf(position.x*2.0f);
-	worldY = (int)floorf(position.y*2.0f);
-	worldZ = (int)floorf(position.z*2.0f);
+	worldX = floor((position.x*2.0f));
+	worldY = floor((position.y*2.0f));
+	worldZ = floor((position.z*2.0f));
 }
 
 glm::vec3 World::getWorldPosition()
@@ -15,10 +15,19 @@ glm::vec3 World::getWorldPosition()
 
 glm::vec3 World::getChunkWorldPosition()
 {
-	return glm::vec3(worldX/16, worldY, worldZ / 16);
+	glm::vec3 chunkPos(worldX / 16, worldY, worldZ / 16);
+	//To handle negative chunk pos
+	if (worldX < 0) {
+		chunkPos.x += -1;
+	}
+	if (worldY < 0) {
+		chunkPos.y += -1;
+	}
+	if (worldZ < 0) {
+		chunkPos.z += -1;
+	}
+	return chunkPos;
 }
-
-
 
 
 void World::update()
@@ -34,6 +43,6 @@ World::World()
 	worldX = 0;
 	worldY = 0;
 	worldZ = 0;
-	hasFinishedRendering = false;
+
 
 }

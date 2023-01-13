@@ -7,6 +7,7 @@
 class IndexedMesh : public IMesh
 {
 public:
+	RenderInformation* ri;
 	IndexBuffer* ebo;
 	IndexedMesh(std::vector<unsigned short> indices, std::vector<float> vertices);
 	IndexedMesh(RenderInformation* ri);

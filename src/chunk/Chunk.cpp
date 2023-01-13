@@ -46,18 +46,18 @@ void Chunk::createHollowCube()
 
 void Chunk::createStairsChunk()
 {
-	/*for (int x = 0; x < CHUNKSIZE_X; x++) {
-		for (int y = 0; y < CHUNKSIZE_Y; y++) {
-			for (int z = 0; z < CHUNKSIZE_Z; z++) {
-				if (x == y) {
-					this->chunk[x][y][z] = new Block(BlockType::GRASS);
-				}
-				else {
-					this->chunk[x][y][z] = new Block(BlockType::AIR);
-				}
-			}
+
+	for (int i = 0; i < CHUNKVOLUME; i++) {
+		int x = i % CHUNKSIZE_X;
+		int y = (i / CHUNKSIZE_Z) % CHUNKSIZE_Y;
+		int z = i / (CHUNKSIZE_X * CHUNKSIZE_Y);
+		if (x == y) {
+			chunk[i] = new Block(BlockType::GRASS);
 		}
-	}*/
+		else {
+			chunk[i] = new Block(BlockType::AIR);
+		}
+	}
 }
 
 
