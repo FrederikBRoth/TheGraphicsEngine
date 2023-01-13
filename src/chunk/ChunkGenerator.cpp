@@ -10,8 +10,6 @@ ChunkGenerator::ChunkGenerator(World* world, BlockType type)
 	cb = new ChunkBuilder(tm->getTexCoords(texCoord.x, texCoord.y));
 }
 
-
-
 void ChunkGenerator::createChunkMesh(std::string &key, Chunk* chunk)
 {
 	chunkMap.emplace(key, new IndexedMesh(cb->getChunkMesh(chunk)));
@@ -21,9 +19,7 @@ void ChunkGenerator::updateChunkMesh(std::string& key, Chunk* chunk)
 {
 	delete chunkMap[key];
 	chunkMap.erase(key);
-	test = cb->getChunkMesh(chunk);
-
-	chunkMap.insert(std::make_pair(key, new IndexedMesh(test)));
+	chunkMap.insert(std::make_pair(key, new IndexedMesh(cb->getChunkMesh(chunk))));
 
 }
 

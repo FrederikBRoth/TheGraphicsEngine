@@ -9,6 +9,7 @@ public:
 	unsigned int ID;
 	std::vector<unsigned short> indices;
 	IndexBuffer(std::vector<unsigned short> indices);
+	~IndexBuffer();
 	void init();
 	void bind();
 };

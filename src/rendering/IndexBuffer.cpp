@@ -6,6 +6,11 @@ IndexBuffer::IndexBuffer(std::vector<unsigned short> indices)
 	glGenBuffers(1, &this->ID);
 }
 
+IndexBuffer::~IndexBuffer()
+{
+	glDeleteBuffers(1, &this->ID);
+}
+
 
 void IndexBuffer::init()
 {

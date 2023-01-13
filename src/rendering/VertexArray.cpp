@@ -11,6 +11,7 @@ VertexArray::VertexArray(std::vector<float> vertices)
 VertexArray::~VertexArray()
 {
 	delete this->vbo;
+	glDeleteVertexArrays(1, &this->ID);
 }
 
 void VertexArray::init(int size)

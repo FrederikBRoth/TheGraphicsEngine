@@ -58,7 +58,7 @@ public:
     std::vector<TextureCoord> tcs;
     ChunkBuilder();
     ChunkBuilder(std::vector<TextureCoord> tcs);
-    RenderInformation* getChunkMesh(Chunk* currentChunk);
+    RenderInformation getChunkMesh(Chunk* currentChunk);
 private:
 
     void addFace(RenderInformation* ri,

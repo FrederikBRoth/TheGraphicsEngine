@@ -229,7 +229,7 @@ int main() {
 		0, 1, 3,
 		1, 2, 3
 	};
-	Mesh* e = new Mesh(vertices, 36);
+	Mesh e = Mesh(vertices, 36);
 	Mesh* e2 = new Mesh(vertices2, 36);
 	Mesh* e3 = new Mesh(triangleTestvert2, 6);
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
@@ -241,7 +241,7 @@ int main() {
 	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(tm->getTexCoords(0, 2));
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RenderInformation* ri = stoneChunkBuilder->getChunkMesh(stone);
+	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
@@ -321,12 +321,12 @@ int main() {
 		lightSource.setMat4("model", model);
 		lightSource.setMat4("view", view);
 		lightSource.setMat4("projection", projection);
-		e->render();
+		e.render();
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(5.0f, 10.0f, 5.0f));
 		lightSource.setMat4("model", model);
-		e->render();
+		e.render();
 
 
 

@@ -6,6 +6,11 @@ VertexBuffer::VertexBuffer(std::vector<float> vertices)
 	glGenBuffers(1, &this->ID);
 }
 
+VertexBuffer::~VertexBuffer()
+{
+	glDeleteBuffers(1, &this->ID);
+}
+
 void VertexBuffer::init()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->ID);

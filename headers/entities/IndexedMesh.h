@@ -7,10 +7,10 @@
 class IndexedMesh : public IMesh
 {
 public:
-	RenderInformation* ri;
+	RenderInformation ri;
 	IndexBuffer* ebo;
 	IndexedMesh(std::vector<unsigned short> indices, std::vector<float> vertices);
-	IndexedMesh(RenderInformation* ri);
+	IndexedMesh(RenderInformation &ri);
 
 	~IndexedMesh();
 	virtual void render() override;
