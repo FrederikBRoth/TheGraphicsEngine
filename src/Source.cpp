@@ -17,6 +17,8 @@
 #include <world/World.h>
 #include <chunk/ChunkGenerator.h>
 #include <chunk/ChunkController.h>
+#include <controls/LineTrace.h>
+#include <entities/Line.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
@@ -27,7 +29,8 @@ float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 World* world = new World();
 ChunkController* cc = new ChunkController(world);
-
+//traces
+std::vector<Line*> lines;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -51,6 +54,12 @@ void processInput(GLFWwindow* window) {
 		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 		cc->updateBlock(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
+		glm::vec3 temp = ((camera.Front * DISTANCE) + camera.Position);
+		std::vector<float> linevert{ camera.Position.x , camera.Position.y , camera.Position.z, temp.x, temp.y, temp.z };
+
+		lines.insert(lines.end(), new Line(linevert, 2));
+	}
 }
 
 
@@ -225,6 +234,9 @@ int main() {
 		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
 	};
+	std::vector<float> lineTest{
+		5.5f, 5.5f, 5.5f, 0.5f, 0.5f, -0.5f
+	};
 	std::vector<unsigned short> indices{
 		0, 1, 3,
 		1, 2, 3
@@ -246,10 +258,8 @@ int main() {
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh(stone));
-
-
+	
 	tm->loadTexture(GL_RGBA);
-
 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
@@ -257,6 +267,8 @@ int main() {
 
 	Shader lighting = Shader("LightingShader.vert", "LightingShader.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
+	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
+
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -276,8 +288,8 @@ int main() {
 		lastFrame = currentFrame;
 		processInput(window);
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
-		//std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << std::endl;
-		std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
+		std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << " | " << std::endl;
+		//std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
 
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
@@ -293,6 +305,17 @@ int main() {
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		model = glm::mat4(1.0f);
 		//Enables normal cube Shader and sets uniform variables
+		lineS.use();
+		lineS.setMat4("model", model);
+		lineS.setMat4("view", view);
+		lineS.setMat4("projection", projection);
+		for (auto& line : lines) {
+			line->render();
+		}
+		//glm::vec3 rayTest = LineTrace::trace(camera.Position, camera.Front);
+		//std::cout << rayTest.x << ", " << rayTest.y << ", " << rayTest.z << std::endl;
+
+		model = glm::mat4(1.0f);
 		lighting.use();
 		lighting.setMat4("model", model);
 		lighting.setMat4("view", view);

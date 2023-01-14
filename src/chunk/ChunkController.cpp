@@ -1,4 +1,4 @@
-#include "C:\Users\fredd\source\repos\TheGraphicsEngine\TheGraphicsEngine\headers\chunk\ChunkController.h"
+#include <chunk/ChunkController.h>
 
 void ChunkController::createChunk(int x, int z)
 {
@@ -22,7 +22,6 @@ void ChunkController::updateBlock(int x, int y, int z)
 		chunkMap.insert(std::make_pair(key, newChunk));
 		cg->updateChunkMesh(key, newChunk);
 	}
-
 }
 
 std::string ChunkController::getKey(int x, int z)
@@ -62,7 +61,6 @@ void ChunkController::update()
 	for (auto& kv : cg->chunkMap) {
 		kv.second->render();
 	}
-	std::cout << getKey(chunkPos.x, chunkPos.z) << std::endl;
 }
 
 ChunkController::ChunkController(World* world)

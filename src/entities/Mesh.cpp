@@ -4,7 +4,7 @@ Mesh::Mesh(std::vector<float> vertices, int triangleCount)
 {
 	this->vao = new VertexArray(vertices);
 	this->triangleCount = triangleCount;
-	this->vao->init(8);
+	this->vao->init(VertexArrayConfig(8, true, true, TRIANGLE));
 }
 
 Mesh::~Mesh()

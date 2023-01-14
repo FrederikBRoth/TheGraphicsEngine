@@ -10,7 +10,6 @@
 class ChunkGenerator
 {
 public:
-	RenderInformation* test;
 	World* world;
 	TextureMap* tm;
 	ChunkBuilder* cb;

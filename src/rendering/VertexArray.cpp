@@ -14,15 +14,25 @@ VertexArray::~VertexArray()
 	glDeleteVertexArrays(1, &this->ID);
 }
 
-void VertexArray::init(int size)
+void VertexArray::init(VertexArrayConfig config)
 {
+	int index = 0;
 	glBindVertexArray(this->ID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, config.size * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(index);
+	index++;
+	if (config.normals) {
+		glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, config.size * sizeof(float), (void*)((index*3) * sizeof(float)));
+		glEnableVertexAttribArray(index);
+		index++;
+	}
+	if (config.texture) {
+		glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, config.size * sizeof(float), (void*)((index * 3) * sizeof(float)));
+		glEnableVertexAttribArray(index);
+		index++;
+	}
+
+
 }
 
 void VertexArray::bind()

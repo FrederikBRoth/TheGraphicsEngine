@@ -4,7 +4,7 @@ IndexedMesh::IndexedMesh(std::vector<unsigned short> indices, std::vector<float>
 	this->vao = new VertexArray(vertices);
 	this->ebo = new IndexBuffer(indices);
 	this->ebo->init();
-	this->vao->init(8);
+	this->vao->init(VertexArrayConfig(8, true, true, TRIANGLE));
 
 }
 
@@ -14,7 +14,7 @@ IndexedMesh::IndexedMesh(RenderInformation &ri)
 	this->vao = new VertexArray(ri.vertices);
 	this->ebo = new IndexBuffer(ri.indices);
 	this->ebo->init();
-	this->vao->init(8);
+	this->vao->init(VertexArrayConfig(8, true, true, TRIANGLE));
 }
 
 IndexedMesh::~IndexedMesh()
