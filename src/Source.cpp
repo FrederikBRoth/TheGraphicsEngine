@@ -55,10 +55,12 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 		cc->updateBlock(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
-		glm::vec3 temp = ((camera.Front * DISTANCE) + camera.Position);
-		std::vector<float> linevert{ camera.Position.x , camera.Position.y , camera.Position.z, temp.x, temp.y, temp.z };
+		//glm::vec3 temp = ((camera.Front * DISTANCE) + camera.Position);
+		//std::vector<float> linevert{ camera.Position.x , camera.Position.y , camera.Position.z, temp.x, temp.y, temp.z };
 
-		lines.insert(lines.end(), new Line(linevert, 2));
+		//lines.insert(lines.end(), new Line(linevert, 2));
+		glm::vec3 trace = LineTrace::trace(camera.Position, camera.Front, cc);
+		std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;
 	}
 }
 
@@ -288,8 +290,8 @@ int main() {
 		lastFrame = currentFrame;
 		processInput(window);
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
-		std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << " | " << std::endl;
-		//std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
+		//std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << " | " << std::endl;
+		std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
 
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;

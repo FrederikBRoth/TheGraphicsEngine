@@ -1,19 +1,22 @@
 #include <controls/LineTrace.h>
 
-glm::vec3 LineTrace::trace(glm::vec3 playerPos, glm::vec3 playerFront)
+glm::vec3 LineTrace::trace(glm::vec3 playerPos, glm::vec3 playerFront, ChunkController* cc)
 {
-    glm::vec3 temp = (playerPos * playerFront) + DISTANCE;
-    std::vector<float> vertices;
-    vertices.emplace_back(playerPos.x);
-    vertices.emplace_back(playerPos.y);
-    vertices.emplace_back(playerPos.z);
+    for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
+        glm::vec3 step = (playerPos + (playerFront * ((float)i * STEPSIZE)));
+        int worldX = floor((step.x * 2.0f));
+        int worldY = floor((step.y * 2.0f));
+        int worldZ = floor((step.z * 2.0f));
+        glm::vec3 worldCoord = glm::vec3(worldX, worldY, worldZ);
+        glm::vec3 chunkStep = cc->getChunkPosition(worldCoord);
+        if (cc->chunkExists(cc->getKey(chunkStep.x, chunkStep.z))) {
+            if (cc->chunkMap[cc->getKey(chunkStep.x, chunkStep.z)]->chunk.at(abs((worldX % 16)) * abs((worldY % 16)) * abs((worldZ % 16)))->type != BlockType::AIR) {
+                cc->updateBlock2(worldX, worldY, worldZ);
+                return worldCoord;
+            }
+        }
+    };
+    return glm::vec3(0.0f, 0.0f, 0.0f);
 
-    vertices.emplace_back(temp.x);
-    vertices.emplace_back(temp.y);
-    vertices.emplace_back(temp.z);
-
-    Line* line = new Line(vertices, 2);
-    line->render();
-    return glm::vec3(floor((temp.x * 2.0f)), floor((temp.y * 2.0f)), floor((temp.z * 2.0f)));
 }
 

@@ -4,8 +4,8 @@ void ChunkController::createChunk(int x, int z)
 {
 	std::string key = getKey(x, z);
 	if (!chunkExists(key)) {
-		Chunk* newChunk = new Chunk(glm::vec3(x * CHUNKSIZE_X, -16.0f, z * CHUNKSIZE_Z));
-		newChunk->createSolidChunk();
+		Chunk* newChunk = new Chunk(glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z));
+		newChunk->createHalfChunk();
 		chunkMap.emplace(key, newChunk);
 		cg->createChunkMesh(key, newChunk);
 	}
@@ -15,12 +15,25 @@ void ChunkController::updateBlock(int x, int y, int z)
 {
 	std::string key = getKey(x, z);
 	if (chunkExists(key)) {
-		Chunk* newChunk = new Chunk(glm::vec3(x * CHUNKSIZE_X, -16.0f, z * CHUNKSIZE_Z));
+		Chunk* newChunk = new Chunk(glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z));
 		newChunk->createHollowCube();
 		delete chunkMap[key];
 		chunkMap.erase(key);
 		chunkMap.insert(std::make_pair(key, newChunk));
 		cg->updateChunkMesh(key, newChunk);
+	}
+}
+
+void ChunkController::updateBlock2(int x, int y, int z)
+{
+	glm::ivec3 worldPos = glm::ivec3(x, y, z);
+	glm::ivec3 chunkPos = getChunkPosition(worldPos);
+	std::string key = getKey(chunkPos.x, chunkPos.z);
+
+	if (chunkExists(key)) {
+		Chunk* chunk = chunkMap[key];
+		chunk->chunk.at(abs((worldPos.x % 16)) * abs((worldPos.y % 16)) * abs((worldPos.z % 16)))->type = BlockType::AIR;
+		cg->updateChunkMesh(key, chunk);
 	}
 }
 
@@ -52,6 +65,23 @@ void ChunkController::chunkGenerationInfinite()
 			createChunk(i, j);
 		}
 	}
+}
+
+glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
+{
+	
+	glm::ivec3 chunkPos(position.x / 16, position.y, position.z / 16);
+	//To handle negative chunk pos
+	if (position.x < 0) {
+		chunkPos.x += -1;
+	}
+	if (position.y < 0) {
+		chunkPos.y += -1;
+	}
+	if (position.z < 0) {
+		chunkPos.z += -1;
+	}
+	return chunkPos;
 }
 
 void ChunkController::update()

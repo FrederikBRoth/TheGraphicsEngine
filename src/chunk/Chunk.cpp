@@ -16,6 +16,21 @@ Chunk::~Chunk()
 	this->chunk.shrink_to_fit();
 }
 
+void Chunk::createHalfChunk()
+{
+	for (int i = 0; i < CHUNKVOLUME; i++) {
+		int x = i % CHUNKSIZE_X;
+		int y = (i / CHUNKSIZE_Z) % CHUNKSIZE_Y;
+		int z = i / (CHUNKSIZE_X * CHUNKSIZE_Y);
+		if (y < CHUNKSIZE_Y/2) {
+			chunk[i] = new Block(BlockType::GRASS);
+		}
+		else {
+			chunk[i] = new Block(BlockType::AIR);
+		}
+	}
+}
+
 
 
 

@@ -4,10 +4,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <entities/Line.h>
-constexpr float DISTANCE = 20.0f;
+#include <chunk/ChunkController.h>
+constexpr float DISTANCE = 5.0f;
+constexpr float STEPSIZE = 0.5f;
+
 class LineTrace
 {
 public:
-	static glm::vec3 trace(glm::vec3 playerPos, glm::vec3 playerFront);
+	static glm::vec3 trace(glm::vec3 playerPos, glm::vec3 playerFront, ChunkController* cc);
+
 };
 #endif LINETRACE_H

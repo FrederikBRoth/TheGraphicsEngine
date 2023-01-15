@@ -16,6 +16,7 @@ public:
 	Chunk(glm::vec3 location);
 
 	~Chunk();
+	void createHalfChunk();
 	void createSolidChunk();
 	void createHollowCube();
 	void createStairsChunk();
