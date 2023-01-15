@@ -3,32 +3,21 @@
 
 void World::updateWorldPosition(glm::vec3& position)
 {
-	worldX = floor((position.x*2.0f));
+	/*worldX = floor((position.x*2.0f));
 	worldY = floor((position.y*2.0f));
-	worldZ = floor((position.z*2.0f));
+	worldZ = floor((position.z*2.0f));*/
+	worldPos = tge::getBlockPosition(position);
 }
 
 glm::vec3 World::getWorldPosition()
 {
-	return glm::vec3();
+	return worldPos;
 }
 
 glm::vec3 World::getChunkWorldPosition()
 {
-	glm::vec3 chunkPos(worldX / 16, worldY, worldZ / 16);
-	//To handle negative chunk pos
-	if (worldX < 0) {
-		chunkPos.x += -1;
-	}
-	if (worldY < 0) {
-		chunkPos.y += -1;
-	}
-	if (worldZ < 0) {
-		chunkPos.z += -1;
-	}
-	return chunkPos;
+	return tge::getChunkPosition(glm::ivec3(worldPos.x, worldPos.y, worldPos.z));
 }
-
 
 void World::update()
 {
@@ -40,9 +29,6 @@ void World::update()
 
 World::World()
 {
-	worldX = 0;
-	worldY = 0;
-	worldZ = 0;
-
+	worldPos = glm::ivec3(0, 0, 0);
 
 }

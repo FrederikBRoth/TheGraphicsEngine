@@ -10,13 +10,11 @@
 #include <chunk/ChunkBuilder.h>
 #include <string>
 #include <texturing/TextureMap.h>
+#include <world/WorldUtils.h>
 class World
 {
 public:
-	int worldX;
-	int worldY;
-	int worldZ;
-
+	glm::ivec3 worldPos;
 	std::vector<IndexedMesh*> chunks;
 	void updateWorldPosition(glm::vec3& position);
 	glm::vec3 getWorldPosition();

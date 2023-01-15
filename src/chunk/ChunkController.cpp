@@ -1,5 +1,5 @@
 #include <chunk/ChunkController.h>
-
+#include <world/WorldUtils.h>
 void ChunkController::createChunk(int x, int z)
 {
 	std::string key = getKey(x, z);
@@ -11,7 +11,7 @@ void ChunkController::createChunk(int x, int z)
 	}
 }
 
-void ChunkController::updateBlock(int x, int y, int z)
+void ChunkController::updateChunk(int x, int y, int z)
 {
 	std::string key = getKey(x, z);
 	if (chunkExists(key)) {
@@ -24,17 +24,31 @@ void ChunkController::updateBlock(int x, int y, int z)
 	}
 }
 
-void ChunkController::updateBlock2(int x, int y, int z)
+bool ChunkController::removeBlock(int x, int y, int z)
 {
 	glm::ivec3 worldPos = glm::ivec3(x, y, z);
 	glm::ivec3 chunkPos = getChunkPosition(worldPos);
 	std::string key = getKey(chunkPos.x, chunkPos.z);
-
+	int chunkX = tge::modulus(x, 16);
+	int chunkZ = tge::modulus(z, 16);
+	int chunkY = abs(y);
+	int index = (chunkZ * CHUNKAREA + chunkY * CHUNKSIZE_X + chunkX);
+	if (index < 0 || index >= CHUNKVOLUME) {
+		return false;
+	}
 	if (chunkExists(key)) {
 		Chunk* chunk = chunkMap[key];
-		chunk->chunk.at(abs((worldPos.x % 16)) * abs((worldPos.y % 16)) * abs((worldPos.z % 16)))->type = BlockType::AIR;
-		cg->updateChunkMesh(key, chunk);
+		Block* block = chunk->chunk.at(index);
+		if (block->type == BlockType::AIR) {
+			return false;
+		}
+		else {
+			block->type = BlockType::AIR;
+			cg->updateChunkMesh(key, chunk);
+			return true;
+		}
 	}
+	return false;
 }
 
 std::string ChunkController::getKey(int x, int z)
@@ -67,19 +81,24 @@ void ChunkController::chunkGenerationInfinite()
 	}
 }
 
+int ChunkController::modulus(int a, int b)
+{
+	return (a % b + b) % b;
+}
+
 glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 {
 	
 	glm::ivec3 chunkPos(position.x / 16, position.y, position.z / 16);
 	//To handle negative chunk pos
 	if (position.x < 0) {
-		chunkPos.x += -1;
+		chunkPos.x = (position.x + 1) / 16 - 1;
 	}
 	if (position.y < 0) {
 		chunkPos.y += -1;
 	}
 	if (position.z < 0) {
-		chunkPos.z += -1;
+		chunkPos.z = (position.z + 1) / 16 - 1;
 	}
 	return chunkPos;
 }

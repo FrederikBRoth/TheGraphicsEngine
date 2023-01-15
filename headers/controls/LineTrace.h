@@ -6,12 +6,12 @@
 #include <entities/Line.h>
 #include <chunk/ChunkController.h>
 constexpr float DISTANCE = 5.0f;
-constexpr float STEPSIZE = 0.5f;
+constexpr float STEPSIZE = 0.01f;
 
 class LineTrace
 {
 public:
-	static glm::vec3 trace(glm::vec3 playerPos, glm::vec3 playerFront, ChunkController* cc);
+	static glm::vec3 trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc);
 
 };
 #endif LINETRACE_H

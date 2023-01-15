@@ -12,13 +12,14 @@ private:
 public:
 	std::unordered_map<std::string, Chunk*> chunkMap;
 	void createChunk(int x, int z);
-	void updateBlock(int x, int y, int z);
-	void updateBlock2(int x, int y, int z);
+	void updateChunk(int x, int y, int z);
+	bool removeBlock(int x, int y, int z);
 
 	void update();
 	std::string getKey(int x, int y);
 	bool chunkExists(std::string);
 	void chunkGenerationInfinite();
+	int modulus(int a, int b);
 	glm::vec3 getChunkPosition(glm::vec3 position);
 	ChunkController(World* world);
 };

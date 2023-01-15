@@ -5,9 +5,6 @@
 #include <rendering/Shader.h>
 #include <controls/Camera.h>
 #include <stb_image.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <entities/Mesh.h>
 #include <entities/IndexedMesh.h>
 #include <chunk/Chunk.h>
@@ -30,7 +27,7 @@ bool firstMouse = true;
 World* world = new World();
 ChunkController* cc = new ChunkController(world);
 //traces
-std::vector<Line*> lines;
+bool traced = false;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -53,38 +50,23 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-		cc->updateBlock(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
-		//glm::vec3 temp = ((camera.Front * DISTANCE) + camera.Position);
-		//std::vector<float> linevert{ camera.Position.x , camera.Position.y , camera.Position.z, temp.x, temp.y, temp.z };
+		cc->updateChunk(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && !traced) {
+		/*for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
+			glm::vec3 step = (camera.Position + (camera.Front * ((float)i * STEPSIZE)));
+			std::vector<float> linevert{ camera.Position.x , camera.Position.y , camera.Position.z, step.x, step.y, step.z };
 
-		//lines.insert(lines.end(), new Line(linevert, 2));
+			lines.insert(lines.end(), new Line(linevert, 2));
+		}*/
 		glm::vec3 trace = LineTrace::trace(camera.Position, camera.Front, cc);
-		std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;
+		traced = true;
+
+		//std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;
+	}
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_RELEASE && traced) {
+		traced = false;
 	}
 }
-
-
-//void loadTexture(unsigned int texture, const char* filepath, int type = GL_MIRRORED_REPEAT, int colorType = GL_RGB) {
-//	glBindTexture(GL_TEXTURE_2D, texture);
-//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, type);
-//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, type);
-//	//Sets the texture filtering based on if the texture is upscaled on a larger object or downscaled if on a smaller object
-//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//	int width, height, nrChannels;
-//	unsigned char* data = stbi_load(filepath, &width, &height,
-//		&nrChannels, 0);
-//	if (data) {
-//		glTexImage2D(GL_TEXTURE_2D, 0, colorType, width, height, 0, colorType,
-//			GL_UNSIGNED_BYTE, data);
-//		glGenerateMipmap(GL_TEXTURE_2D);
-//	}
-//	else {
-//		std::cout << "Failed to load texture" << std::endl;
-//	}
-//	stbi_image_free(data);
-//}
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
@@ -247,19 +229,8 @@ int main() {
 	Mesh* e2 = new Mesh(vertices2, 36);
 	Mesh* e3 = new Mesh(triangleTestvert2, 6);
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
-	IndexedMesh* i = new IndexedMesh(indices, triangleTestvert);
+	
 
-	Chunk* stone = new Chunk(glm::vec3(0.0f, -16.0f, 0.0f));
-	stone->createSolidChunk();
-
-	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(tm->getTexCoords(0, 2));
-	auto start = std::chrono::high_resolution_clock::now();
-
-	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone);
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
-	IndexedMesh* stoneMesh = new IndexedMesh(stoneChunkBuilder->getChunkMesh(stone));
 	
 	tm->loadTexture(GL_RGBA);
 
@@ -290,8 +261,9 @@ int main() {
 		lastFrame = currentFrame;
 		processInput(window);
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
-		//std::cout << "X: " << world->worldX << " Y: " << world->worldY << " Z: " << world->worldZ << " | " << std::endl;
-		std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
+
+		//std::cout << "X: " << world->worldX << " Y: " << world->worldY << "d Z: " << world->worldZ << " | ";
+		//std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
 
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
@@ -306,16 +278,6 @@ int main() {
 		view = camera.GetViewMatrix();
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		model = glm::mat4(1.0f);
-		//Enables normal cube Shader and sets uniform variables
-		lineS.use();
-		lineS.setMat4("model", model);
-		lineS.setMat4("view", view);
-		lineS.setMat4("projection", projection);
-		for (auto& line : lines) {
-			line->render();
-		}
-		//glm::vec3 rayTest = LineTrace::trace(camera.Position, camera.Front);
-		//std::cout << rayTest.x << ", " << rayTest.y << ", " << rayTest.z << std::endl;
 
 		model = glm::mat4(1.0f);
 		lighting.use();
