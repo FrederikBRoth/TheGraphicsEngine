@@ -230,7 +230,17 @@ int main() {
 	Mesh* e3 = new Mesh(triangleTestvert2, 6);
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 	
+	Chunk* stone = new Chunk(glm::vec3(0.0f, -16.0f, 0.0f));
+	stone->createSolidChunk();
+	TextureInfo* ti = new TextureInfo();
 
+	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(ti);
+	auto start = std::chrono::high_resolution_clock::now();
+
+	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone);
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 	
 	tm->loadTexture(GL_RGBA);
 

@@ -3,6 +3,7 @@
 #include <array>
 #include <chunk/Chunk.h>
 #include <texturing/TextureCoords.h>
+#include <texturing/TextureInfo.h>
 
 class ChunkBuilder
 {
@@ -55,9 +56,10 @@ class ChunkBuilder
     };
 
 public:
+    TextureInfo* ti;
     std::vector<TextureCoord> tcs;
     ChunkBuilder();
-    ChunkBuilder(std::vector<TextureCoord> tcs);
+    ChunkBuilder(TextureInfo* ti);
     RenderInformation getChunkMesh(Chunk* currentChunk);
 private:
 
@@ -67,7 +69,9 @@ private:
         short* indicesIndex, 
         glm::vec3* direction, 
         const glm::vec3 &lightPos,
-        Chunk* currentChunk);
+        Chunk* currentChunk,
+        std::vector<TextureCoord>& tex
+        );
     bool outOfBounds(int x, int y, int z);
     bool canPlaceFace(int x, int y, int z, Chunk* currentChunk);
     int getIndex(int x, int y, int z);

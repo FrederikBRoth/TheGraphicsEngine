@@ -1,11 +1,10 @@
 #include <chunk/ChunkController.h>
-#include <world/WorldUtils.h>
 void ChunkController::createChunk(int x, int z)
 {
 	std::string key = getKey(x, z);
 	if (!chunkExists(key)) {
 		Chunk* newChunk = new Chunk(glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z));
-		newChunk->createHalfChunk();
+		newChunk->createPseudoRealChunk();
 		chunkMap.emplace(key, newChunk);
 		cg->createChunkMesh(key, newChunk);
 	}
@@ -80,12 +79,6 @@ void ChunkController::chunkGenerationInfinite()
 		}
 	}
 }
-
-int ChunkController::modulus(int a, int b)
-{
-	return (a % b + b) % b;
-}
-
 glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 {
 	

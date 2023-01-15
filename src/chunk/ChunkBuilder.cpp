@@ -6,9 +6,9 @@ ChunkBuilder::ChunkBuilder()
 	this->tcs = std::vector<TextureCoord>(4);
 }
 
-ChunkBuilder::ChunkBuilder( std::vector<TextureCoord> tcs)
+ChunkBuilder::ChunkBuilder(TextureInfo* ti)
 {
-	this->tcs = tcs;
+	this->ti = ti;
 }
 
 
@@ -39,18 +39,19 @@ RenderInformation ChunkBuilder::getChunkMesh(Chunk* currentChunk)
 
 	for (int i = 0; i < CHUNKVOLUME; i++)
 	{
-		if (currentChunk->chunk[i]->type != BlockType::AIR) {
+		BlockType type = currentChunk->chunk[i]->type;
+		if (type != BlockType::AIR) {
 			int x = i % CHUNKSIZE_X;
 			int y = (i / CHUNKSIZE_Z) % CHUNKSIZE_Y;
 			int z = i / (CHUNKSIZE_X * CHUNKSIZE_Y);
 			directions.update(x, y, z);
 			glm::vec3 pos = glm::vec3(x, y, z);
-			addFace(&ri, &pos, front, &indicesIndex, &directions.front, frontNormals, currentChunk);
-			addFace(&ri, &pos, back, &indicesIndex, &directions.back, backNormals, currentChunk);
-			addFace(&ri, &pos, right, &indicesIndex, &directions.right, rightNormals, currentChunk);
-			addFace(&ri, &pos, left, &indicesIndex, &directions.left, leftNormals, currentChunk);
-			addFace(&ri, &pos, top, &indicesIndex, &directions.up, topNormals, currentChunk);
-			addFace(&ri, &pos, bottom, &indicesIndex, &directions.down, bottomNormals, currentChunk);
+			addFace(&ri, &pos, front, &indicesIndex, &directions.front, frontNormals, currentChunk, ti->blockInfo[type].front.coords);
+			addFace(&ri, &pos, back, &indicesIndex, &directions.back, backNormals, currentChunk, ti->blockInfo[type].back.coords);
+			addFace(&ri, &pos, right, &indicesIndex, &directions.right, rightNormals, currentChunk, ti->blockInfo[type].right.coords);
+			addFace(&ri, &pos, left, &indicesIndex, &directions.left, leftNormals, currentChunk, ti->blockInfo[type].left.coords);
+			addFace(&ri, &pos, top, &indicesIndex, &directions.up, topNormals, currentChunk, ti->blockInfo[type].up.coords);
+			addFace(&ri, &pos, bottom, &indicesIndex, &directions.down, bottomNormals, currentChunk, ti->blockInfo[type].down.coords);
 		}
 	}
 	return ri;
@@ -59,7 +60,7 @@ RenderInformation ChunkBuilder::getChunkMesh(Chunk* currentChunk)
 
 
 
-void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3* gridPosition, const std::array<float, 12> &faces, short* indicesIndex, glm::vec3* directions, const glm::vec3 &lightPos, Chunk* currentChunk)
+void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3* gridPosition, const std::array<float, 12> &faces, short* indicesIndex, glm::vec3* directions, const glm::vec3 &lightPos, Chunk* currentChunk, std::vector<TextureCoord>& tex)
 {
 	if (canPlaceFace(directions->x, directions->y, directions->z, currentChunk)) {
 		for (int i = 0, faceIndex = 0; i < 4; i++) {
@@ -70,8 +71,8 @@ void ChunkBuilder::addFace(RenderInformation* ri, glm::vec3* gridPosition, const
 			ri->vertices.push_back(lightPos.x);
 			ri->vertices.push_back(lightPos.y);
 			ri->vertices.push_back(lightPos.z);
-			ri->vertices.push_back(tcs[i].xCoord);
-			ri->vertices.push_back(tcs[i].yCoord);
+			ri->vertices.push_back(tex[i].xCoord);
+			ri->vertices.push_back(tex[i].yCoord);
 
 		}
 		ri->indices.push_back(*indicesIndex);

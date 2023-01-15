@@ -41,6 +41,32 @@ void Chunk::createSolidChunk()
 	}
 }
 
+void Chunk::createPseudoRealChunk()
+{
+	int height = CHUNKSIZE_Y / 2;
+	int grass = CHUNKSIZE_Y / 2 - 1;
+	for (int i = 0; i < CHUNKVOLUME; i++) {
+		int x = i % CHUNKSIZE_X;
+		int y = (i / CHUNKSIZE_Z) % CHUNKSIZE_Y;
+		int z = i / (CHUNKSIZE_X * CHUNKSIZE_Y);
+		if (y < height) {
+			if (y == grass) {
+				chunk[i] = new Block(BlockType::GRASS);
+			}
+			else if(y < grass && y > grass - 3){
+				chunk[i] = new Block(BlockType::DIRT);
+			}
+			else {
+				chunk[i] = new Block(BlockType::STONE);
+
+			}
+		}
+		else {
+			chunk[i] = new Block(BlockType::AIR);
+		}
+	}
+}
+
 void Chunk::createHollowCube()
 {
 	int min = 3;

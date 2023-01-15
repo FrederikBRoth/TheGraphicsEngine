@@ -11,7 +11,6 @@ class ChunkGenerator
 {
 public:
 	World* world;
-	TextureMap* tm;
 	ChunkBuilder* cb;
 	std::unordered_map<std::string, IndexedMesh*> chunkMap;
 	ChunkGenerator(World* world, BlockType type);

@@ -4,10 +4,8 @@
 ChunkGenerator::ChunkGenerator(World* world, BlockType type)
 {
 	this->world = world;
-	TextureInfo ti = TextureInfo();
-	glm::vec2 texCoord = ti.textureInfo[type];
-	tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
-	cb = new ChunkBuilder(tm->getTexCoords(texCoord.x, texCoord.y));
+	TextureInfo* ti = new TextureInfo();
+	cb = new ChunkBuilder(ti);
 }
 
 void ChunkGenerator::createChunkMesh(std::string &key, Chunk* chunk)

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <chunk/Chunk.h>
 #include <chunk/ChunkGenerator.h>
+#include <world/WorldUtils.h>
 
 class ChunkController
 {
@@ -19,7 +20,6 @@ public:
 	std::string getKey(int x, int y);
 	bool chunkExists(std::string);
 	void chunkGenerationInfinite();
-	int modulus(int a, int b);
 	glm::vec3 getChunkPosition(glm::vec3 position);
 	ChunkController(World* world);
 };

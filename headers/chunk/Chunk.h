@@ -18,6 +18,7 @@ public:
 	~Chunk();
 	void createHalfChunk();
 	void createSolidChunk();
+	void createPseudoRealChunk();
 	void createHollowCube();
 	void createStairsChunk();
 
