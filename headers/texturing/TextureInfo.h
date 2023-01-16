@@ -27,7 +27,7 @@ class TextureInfo
 public:
 	TextureMap* texture;
 	std::unordered_map<FaceType, glm::vec2> textureInfo;
-	std::unordered_map<BlockType, BlockFaces> blockInfo;
+	std::unordered_map<BlockType, BlockFaces*> blockInfo;
 	TextureInfo();
 };
 #endif // !TEXTUREINFO_H

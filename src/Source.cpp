@@ -20,7 +20,7 @@ const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 
 // camera
-Camera camera(glm::vec3(-0.5f, 1.4f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
+Camera camera(glm::vec3(-0.5f, 15.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -204,30 +204,24 @@ int main() {
 		0.5f, 1.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
 	};
 
+	//Very hacky crosshair lmao
 	std::vector<float> triangleTestvert{
-		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
+		0.005f, -0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		0.005f, 0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		-0.005f, 0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		-0.005f, -0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f
 	};
-	std::vector<float> triangleTestvert2{
-		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f
+	std::vector<unsigned short> indices{
+	0, 1, 3,
+	1, 2, 3
 	};
 	std::vector<float> lineTest{
 		5.5f, 5.5f, 5.5f, 0.5f, 0.5f, -0.5f
 	};
-	std::vector<unsigned short> indices{
-		0, 1, 3,
-		1, 2, 3
-	};
+
 	Mesh e = Mesh(vertices, 36);
 	Mesh* e2 = new Mesh(vertices2, 36);
-	Mesh* e3 = new Mesh(triangleTestvert2, 6);
+	IndexedMesh* e3 = new IndexedMesh(indices, triangleTestvert);
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 	
 	Chunk* stone = new Chunk(glm::vec3(0.0f, -16.0f, 0.0f));
@@ -251,7 +245,7 @@ int main() {
 	Shader lighting = Shader("LightingShader.vert", "LightingShader.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
-
+	Shader hud = Shader("HudShader.vert", "HudShader.frag");
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -289,7 +283,7 @@ int main() {
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		model = glm::mat4(1.0f);
 
-		model = glm::mat4(1.0f);
+
 		lighting.use();
 		lighting.setMat4("model", model);
 		lighting.setMat4("view", view);
@@ -300,9 +294,8 @@ int main() {
 		lighting.setVec3("viewPos", camera.Position);
 		cc->update();
 
-		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
-		lighting.setMat4("model", model);
-
+		//Renders hacky crosshair
+		hud.use();
 		e3->render();
 		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 3.0f));
 		//lighting.setMat4("model", model);
