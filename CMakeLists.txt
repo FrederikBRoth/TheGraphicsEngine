@@ -1,8 +1,10 @@
 ﻿# CMakeList.txt : CMake project for TheGraphicsEngine, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.10)
+
 project(TheGraphicsEngine)
+set(CMAKE_CXX_STANDARD 17)
 # Add source to this project's executable.
 file(GLOB_RECURSE SOURCE_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.c
@@ -24,7 +26,6 @@ include_directories(${CMAKE_BINARY_DIR}/headers)
 include_directories(${CMAKE_BINARY_DIR}/shaders)
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-
 
 # OpenGL
 set(OpenGL_GL_PREFERENCE GLVND)

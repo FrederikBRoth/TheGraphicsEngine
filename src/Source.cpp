@@ -266,8 +266,8 @@ int main() {
 		processInput(window);
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
 
-		//std::cout << "X: " << world->worldX << " Y: " << world->worldY << "d Z: " << world->worldZ << " | ";
-		//std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
+		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
+		std::cout << "X: " << chunkPos.x << " Y: " << chunkPos.y << " Z: " << chunkPos.z << std::endl;
 
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
