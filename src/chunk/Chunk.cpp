@@ -1,28 +1,13 @@
 #include <chunk/Chunk.h>
 
-const siv::PerlinNoise Chunk::perlin = siv::PerlinNoise(seed);
 
 Chunk::Chunk(glm::vec3 position)
 {
 	this->position = position;
 	this->chunk = std::vector<Block*>(CHUNKVOLUME);
-	this->noiseMap = std::vector<int>();
-	generateNoiseMap(noiseMap, position);
+
 }
 
-void Chunk::generateNoiseMap(std::vector<int>& noiseMap, glm::vec3& position)
-{
-
-	int magnitude = 2;
-	for (int x = position.x; x < position.x + CHUNKSIZE_X; x++) {
-		for (int z = position.z; z < position.z + CHUNKSIZE_Z; z++) {
-
-
-			double n = perlin.octave2D_01((x),(z), 10, 1.0);
-			noiseMap.push_back(floor(magnitude*n));
-		}
-	}
-}
 
 Chunk::~Chunk()
 {
@@ -58,7 +43,7 @@ void Chunk::createSolidChunk()
 	}
 }
 
-void Chunk::createPseudoRealChunk()
+void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap)
 {
 	int height = CHUNKSIZE_Y / 2;
 	int grass = CHUNKSIZE_Y / 2 - 1;
@@ -66,7 +51,8 @@ void Chunk::createPseudoRealChunk()
 		int x = i % CHUNKSIZE_X;
 		int y = (i / CHUNKSIZE_Z) % CHUNKSIZE_Y;
 		int z = i / (CHUNKSIZE_X * CHUNKSIZE_Y);
-		int offset = noiseMap[z * CHUNKSIZE_X + x];
+		int id = z * CHUNKSIZE_X + x;
+		int offset = noiseMap[id];
 
 		if (y < height + offset) {
 			if (y == grass + offset) {

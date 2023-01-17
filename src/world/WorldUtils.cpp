@@ -6,7 +6,7 @@ namespace tge {
 	}
 	glm::ivec3 getChunkPosition(glm::ivec3& worldPos)
 	{
-		glm::ivec3 chunkPos(worldPos.x / 16, worldPos.y, worldPos.z / 16);
+		glm::ivec3 chunkPos(worldPos.x / CHUNKSIZE_X, worldPos.y, worldPos.z / CHUNKSIZE_Z);
 		if (worldPos.x < 0) {
 			chunkPos.x = (worldPos.x + 1) / 16 - 1;
 		}

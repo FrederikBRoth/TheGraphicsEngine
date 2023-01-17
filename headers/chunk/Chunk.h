@@ -8,24 +8,21 @@
 #include <rendering/RenderInformation.h>
 #include <array>
 #include <world/Constants.h>
-#include <chunk/terrain-generation/PerlinNoise.hpp>
+#include <chunk/terrain-generation/PerlinNoise.h>
+
 class Chunk
 {
 private:
-	static const siv::PerlinNoise::seed_type seed = 123456u;
 
-	static const siv::PerlinNoise perlin;
-	void generateNoiseMap(std::vector<int>& noiseMap, glm::vec3& position);
 public:
 	glm::vec3 position;
 	std::vector<Block*> chunk;
-	std::vector<int> noiseMap;
 	Chunk(glm::vec3 location);
 
 	~Chunk();
 	void createHalfChunk();
 	void createSolidChunk();
-	void createPseudoRealChunk();
+	void createPerlinNoiseChunk(std::vector<int>& noiseMap);
 	void createHollowCube();
 	void createStairsChunk();
 
