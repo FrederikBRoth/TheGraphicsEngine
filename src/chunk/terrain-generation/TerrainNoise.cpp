@@ -18,7 +18,7 @@ std::vector<int> TerrainNoise::generateNoiseMap(glm::vec3& position, int magnitu
 		for (int x = position.x; x < position.x + CHUNKSIZE_X; x++) {
 			double n = perlin.noise2D((x * multiplier), (z * multiplier));
 			
-			noiseMap.push_back(floor(tge::logisticInterpolation(magnitude, -0.5f, n*(float)magnitude)));
+			noiseMap.push_back(floor(tge::logisticInterpolation(magnitude, -0.5f, n*(float)magnitude-2.0f)));
 		}
 	}
 	return noiseMap;

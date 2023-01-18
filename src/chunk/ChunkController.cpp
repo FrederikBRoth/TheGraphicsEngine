@@ -1,11 +1,12 @@
 #include <chunk/ChunkController.h>
+#include <helpers/RenderDistance.h>
 void ChunkController::createChunk(int x, int z)
 {
 	std::string key = getKey(x, z);
 	if (!chunkExists(key)) {
 		glm::vec3 position = glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z);
 		Chunk* newChunk = new Chunk(position);
-		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 25, 0.025));
+		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 20, 0.025));
 		chunkMap.emplace(key, newChunk);
 		cg->createChunkMesh(key, newChunk);
 	}
@@ -67,7 +68,7 @@ bool ChunkController::chunkExists(std::string key)
 
 void ChunkController::chunkGenerationInfinite()
 {
-	const int chunkRenderRadius = 8;
+	const int chunkRenderRadius = RENDER_DISTANCE;
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
 
 	int maxX = chunkPos.x + chunkRenderRadius;

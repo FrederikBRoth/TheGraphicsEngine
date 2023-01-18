@@ -7,7 +7,7 @@ class VertexBuffer
 public:
 	unsigned int ID;
 	std::vector<float> vertices;
-	VertexBuffer(std::vector<float> vertices);
+	VertexBuffer(std::vector<float>& vertices);
 	~VertexBuffer();
 	void init();
 };

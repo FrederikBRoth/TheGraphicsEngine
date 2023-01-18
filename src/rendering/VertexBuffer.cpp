@@ -1,6 +1,6 @@
 #include <rendering/VertexBuffer.h>
 
-VertexBuffer::VertexBuffer(std::vector<float> vertices)
+VertexBuffer::VertexBuffer(std::vector<float>& vertices)
 {
 	this->vertices = vertices;
 	glGenBuffers(1, &this->ID);

@@ -18,13 +18,12 @@ struct VertexArrayConfig {
 		this->shape = shape;
 	}
 };
-
 class VertexArray
 {
 public:
 	unsigned int ID;
 	VertexBuffer* vbo;
-	VertexArray(std::vector<float> vertices);
+	VertexArray(std::vector<float>& vertices);
 	~VertexArray();
 	void init(VertexArrayConfig config);
 	void bind();

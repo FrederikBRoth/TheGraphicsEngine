@@ -19,9 +19,8 @@
 #include <default/Window.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
-
 // camera
-Camera camera(glm::vec3(-0.5f, 15.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
+Camera camera(glm::vec3(-0.5f, 48.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 //float lastX = SCR_WIDTH / 2.0f;
 //float lastY = SCR_HEIGHT / 2.0f;
 //bool firstMouse = true;

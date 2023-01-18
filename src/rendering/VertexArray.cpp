@@ -1,6 +1,6 @@
 #include <rendering/VertexArray.h>
 
-VertexArray::VertexArray(std::vector<float> vertices)
+VertexArray::VertexArray(std::vector<float>& vertices)
 {
 	this->vbo = new VertexBuffer(vertices);
 	glGenVertexArrays(1, &this->ID);

@@ -1,6 +1,6 @@
 #include <rendering/IndexBuffer.h>
 
-IndexBuffer::IndexBuffer(std::vector<unsigned short> indices)
+IndexBuffer::IndexBuffer(std::vector<unsigned short>& indices)
 {
 	this->indices = indices;
 	glGenBuffers(1, &this->ID);

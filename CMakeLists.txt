@@ -21,6 +21,11 @@ file(GLOB_RECURSE HEADER_FILES
 # TODO: Add tests and install targets if needed.
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 configure_file(src/helpers/RootDir.h.in src/helpers/RootDir.h)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    configure_file(src/helpers/RenderDistanceDebug.h.in src/helpers/RenderDistance.h)
+else()
+    configure_file(src/helpers/RenderDistanceRelease.h.in src/helpers/RenderDistance.h)
+endif()
 include_directories(${CMAKE_BINARY_DIR}/src)
 include_directories(${CMAKE_BINARY_DIR}/headers)
 include_directories(${CMAKE_BINARY_DIR}/shaders)
