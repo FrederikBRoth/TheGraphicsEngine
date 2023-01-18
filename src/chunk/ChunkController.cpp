@@ -5,7 +5,7 @@ void ChunkController::createChunk(int x, int z)
 	if (!chunkExists(key)) {
 		glm::vec3 position = glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z);
 		Chunk* newChunk = new Chunk(position);
-		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 8, 0.07));
+		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 25, 0.025));
 		chunkMap.emplace(key, newChunk);
 		cg->createChunkMesh(key, newChunk);
 	}
@@ -110,5 +110,5 @@ ChunkController::ChunkController(World* world)
 {
 	this->world = world;
 	this->cg = new ChunkGenerator(world, BlockType::STONE);
-	pn = PerlinNoise();
+	pn = TerrainNoise();
 }

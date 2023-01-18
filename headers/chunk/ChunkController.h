@@ -10,7 +10,7 @@ class ChunkController
 private:
 	World* world;
 	ChunkGenerator* cg;
-	PerlinNoise pn;
+	TerrainNoise pn;
 public:
 	std::unordered_map<std::string, Chunk*> chunkMap;
 	void createChunk(int x, int z);

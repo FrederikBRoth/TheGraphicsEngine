@@ -8,7 +8,7 @@
 #include <rendering/RenderInformation.h>
 #include <array>
 #include <world/Constants.h>
-#include <chunk/terrain-generation/PerlinNoise.h>
+#include <chunk/terrain-generation/TerrainNoise.h>
 
 class Chunk
 {

@@ -22,4 +22,12 @@ namespace tge {
 	{
 		return (a % b + b) % b;
 	}
+
+	float logisticInterpolation(float limit, float growth, float x)
+	{
+		
+		return limit / (1 + expf(growth * x)) - limit/2.0f;
+		
+	}
+
 }
