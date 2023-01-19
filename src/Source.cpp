@@ -123,7 +123,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	tm->bind();
 
-	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	glm::vec3 lightPos(1.2f, 48.0f, 2.0f);
 	const float radius = 1.0f;
 	while (!glfwWindowShouldClose(window.glWindow))
 	{
