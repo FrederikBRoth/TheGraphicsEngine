@@ -10,14 +10,15 @@ ChunkGenerator::ChunkGenerator(World* world, BlockType type)
 
 void ChunkGenerator::createChunkMesh(std::string &key, Chunk* chunk)
 {
-	chunkMap.emplace(key, new IndexedMesh(cb->getChunkMesh(chunk)));
+	chunkMap.insert(std::make_pair(key, cb->getChunkMesh(chunk)));
+	std::cout << key << std::endl;
 }
 
 void ChunkGenerator::updateChunkMesh(std::string& key, Chunk* chunk)
 {
 	delete chunkMap[key];
 	chunkMap.erase(key);
-	chunkMap.insert(std::make_pair(key, new IndexedMesh(cb->getChunkMesh(chunk))));
+	chunkMap.insert(std::make_pair(key, cb->getChunkMesh(chunk)));
 
 }
 

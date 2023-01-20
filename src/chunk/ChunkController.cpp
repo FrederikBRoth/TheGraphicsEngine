@@ -9,6 +9,7 @@ void ChunkController::createChunk(int x, int z)
 		Chunk* newChunk = new Chunk(position);
 		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 20, 0.025));
 		chunkMap.emplace(key, newChunk);
+		std::unique_lock<std::mutex> lock(generationMutex);
 		cg->createChunkMesh(key, newChunk);
 	}
 }
@@ -22,6 +23,7 @@ void ChunkController::updateChunk(int x, int y, int z)
 		delete chunkMap[key];
 		chunkMap.erase(key);
 		chunkMap.insert(std::make_pair(key, newChunk));
+		std::unique_lock<std::mutex> lock(generationMutex);
 		cg->updateChunkMesh(key, newChunk);
 	}
 }
@@ -32,6 +34,7 @@ void ChunkController::removeChunk(int x, int z)
 	if (chunkExists(key)) {
 		delete chunkMap[key];
 		chunkMap.erase(key);
+		std::unique_lock<std::mutex> lock(generationMutex);
 		cg->removeChunkMesh(key);
 	}
 }
@@ -56,6 +59,7 @@ bool ChunkController::removeBlock(int x, int y, int z)
 		}
 		else {
 			block->type = BlockType::AIR;
+			std::unique_lock<std::mutex> lock(generationMutex);
 			cg->updateChunkMesh(key, chunk);
 			return true;
 		}
@@ -79,17 +83,20 @@ bool ChunkController::chunkExists(std::string key)
 
 void ChunkController::chunkGenerationInfinite()
 {
-	glm::vec3 chunkPos = world->getChunkWorldPosition();
+	while (isRunning) {
+		glm::vec3 chunkPos = world->getChunkWorldPosition();
 
-	int maxX = chunkPos.x + RENDER_DISTANCE;
-	int minX = chunkPos.x - RENDER_DISTANCE;
-	int maxZ = chunkPos.z + RENDER_DISTANCE;
-	int minZ = chunkPos.z - RENDER_DISTANCE;
-	for (int i = minX; i < maxX; i++) {
-		for (int j = minZ; j < maxZ; j++) {
-			createChunk(i, j);
+		int maxX = chunkPos.x + RENDER_DISTANCE;
+		int minX = chunkPos.x - RENDER_DISTANCE;
+		int maxZ = chunkPos.z + RENDER_DISTANCE;
+		int minZ = chunkPos.z - RENDER_DISTANCE;
+		for (int i = minX; i < maxX; i++) {
+			for (int j = minZ; j < maxZ; j++) {
+				createChunk(i, j);
+			}
 		}
 	}
+	
 }
 
 void ChunkController::chunkDegenerationInfinite()
@@ -133,10 +140,10 @@ glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 void ChunkController::update()
 {
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
-	chunkGenerationInfinite();
 	chunkDegenerationInfinite();
 	for (auto& kv : cg->chunkMap) {
-		kv.second->render();
+		IndexedMesh mesh = IndexedMesh(*kv.second);
+		mesh.render();
 	}
 }
 
@@ -145,4 +152,6 @@ ChunkController::ChunkController(World* world)
 	this->world = world;
 	this->cg = new ChunkGenerator(world, BlockType::STONE);
 	pn = TerrainNoise();
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	chunkLoadThread = std::thread(&ChunkController::chunkGenerationInfinite, this);
 }

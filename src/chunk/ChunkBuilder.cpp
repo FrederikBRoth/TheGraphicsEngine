@@ -30,9 +30,9 @@ struct AdjacentBlockPositions {
 	glm::vec3 front;
 	glm::vec3 back;
 };
-RenderInformation ChunkBuilder::getChunkMesh(Chunk* currentChunk)
+RenderInformation* ChunkBuilder::getChunkMesh(Chunk* currentChunk)
 {
-	RenderInformation ri = RenderInformation();
+	RenderInformation* ri = new RenderInformation();
 	short indicesIndex = 0;
 
 	AdjacentBlockPositions directions;
@@ -47,12 +47,12 @@ RenderInformation ChunkBuilder::getChunkMesh(Chunk* currentChunk)
 			directions.update(x, y, z);
 			glm::vec3 pos = glm::vec3(x, y, z);
 			BlockFaces* blockFaces = ti->blockInfo[type];
-			addFace(&ri, &pos, front, &indicesIndex, &directions.front, frontNormals, currentChunk, blockFaces->front.coords);
-			addFace(&ri, &pos, back, &indicesIndex, &directions.back, backNormals, currentChunk, blockFaces->back.coords);
-			addFace(&ri, &pos, right, &indicesIndex, &directions.right, rightNormals, currentChunk, blockFaces->right.coords);
-			addFace(&ri, &pos, left, &indicesIndex, &directions.left, leftNormals, currentChunk, blockFaces->left.coords);
-			addFace(&ri, &pos, top, &indicesIndex, &directions.up, topNormals, currentChunk, blockFaces->up.coords);
-			addFace(&ri, &pos, bottom, &indicesIndex, &directions.down, bottomNormals, currentChunk, blockFaces->down.coords);
+			addFace(ri, &pos, front, &indicesIndex, &directions.front, frontNormals, currentChunk, blockFaces->front.coords);
+			addFace(ri, &pos, back, &indicesIndex, &directions.back, backNormals, currentChunk, blockFaces->back.coords);
+			addFace(ri, &pos, right, &indicesIndex, &directions.right, rightNormals, currentChunk, blockFaces->right.coords);
+			addFace(ri, &pos, left, &indicesIndex, &directions.left, leftNormals, currentChunk, blockFaces->left.coords);
+			addFace(ri, &pos, top, &indicesIndex, &directions.up, topNormals, currentChunk, blockFaces->up.coords);
+			addFace(ri, &pos, bottom, &indicesIndex, &directions.down, bottomNormals, currentChunk, blockFaces->down.coords);
 		}
 	}
 	return ri;

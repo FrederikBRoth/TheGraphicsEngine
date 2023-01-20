@@ -4,6 +4,8 @@
 #include <chunk/Chunk.h>
 #include <chunk/ChunkGenerator.h>
 #include <world/WorldUtils.h>
+#include <thread>
+#include <mutex>
 
 class ChunkController
 {
@@ -12,6 +14,9 @@ private:
 	ChunkGenerator* cg;
 	TerrainNoise pn;
 	bool insideRenderDistance(int i);
+	std::thread chunkLoadThread;
+	std::mutex generationMutex;
+	std::atomic<bool> isRunning{ true };
 public:
 	std::unordered_map<std::string, Chunk*> chunkMap;
 	void createChunk(int x, int z);

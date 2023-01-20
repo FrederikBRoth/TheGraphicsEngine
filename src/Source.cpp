@@ -104,7 +104,7 @@ int main() {
 	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(ti);
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone);
+	RenderInformation* ri = stoneChunkBuilder->getChunkMesh(stone);
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
