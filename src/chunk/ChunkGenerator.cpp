@@ -21,6 +21,13 @@ void ChunkGenerator::updateChunkMesh(std::string& key, Chunk* chunk)
 
 }
 
+void ChunkGenerator::removeChunkMesh(std::string& key)
+{
+	delete chunkMap[key];
+	chunkMap.erase(key);
+}
+
+
 //https://stackoverflow.com/questions/59458264/exception-thrown-read-access-violation-it-was-0xffffffffffffffff
 
 

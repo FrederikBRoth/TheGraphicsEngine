@@ -1,5 +1,6 @@
 #include <chunk/ChunkController.h>
 #include <helpers/RenderDistance.h>
+
 void ChunkController::createChunk(int x, int z)
 {
 	std::string key = getKey(x, z);
@@ -22,6 +23,16 @@ void ChunkController::updateChunk(int x, int y, int z)
 		chunkMap.erase(key);
 		chunkMap.insert(std::make_pair(key, newChunk));
 		cg->updateChunkMesh(key, newChunk);
+	}
+}
+
+void ChunkController::removeChunk(int x, int z)
+{
+	std::string key = getKey(x, z);
+	if (chunkExists(key)) {
+		delete chunkMap[key];
+		chunkMap.erase(key);
+		cg->removeChunkMesh(key);
 	}
 }
 
@@ -68,19 +79,40 @@ bool ChunkController::chunkExists(std::string key)
 
 void ChunkController::chunkGenerationInfinite()
 {
-	const int chunkRenderRadius = RENDER_DISTANCE;
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
 
-	int maxX = chunkPos.x + chunkRenderRadius;
-	int minX = chunkPos.x - chunkRenderRadius;
-	int maxZ = chunkPos.z + chunkRenderRadius;
-	int minZ = chunkPos.z - chunkRenderRadius;
+	int maxX = chunkPos.x + RENDER_DISTANCE;
+	int minX = chunkPos.x - RENDER_DISTANCE;
+	int maxZ = chunkPos.z + RENDER_DISTANCE;
+	int minZ = chunkPos.z - RENDER_DISTANCE;
 	for (int i = minX; i < maxX; i++) {
 		for (int j = minZ; j < maxZ; j++) {
 			createChunk(i, j);
 		}
 	}
 }
+
+void ChunkController::chunkDegenerationInfinite()
+{
+	glm::vec3 chunkPos = world->getChunkWorldPosition();
+	int maxX = chunkPos.x + RENDER_DISTANCE + 1;
+	int minX = chunkPos.x - RENDER_DISTANCE - 1;
+	int maxZ = chunkPos.z + RENDER_DISTANCE + 1;
+	int minZ = chunkPos.z - RENDER_DISTANCE - 1;
+	for (int i = minX; i < maxX; i++) {
+		removeChunk(i, maxZ);
+		removeChunk(i, minZ);
+	}
+	for (int j = minZ; j < maxZ; j++) {
+		removeChunk(maxX, j);
+		removeChunk(minX, j);
+	}
+}
+bool ChunkController::insideRenderDistance(int i)
+{
+	return false;
+}
+
 glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 {
 	
@@ -102,6 +134,7 @@ void ChunkController::update()
 {
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
 	chunkGenerationInfinite();
+	chunkDegenerationInfinite();
 	for (auto& kv : cg->chunkMap) {
 		kv.second->render();
 	}

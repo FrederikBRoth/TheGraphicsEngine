@@ -16,4 +16,5 @@ public:
 	ChunkGenerator(World* world, BlockType type);
 	void createChunkMesh(std::string& key, Chunk* chunk);
 	void updateChunkMesh(std::string& key, Chunk* chunk);
+	void removeChunkMesh(std::string& key);
 };
