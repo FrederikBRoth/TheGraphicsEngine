@@ -1,17 +1,16 @@
 #include <rendering/MeshBuffer.h>
 MeshBuffer::MeshBuffer() {
 	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glGenVertexArrays(1, &vaoId);
-	glBindVertexArray(vaoId);
 	glGenBuffers(1, &eboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
 }
 
 MeshBuffer::~MeshBuffer()
 {
 	glDeleteBuffers(1, &vboId);
 	glDeleteVertexArrays(1, &vaoId);
+	glDeleteBuffers(1, &eboId);
+
 }
 
 void MeshBuffer::loadMesh(RenderInformation& ri, MeshConfig& config)
