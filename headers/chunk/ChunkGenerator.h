@@ -13,7 +13,7 @@ public:
 
 	World* world;
 	ChunkBuilder* cb;
-	std::unordered_map<std::string, RenderInformation*> chunkMap;
+	std::unordered_map<std::string, MeshBuffer*> chunkMap;
 	ChunkGenerator(World* world, BlockType type);
 	void createChunkMesh(std::string& key, Chunk* chunk);
 	void updateChunkMesh(std::string& key, Chunk* chunk);

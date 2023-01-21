@@ -9,16 +9,15 @@
 #include <array>
 #include <world/Constants.h>
 #include <chunk/terrain-generation/TerrainNoise.h>
+#include <rendering/MeshBuffer.h>
 
 class Chunk
 {
-private:
-
 public:
+	MeshBuffer* mesh;
 	glm::vec3 position;
 	std::vector<Block*> chunk;
 	Chunk(glm::vec3 location);
-
 	~Chunk();
 	void createHalfChunk();
 	void createSolidChunk();

@@ -104,16 +104,17 @@ int main() {
 	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(ti);
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RenderInformation* ri = stoneChunkBuilder->getChunkMesh(stone);
+	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone);
+
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
-	
+
 	tm->loadTexture(GL_RGBA);
+
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection;
-
 	Shader chunkShader = Shader("LightingShader.vert", "LightingShader.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
@@ -159,6 +160,7 @@ int main() {
 		chunkShader.setVec3("lightPos", lightPos);
 		chunkShader.setVec3("viewPos", camera.Position);
 		cc->update();
+		//stone->mesh->draw();
 		//Renders hacky crosshair
 		hud.use();
 		e3->render();

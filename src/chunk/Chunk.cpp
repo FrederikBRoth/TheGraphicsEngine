@@ -5,7 +5,7 @@ Chunk::Chunk(glm::vec3 position)
 {
 	this->position = position;
 	this->chunk = std::vector<Block*>(CHUNKVOLUME);
-
+	mesh = new MeshBuffer();
 }
 
 
@@ -16,6 +16,7 @@ Chunk::~Chunk()
 	}
 	this->chunk.clear();
 	this->chunk.shrink_to_fit();
+	delete this->mesh;
 }
 
 void Chunk::createHalfChunk()
