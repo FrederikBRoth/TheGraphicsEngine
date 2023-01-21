@@ -31,7 +31,7 @@ void ChunkController::updateChunk(int x, int y, int z)
 		delete chunkMap[key];
 		chunkMap.erase(key);
 		chunkMap.insert(std::make_pair(key, newChunk));
-		std::unique_lock<std::mutex> lock(generationMutex);
+		//std::unique_lock<std::mutex> lock(generationMutex);
 		cg->updateChunkMesh(key, newChunk);
 	}
 }
@@ -43,7 +43,7 @@ void ChunkController::removeChunk(int x, int z)
 	if (chunkExists(key)) {
 		delete chunkMap[key];
 		chunkMap.erase(key);
-		std::unique_lock<std::mutex> lock(generationMutex);
+		//std::unique_lock<std::mutex> lock(generationMutex);
 		cg->removeChunkMesh(key);
 	}
 }
@@ -68,7 +68,7 @@ bool ChunkController::removeBlock(int x, int y, int z)
 		}
 		else {
 			block->type = BlockType::AIR;
-			std::unique_lock<std::mutex> lock(generationMutex);
+			//std::unique_lock<std::mutex> lock(generationMutex);
 			cg->updateChunkMesh(key, chunk);
 			return true;
 		}
