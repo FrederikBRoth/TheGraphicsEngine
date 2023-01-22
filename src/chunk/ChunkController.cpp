@@ -14,7 +14,6 @@ void ChunkController::createChunk(int x, int z)
 
 void ChunkController::createChunkMesh(int x, int z)
 {
-	
 	std::string key = getKey(x, z);
 	if (chunkExists(key)) {
 		std::unique_lock<std::mutex> lock(generationMutex);
@@ -138,10 +137,6 @@ void ChunkController::chunkDegeneration()
 		removeChunk(minX, j);
 	}
 }
-bool ChunkController::insideRenderDistance(int i)
-{
-	return false;
-}
 
 glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 {
@@ -166,12 +161,12 @@ void ChunkController::update()
 	std::unique_lock<std::mutex> lock(generationMutex);
 	chunkGeneration();
 	lock.unlock();
-	for (auto& kv : cg->chunkMap) {
-		if (kv.second->doBind) {
-			kv.second->bind();
-			kv.second->doBind = { false };
+	for (auto& chunkMesh : cg->chunkMap) {
+		if (chunkMesh.second->doBind) {
+			chunkMesh.second->bind();
+			chunkMesh.second->doBind = { false };
 		}
-		kv.second->draw();
+		chunkMesh.second->draw();
 	}
 	chunkDegeneration();
 

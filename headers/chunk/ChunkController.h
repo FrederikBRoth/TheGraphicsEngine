@@ -13,7 +13,6 @@ private:
 	World* world;
 	ChunkGenerator* cg;
 	TerrainNoise pn;
-	bool insideRenderDistance(int i);
 	std::thread chunkLoadThread;
 	std::mutex generationMutex;
 	std::atomic<bool> isRunning{ true };

@@ -1,5 +1,3 @@
-
-
 #ifndef TERRAINNOISE_H
 #define TERRAINNOISE_H
 #include <vector>
