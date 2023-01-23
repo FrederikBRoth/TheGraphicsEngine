@@ -9,13 +9,20 @@ enum class BlockType {
 	GRASS,
 	STONE,
 	DIRT,
-	AIR
+	AIR,
+	WATER,
+	WOOD,
+	LEAF
 };
 enum class FaceType {
 	GRASS_TOP,
 	GRASS_SIDE,
 	STONE,
-	DIRT
+	DIRT,
+	WATER,
+	WOOD_SIDE,
+	WOOD_TOP,
+	LEAF
 };
 
 class Block

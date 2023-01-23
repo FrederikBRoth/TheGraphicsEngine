@@ -8,7 +8,7 @@ TextureInfo::TextureInfo()
 	textureInfo.emplace(FaceType::GRASS_SIDE, glm::vec2(1, 3));
 	textureInfo.emplace(FaceType::STONE, glm::vec2(0, 2));
 	textureInfo.emplace(FaceType::DIRT, glm::vec2(0, 3));
-
+	textureInfo.emplace(FaceType::WATER, glm::vec2(3, 3));
 
 	BlockFaces* grass = new BlockFaces(
 		BlockFace(FaceType::GRASS_SIDE, texture, textureInfo),
@@ -36,11 +36,20 @@ TextureInfo::TextureInfo()
 		BlockFace(FaceType::DIRT, texture, textureInfo),
 		BlockFace(FaceType::DIRT, texture, textureInfo)
 	);
-
+	BlockFaces* water = new BlockFaces(
+		BlockFace(FaceType::WATER, texture, textureInfo),
+		BlockFace(FaceType::WATER, texture, textureInfo),
+		BlockFace(FaceType::WATER, texture, textureInfo),
+		BlockFace(FaceType::WATER, texture, textureInfo),
+		BlockFace(FaceType::WATER, texture, textureInfo),
+		BlockFace(FaceType::WATER, texture, textureInfo)
+	);
 
 	blockInfo.emplace(BlockType::GRASS, grass);
 	blockInfo.emplace(BlockType::STONE, stone);
 	blockInfo.emplace(BlockType::DIRT, dirt);
+	blockInfo.emplace(BlockType::WATER, water);
+
 
 }
 

@@ -15,8 +15,8 @@ void ChunkController::createChunk(int x, int z)
 void ChunkController::createChunkMesh(int x, int z)
 {
 	std::string key = getKey(x, z);
+	std::unique_lock<std::mutex> lock(generationMutex);
 	if (chunkExists(key)) {
-		std::unique_lock<std::mutex> lock(generationMutex);
 		mb->createChunkMesh(key, chunkMap[key]);
 	}
 }
@@ -175,7 +175,7 @@ void ChunkController::update()
 ChunkController::ChunkController(World* world)
 {
 	this->world = world;
-	this->mb = new MeshBuilder(world, BlockType::STONE);
+	this->mb = new MeshBuilder(world);
 	pn = TerrainNoise();
 	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	chunkLoadThread = std::thread(&ChunkController::chunkMeshGeneration, this);

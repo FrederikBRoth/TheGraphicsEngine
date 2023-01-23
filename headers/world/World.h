@@ -7,7 +7,6 @@
 #include <glm/detail/type_vec3.hpp>
 #include <math.h>
 #include <entities/IndexedMesh.h>
-#include <chunk/ChunkBuilder.h>
 #include <string>
 #include <texturing/TextureMap.h>
 #include <world/WorldUtils.h>

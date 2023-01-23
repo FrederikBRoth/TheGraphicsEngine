@@ -12,8 +12,11 @@ struct TreeBlock {
 class TreeGeneration
 {
 	const std::vector<TreeBlock> treeStructure{
+		TreeBlock({0,0,0}, BlockType::WOOD),
+		TreeBlock({0,1,0}, BlockType::WOOD),
+		TreeBlock({0,2,0}, BlockType::WOOD),
+		TreeBlock({0,3,0}, BlockType::WOOD),
 
-		
 	};
 private:
 	Chunk* currentChunk;

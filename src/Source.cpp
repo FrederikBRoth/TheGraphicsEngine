@@ -8,11 +8,11 @@
 #include <entities/Mesh.h>
 #include <entities/IndexedMesh.h>
 #include <chunk/Chunk.h>
-#include <chunk/ChunkBuilder.h>
 #include <texturing/TextureMap.h>
 #include <chrono>
 #include <world/World.h>
 #include <chunk/ChunkController.h>
+#include <chunk/MeshBuilder.h>
 #include <controls/LineTrace.h>
 #include <entities/Line.h>
 #include <default/Window.h>
@@ -100,13 +100,13 @@ int main() {
 	stone->createSolidChunk();
 	TextureInfo* ti = new TextureInfo();
 
-	ChunkBuilder* stoneChunkBuilder = new ChunkBuilder(ti);
+	MeshBuilder* stoneChunkBuilder = new MeshBuilder(world);
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone);
+	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone).solids;
 
 	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 
 	tm->loadTexture(GL_RGBA);

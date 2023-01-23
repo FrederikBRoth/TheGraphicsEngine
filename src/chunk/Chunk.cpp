@@ -46,8 +46,7 @@ void Chunk::createSolidChunk()
 
 void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap)
 {
-	int height = CHUNKSIZE_Y / 2;
-	int grass = CHUNKSIZE_Y / 2 - 1;
+	int mid = CHUNKSIZE_Y / 2;
 	for (int i = 0; i < CHUNKVOLUME; i++) {
 		int x = i % CHUNKSIZE_X;
 		int y = (i / CHUNKSIZE_Z) % CHUNKSIZE_Y;
@@ -55,20 +54,26 @@ void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap)
 		int id = z * CHUNKSIZE_X + x;
 		int offset = noiseMap[id];
 
-		if (y < height + offset) {
-			if (y == grass + offset) {
+		if (y < mid - offset) {
+			if (y == (mid - offset)-1) {
 				chunk[i] = new Block(BlockType::GRASS);
 			}
-			else if(y < grass + offset && y > grass + offset - 3){
+			else if(y < mid - offset && y > mid - offset - 3){
 				chunk[i] = new Block(BlockType::DIRT);
 			}
 			else {
 				chunk[i] = new Block(BlockType::STONE);
-
 			}
+
 		}
 		else {
-			chunk[i] = new Block(BlockType::AIR);
+			if (y < WATER_LEVEL) {
+				chunk[i] = new Block(BlockType::WATER);
+			}
+			else {
+				chunk[i] = new Block(BlockType::AIR);
+
+			}
 		}
 	}
 }
