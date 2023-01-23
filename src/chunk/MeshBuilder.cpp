@@ -1,14 +1,14 @@
-#include <chunk/ChunkGenerator.h>
+#include <chunk/MeshBuilder.h>
 #include <texturing/TextureInfo.h>
 
-ChunkGenerator::ChunkGenerator(World* world, BlockType type)
+MeshBuilder::MeshBuilder(World* world, BlockType type)
 {
 	this->world = world;
 	TextureInfo* ti = new TextureInfo();
 	cb = new ChunkBuilder(ti);
 }
 
-void ChunkGenerator::createChunkMesh(std::string &key, Chunk* chunk)
+void MeshBuilder::createChunkMesh(std::string &key, Chunk* chunk)
 {
 	if (!chunkMap.count(key)) {
 		MeshBuffer* buffer = chunk->mesh;
@@ -18,7 +18,7 @@ void ChunkGenerator::createChunkMesh(std::string &key, Chunk* chunk)
 
 }
 
-void ChunkGenerator::updateChunkMesh(std::string& key, Chunk* chunk)
+void MeshBuilder::updateChunkMesh(std::string& key, Chunk* chunk)
 {
 	MeshBuffer* buffer = chunk->mesh;
 	buffer->loadMesh(cb->getChunkMesh(chunk), MeshConfig(8, true, true, MeshShape::TRIANGLE));
@@ -27,7 +27,7 @@ void ChunkGenerator::updateChunkMesh(std::string& key, Chunk* chunk)
 
 }
 
-void ChunkGenerator::removeChunkMesh(std::string& key)
+void MeshBuilder::removeChunkMesh(std::string& key)
 {
 	chunkMap.erase(key);
 }

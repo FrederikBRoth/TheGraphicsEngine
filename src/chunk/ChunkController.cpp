@@ -17,7 +17,7 @@ void ChunkController::createChunkMesh(int x, int z)
 	std::string key = getKey(x, z);
 	if (chunkExists(key)) {
 		std::unique_lock<std::mutex> lock(generationMutex);
-		cg->createChunkMesh(key, chunkMap[key]);
+		mb->createChunkMesh(key, chunkMap[key]);
 	}
 }
 
@@ -31,7 +31,7 @@ void ChunkController::updateChunk(int x, int y, int z)
 		chunkMap.erase(key);
 		chunkMap.insert(std::make_pair(key, newChunk));
 		//std::unique_lock<std::mutex> lock(generationMutex);
-		cg->updateChunkMesh(key, newChunk);
+		mb->updateChunkMesh(key, newChunk);
 	}
 }
 
@@ -43,7 +43,7 @@ void ChunkController::removeChunk(int x, int z)
 		delete chunkMap[key];
 		chunkMap.erase(key);
 		//std::unique_lock<std::mutex> lock(generationMutex);
-		cg->removeChunkMesh(key);
+		mb->removeChunkMesh(key);
 	}
 }
 
@@ -68,7 +68,7 @@ bool ChunkController::removeBlock(int x, int y, int z)
 		else {
 			block->type = BlockType::AIR;
 			//std::unique_lock<std::mutex> lock(generationMutex);
-			cg->updateChunkMesh(key, chunk);
+			mb->updateChunkMesh(key, chunk);
 			return true;
 		}
 	}
@@ -161,7 +161,7 @@ void ChunkController::update()
 	std::unique_lock<std::mutex> lock(generationMutex);
 	chunkGeneration();
 	lock.unlock();
-	for (auto& chunkMesh : cg->chunkMap) {
+	for (auto& chunkMesh : mb->chunkMap) {
 		if (chunkMesh.second->doBind) {
 			chunkMesh.second->bind();
 			chunkMesh.second->doBind = { false };
@@ -175,7 +175,7 @@ void ChunkController::update()
 ChunkController::ChunkController(World* world)
 {
 	this->world = world;
-	this->cg = new ChunkGenerator(world, BlockType::STONE);
+	this->mb = new MeshBuilder(world, BlockType::STONE);
 	pn = TerrainNoise();
 	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	chunkLoadThread = std::thread(&ChunkController::chunkMeshGeneration, this);

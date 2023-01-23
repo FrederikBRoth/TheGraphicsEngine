@@ -2,7 +2,7 @@
 #define CHUNKCTRL_H
 #include <unordered_map>
 #include <chunk/Chunk.h>
-#include <chunk/ChunkGenerator.h>
+#include <chunk/MeshBuilder.h>
 #include <world/WorldUtils.h>
 #include <thread>
 #include <mutex>
@@ -11,7 +11,7 @@ class ChunkController
 {
 private:
 	World* world;
-	ChunkGenerator* cg;
+	MeshBuilder* mb;
 	TerrainNoise pn;
 	std::thread chunkLoadThread;
 	std::mutex generationMutex;

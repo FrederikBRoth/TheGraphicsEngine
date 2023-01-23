@@ -12,7 +12,6 @@
 #include <texturing/TextureMap.h>
 #include <chrono>
 #include <world/World.h>
-#include <chunk/ChunkGenerator.h>
 #include <chunk/ChunkController.h>
 #include <controls/LineTrace.h>
 #include <entities/Line.h>
