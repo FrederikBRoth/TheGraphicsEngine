@@ -16,6 +16,7 @@ class TreeGeneration
 		TreeBlock({0,1,0}, BlockType::WOOD),
 		TreeBlock({0,2,0}, BlockType::WOOD),
 		TreeBlock({0,3,0}, BlockType::WOOD),
+		TreeBlock({0,3,0}, BlockType::WOOD)
 
 	};
 private:
