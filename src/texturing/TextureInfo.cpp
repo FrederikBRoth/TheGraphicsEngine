@@ -9,6 +9,11 @@ TextureInfo::TextureInfo()
 	textureInfo.emplace(FaceType::STONE, glm::vec2(0, 2));
 	textureInfo.emplace(FaceType::DIRT, glm::vec2(0, 3));
 	textureInfo.emplace(FaceType::WATER, glm::vec2(3, 3));
+	textureInfo.emplace(FaceType::LEAF, glm::vec2(1, 2));
+	textureInfo.emplace(FaceType::WOOD_SIDE, glm::vec2(2, 2));
+	textureInfo.emplace(FaceType::WOOD_TOP, glm::vec2(3, 2));
+
+
 
 	BlockFaces* grass = new BlockFaces(
 		BlockFace(FaceType::GRASS_SIDE, texture, textureInfo),
@@ -44,6 +49,23 @@ TextureInfo::TextureInfo()
 		BlockFace(FaceType::WATER, texture, textureInfo),
 		BlockFace(FaceType::WATER, texture, textureInfo)
 	);
+	BlockFaces* leaf = new BlockFaces(
+		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo),
+		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo),
+		BlockFace(FaceType::WOOD_TOP, texture, textureInfo),
+		BlockFace(FaceType::WOOD_TOP, texture, textureInfo),
+		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo),
+		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo)
+	);
+	BlockFaces* treeTrunk = new BlockFaces(
+		BlockFace(FaceType::LEAF, texture, textureInfo),
+		BlockFace(FaceType::LEAF, texture, textureInfo),
+		BlockFace(FaceType::LEAF, texture, textureInfo),
+		BlockFace(FaceType::LEAF, texture, textureInfo),
+		BlockFace(FaceType::LEAF, texture, textureInfo),
+		BlockFace(FaceType::LEAF, texture, textureInfo)
+	);
+
 
 	blockInfo.emplace(BlockType::GRASS, grass);
 	blockInfo.emplace(BlockType::STONE, stone);
