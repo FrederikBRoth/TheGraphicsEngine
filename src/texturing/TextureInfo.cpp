@@ -71,6 +71,8 @@ TextureInfo::TextureInfo()
 	blockInfo.emplace(BlockType::STONE, stone);
 	blockInfo.emplace(BlockType::DIRT, dirt);
 	blockInfo.emplace(BlockType::WATER, water);
+	blockInfo.emplace(BlockType::LEAF, leaf);
+	blockInfo.emplace(BlockType::WOOD, treeTrunk);
 
 
 }
