@@ -2,7 +2,7 @@
 #define WINDOW_H
 #include <glad/glad.h>
 #include <GLFW\glfw3.h>
-#include <string>;
+#include <string>
 #include <controls/Camera.h>
 #include <world/World.h>
 #include <chunk/ChunkController.h>

@@ -1,3 +1,4 @@
+
 #ifndef CHUNKCTRL_H
 #define CHUNKCTRL_H
 #include <unordered_map>
@@ -13,6 +14,8 @@ private:
 	World* world;
 	MeshBuilder* mb;
 	TerrainNoise pn;
+	//will become BiomeController or something about biomes in the future
+	TreeGeneration* tg;
 	std::thread chunkLoadThread;
 	std::mutex generationMutex;
 	std::atomic<bool> isRunning{ true };

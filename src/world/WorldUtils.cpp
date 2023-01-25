@@ -30,4 +30,9 @@ namespace tge {
 		
 	}
 
+	int getIndex(int x, int y, int z)
+	{
+		return z * CHUNKAREA + y * CHUNKSIZE_X + x;
+	}
+
 }

@@ -7,7 +7,7 @@ void ChunkController::createChunk(int x, int z)
 	if (!chunkExists(key)) {
 		glm::vec3 position = glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z);
 		Chunk* newChunk = new Chunk(position);
-		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 20, 0.025));
+		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 20, 0.025), tg);
 		chunkMap.insert(std::make_pair(key, newChunk));
 	}
 }
@@ -177,6 +177,7 @@ ChunkController::ChunkController(World* world)
 	this->world = world;
 	this->mb = new MeshBuilder(world);
 	pn = TerrainNoise();
+	tg = new TreeGeneration();
 	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	chunkLoadThread = std::thread(&ChunkController::chunkMeshGeneration, this);
 }

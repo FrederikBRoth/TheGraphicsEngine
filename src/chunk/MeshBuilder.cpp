@@ -72,15 +72,10 @@ bool MeshBuilder::canPlaceFace(int x, int y, int z, Chunk* currentChunk)
 	if (outOfBounds(x, y, z)) {
 		return true;
 	}
-	if (currentChunk->chunk[getIndex(x, y, z)]->type == BlockType::AIR) {
+	if (currentChunk->chunk[tge::getIndex(x, y, z)]->type == BlockType::AIR) {
 		return true;
 	}
 	return false;
-}
-
-int MeshBuilder::getIndex(int x, int y, int z)
-{
-	return z * CHUNKAREA + y * CHUNKSIZE_X + x;
 }
 
 Meshes MeshBuilder::getChunkMesh(Chunk* currentChunk)

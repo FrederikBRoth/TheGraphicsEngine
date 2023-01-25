@@ -11,6 +11,8 @@ namespace tge {
 	glm::ivec3 getChunkPosition(glm::ivec3& worldPos);
 	int modulus(int a, int b);
 	float logisticInterpolation(float limit, float growth, float x);
+	int getIndex(int x, int y, int z);
+	
 }
 
 #endif // !WORLDUTILS_H

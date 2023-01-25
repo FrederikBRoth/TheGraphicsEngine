@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CHUNK_H
 #define CHUNK_H
 #include <glm/glm.hpp>
@@ -10,6 +11,7 @@
 #include <world/Constants.h>
 #include <chunk/terrain-generation/TerrainNoise.h>
 #include <rendering/MeshBuffer.h>
+#include <chunk/terrain-generation/TreeGeneration.h>
 
 class Chunk
 {
@@ -21,9 +23,10 @@ public:
 	~Chunk();
 	void createHalfChunk();
 	void createSolidChunk();
-	void createPerlinNoiseChunk(std::vector<int>& noiseMap);
+	void createPerlinNoiseChunk(std::vector<int>& noiseMap, TreeGeneration* tg);
 	void createHollowCube();
 	void createStairsChunk();
+	void changeBlock(glm::ivec3 pos, BlockType block);
 
 	
 };

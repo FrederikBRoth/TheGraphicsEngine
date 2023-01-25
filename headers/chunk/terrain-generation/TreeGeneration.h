@@ -1,6 +1,11 @@
 #ifndef TREEGEN_H
 #define TREEGEN_H
-#include <chunk/Chunk.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <chunk/Block.h>
+
+
 struct TreeBlock {
 	glm::ivec3 relativePos;
 	BlockType type;
@@ -9,6 +14,8 @@ struct TreeBlock {
 		this->type = type;
 	}
 };
+class Chunk;
+
 class TreeGeneration
 {
 	//temp tree gen, should have a decent pipeline of imborting objs/json of blocks and do that
@@ -86,12 +93,9 @@ class TreeGeneration
 		TreeBlock({0, 7, 0}, BlockType::LEAF),
 		TreeBlock({0, 7, -1}, BlockType::LEAF),
 		TreeBlock({1, 7, 0}, BlockType::LEAF),
-
-
-
 	};
-private:
-	Chunk* currentChunk;
-	std::vector<glm::ivec3> makeTreeStructure(glm::ivec3 root);
+public:
+	void placeTree(glm::ivec3 root, Chunk* chunk);
+	TreeGeneration();
 };
 #endif

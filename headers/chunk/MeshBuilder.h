@@ -83,7 +83,6 @@ private:
     );
     bool outOfBounds(int x, int y, int z);
     bool canPlaceFace(int x, int y, int z, Chunk* currentChunk);
-    int getIndex(int x, int y, int z);
     TextureInfo* ti;
 public:
 	World* world;
