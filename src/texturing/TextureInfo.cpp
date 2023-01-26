@@ -49,7 +49,7 @@ TextureInfo::TextureInfo()
 		BlockFace(FaceType::WATER, texture, textureInfo),
 		BlockFace(FaceType::WATER, texture, textureInfo)
 	);
-	BlockFaces* leaf = new BlockFaces(
+	BlockFaces* treeTrunk = new BlockFaces(
 		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo),
 		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo),
 		BlockFace(FaceType::WOOD_TOP, texture, textureInfo),
@@ -57,7 +57,7 @@ TextureInfo::TextureInfo()
 		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo),
 		BlockFace(FaceType::WOOD_SIDE, texture, textureInfo)
 	);
-	BlockFaces* treeTrunk = new BlockFaces(
+	BlockFaces* leaf = new BlockFaces(
 		BlockFace(FaceType::LEAF, texture, textureInfo),
 		BlockFace(FaceType::LEAF, texture, textureInfo),
 		BlockFace(FaceType::LEAF, texture, textureInfo),
@@ -73,7 +73,6 @@ TextureInfo::TextureInfo()
 	blockInfo.emplace(BlockType::WATER, water);
 	blockInfo.emplace(BlockType::LEAF, leaf);
 	blockInfo.emplace(BlockType::WOOD, treeTrunk);
-
 
 }
 

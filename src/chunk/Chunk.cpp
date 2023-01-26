@@ -59,9 +59,8 @@ void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap, TreeGeneration* t
 			if (y == (mid - offset)-1) {
 				chunk[i] = new Block(BlockType::GRASS);
 				//Incredibly stupid way to spawn a tree, but just for testing REMOVE A ONCE
-				if (offset > 8 && x > 4 && x < 12 && z > 4 && z < 12) {
+				if (offset < -8 && x > 4 && x < 12 && z > 4 && z < 12) {
 					trees.push_back(glm::ivec3(x, y, z));
-
 				}
 			}
 			else if(y < mid - offset && y > mid - offset - 3){
@@ -83,8 +82,11 @@ void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap, TreeGeneration* t
 		}
 		
 	}
-	if(trees.size() > 0)
-		tg->placeTree(trees[0], this);
+	if (trees.size() > 0) {
+		int randomIndex = rand() % trees.size();
+		tg->placeTree(trees[randomIndex], chunk);
+	}
+		
 }
 
 void Chunk::createHollowCube()
@@ -123,8 +125,11 @@ void Chunk::createStairsChunk()
 
 void Chunk::changeBlock(glm::ivec3 pos, BlockType block)
 {
-	delete chunk[tge::getIndex(pos.x, pos.y, pos.z)];
-	chunk[tge::getIndex(pos.x, pos.y, pos.z)] = new Block(block);
+	int index = tge::getIndex(pos.x, pos.y, pos.z);
+	if (index < 0) {
+		int brekk = 0;
+	}
+	chunk[index]->type = block;
 
 }
 

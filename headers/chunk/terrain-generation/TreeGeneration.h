@@ -9,7 +9,7 @@
 struct TreeBlock {
 	glm::ivec3 relativePos;
 	BlockType type;
-	TreeBlock(glm::ivec3 relativePos, BlockType) {
+	TreeBlock(glm::ivec3 relativePos, BlockType type) {
 		this->relativePos = relativePos;
 		this->type = type;
 	}
@@ -92,10 +92,12 @@ class TreeGeneration
 		TreeBlock({0, 7, 1}, BlockType::LEAF),
 		TreeBlock({0, 7, 0}, BlockType::LEAF),
 		TreeBlock({0, 7, -1}, BlockType::LEAF),
-		TreeBlock({1, 7, 0}, BlockType::LEAF),
+		TreeBlock({1, 7, 0}, BlockType::LEAF)
 	};
 public:
-	void placeTree(glm::ivec3 root, Chunk* chunk);
+	void placeTree(glm::ivec3 root, std::vector<Block*>& blocks);
+	const std::vector<TreeBlock>& getTreeStructure();
 	TreeGeneration();
+
 };
 #endif
