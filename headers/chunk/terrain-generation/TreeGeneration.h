@@ -25,6 +25,7 @@ class TreeGeneration
 		TreeBlock({0,2,0}, BlockType::WOOD),
 		TreeBlock({0,3,0}, BlockType::WOOD),
 		TreeBlock({0,4,0}, BlockType::WOOD),
+		TreeBlock({0,5,0}, BlockType::WOOD),
 		//First leaf layer
 		//TreeBlock({-2, 4, -2}, BlockType::LEAF),
 		TreeBlock({-2, 4, -1}, BlockType::LEAF),
@@ -64,7 +65,7 @@ class TreeGeneration
 		TreeBlock({-1, 5, 2}, BlockType::LEAF),
 		TreeBlock({0, 5, -2}, BlockType::LEAF),
 		TreeBlock({0, 5, -1}, BlockType::LEAF),
-		TreeBlock({0, 5, 0}, BlockType::LEAF),
+		//TreeBlock({0, 5, 0}, BlockType::LEAF),
 		TreeBlock({0, 5, 1}, BlockType::LEAF),
 		TreeBlock({0, 5, 2}, BlockType::LEAF),
 		TreeBlock({1, 5, -2}, BlockType::LEAF),
