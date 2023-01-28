@@ -95,7 +95,6 @@ Meshes MeshBuilder::getChunkMesh(Chunk* currentChunk)
 			directions.update(x, y, z);
 			glm::vec3 pos = glm::vec3(x, y, z);
 			BlockFaces* blockFaces = ti->blockInfo[type];
-
 			addBlock(&meshes.solids, &pos, &indicesIndex, &directions, currentChunk, blockFaces);
 		}
 	}
