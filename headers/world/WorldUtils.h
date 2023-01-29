@@ -7,13 +7,36 @@
 #include <math.h>
 #include <world/Constants.h>
 #include <string>
+#include <functional>
+struct VectorXZ {
+	int x, z;
+};
+
+bool operator==(const VectorXZ& left, const VectorXZ& right) noexcept;
+
+namespace std {
+	template <> struct hash<VectorXZ> {
+		size_t operator()(const VectorXZ& vect) const noexcept
+		{
+			std::hash<decltype(vect.x)> hasher;
+
+			auto hash1 = hasher(vect.x);
+			auto hash2 = hasher(vect.z);
+
+			return std::hash<decltype(vect.x)>{}((hash1 ^ hash2) >> 2);
+		}
+	};
+}
+
 namespace tge {
+
 	glm::ivec3 getBlockPosition(glm::vec3& position);
 	glm::ivec3 getChunkPosition(glm::ivec3& worldPos);
 	int modulus(int a, int b);
 	float logisticInterpolation(float limit, float growth, float x);
 	int getIndex(int x, int y, int z);
-	std::string getKey(int x, int z);
+	VectorXZ getKey(int x, int z);
 }
+
 
 #endif // !WORLDUTILS_H

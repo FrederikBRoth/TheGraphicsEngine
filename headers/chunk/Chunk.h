@@ -27,7 +27,7 @@ public:
 	void createHollowCube();
 	void createStairsChunk();
 	void changeBlock(glm::ivec3 pos, BlockType block);
-
+	Block* getLocalBlock(int x, int y, int z);
 	
 };
 #endif // !CHUNK_H

@@ -24,13 +24,13 @@ struct AdjecentChunkPositions {
 	{
 		left = tge::getKey(x - 1, z);
 		right = tge::getKey(x + 1, z);
-		front = tge::getKey(x, z - 1);
-		back = tge::getKey(x, z + 1);
+		front = tge::getKey(x, z + 1);
+		back = tge::getKey(x, z - 1);
 	}
-	std::string left;
-	std::string right;
-	std::string front;
-	std::string back;
+	VectorXZ left;
+	VectorXZ right;
+	VectorXZ front;
+	VectorXZ back;
 };
 
 MeshBuilder::MeshBuilder(World* world)
@@ -39,7 +39,7 @@ MeshBuilder::MeshBuilder(World* world)
 	ti = new TextureInfo();
 }
 
-void MeshBuilder::createChunkMesh(std::string &key, std::unordered_map<std::string, Chunk*>*chunks)
+void MeshBuilder::createChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>*chunks)
 {
 	if (!chunkMap.count(key)) {
 		MeshBuffer* buffer = chunks->at(key)->mesh;
@@ -49,7 +49,7 @@ void MeshBuilder::createChunkMesh(std::string &key, std::unordered_map<std::stri
 
 }
 
-void MeshBuilder::updateChunkMesh(std::string& key, std::unordered_map<std::string, Chunk*>* chunks)
+void MeshBuilder::updateChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks)
 {
 	MeshBuffer* buffer = chunks->at(key)->mesh;
 	buffer->loadMesh(getChunkMesh(key, chunks).solids, MeshConfig(8, true, true, MeshShape::TRIANGLE));
@@ -58,7 +58,7 @@ void MeshBuilder::updateChunkMesh(std::string& key, std::unordered_map<std::stri
 
 }
 
-void MeshBuilder::removeChunkMesh(std::string& key)
+void MeshBuilder::removeChunkMesh(VectorXZ& key)
 {
 	chunkMap.erase(key);
 }
@@ -80,11 +80,18 @@ bool MeshBuilder::outOfBounds(int x, int y, int z)
 	return false;
 }
 
-bool MeshBuilder::canPlaceFace(int x, int y, int z, Chunk* currentChunk, std::unordered_map<std::string, Chunk*>* chunks)
+bool MeshBuilder::canPlaceFace(int x, int y, int z, glm::vec3* pos, Chunk* currentChunk, std::unordered_map<VectorXZ, Chunk*>* chunks, VectorXZ* borderChunkLocation)
 {
 	
 	if (outOfBounds(x, y, z)) {
-		return true;
+		if (borderChunkLocation != nullptr && chunks->count(*borderChunkLocation)) {
+			glm::ivec3 newPos = { tge::modulus(x, 16), pos->y, tge::modulus(z, 16) };
+			if (chunks->at(*borderChunkLocation)->chunk[tge::getIndex(newPos.x, newPos.y, newPos.z)]->type == BlockType::AIR) {
+				return true;
+			}
+			return false;
+		}
+		return false;
 	}
 	if (currentChunk->chunk[tge::getIndex(x, y, z)]->type == BlockType::AIR) {
 		return true;
@@ -93,14 +100,14 @@ bool MeshBuilder::canPlaceFace(int x, int y, int z, Chunk* currentChunk, std::un
 	return false;
 }
 
-Meshes MeshBuilder::getChunkMesh(std::string& key, std::unordered_map<std::string, Chunk*>* chunks)
+Meshes MeshBuilder::getChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks)
 {
 	Meshes meshes = Meshes();
 	short indicesIndex = 0;
 
 	AdjacentBlockPositions directions;
 	AdjecentChunkPositions chunkDirections;
-
+	chunkDirections.update(key.x, key.z);
 	for (int i = 0; i < CHUNKVOLUME; i++)
 	{
 		BlockType type = chunks->at(key)->chunk[i]->type;
@@ -123,20 +130,19 @@ void MeshBuilder::addBlock(
 	RenderInformation* ri, 
 	glm::vec3* gridPosition, 
 	short* indicesIndex, 
-	AdjacentBlockPositions* 
-	directions, 
+	AdjacentBlockPositions* directions, 
 	Chunk* currentChunk, 
 	BlockFaces* blockFaces, 
 	AdjecentChunkPositions* chunkDirections,
-	std::unordered_map<std::string, Chunk*>* chunks
+	std::unordered_map<VectorXZ, Chunk*>* chunks
 )
 {
-	addFace(ri, gridPosition, front, indicesIndex, &directions->front, frontNormals, currentChunk, blockFaces->front.coords, chunkDirections, chunks);
-	addFace(ri, gridPosition, back, indicesIndex, &directions->back, backNormals, currentChunk, blockFaces->back.coords, chunkDirections, chunks);
-	addFace(ri, gridPosition, right, indicesIndex, &directions->right, rightNormals, currentChunk, blockFaces->right.coords, chunkDirections, chunks);
-	addFace(ri, gridPosition, left, indicesIndex, &directions->left, leftNormals, currentChunk, blockFaces->left.coords, chunkDirections, chunks);
-	addFace(ri, gridPosition, top, indicesIndex, &directions->up, topNormals, currentChunk, blockFaces->up.coords, chunkDirections, chunks);
-	addFace(ri, gridPosition, bottom, indicesIndex, &directions->down, bottomNormals, currentChunk, blockFaces->down.coords, chunkDirections, chunks);
+	addFace(ri, gridPosition, front, indicesIndex, &directions->front, frontNormals, currentChunk, blockFaces->front.coords, &chunkDirections->front, chunks);
+	addFace(ri, gridPosition, back, indicesIndex, &directions->back, backNormals, currentChunk, blockFaces->back.coords, &chunkDirections->back, chunks);
+	addFace(ri, gridPosition, right, indicesIndex, &directions->right, rightNormals, currentChunk, blockFaces->right.coords, &chunkDirections->right, chunks);
+	addFace(ri, gridPosition, left, indicesIndex, &directions->left, leftNormals, currentChunk, blockFaces->left.coords, &chunkDirections->left, chunks);
+	addFace(ri, gridPosition, top, indicesIndex, &directions->up, topNormals, currentChunk, blockFaces->up.coords, nullptr, chunks);
+	addFace(ri, gridPosition, bottom, indicesIndex, &directions->down, bottomNormals, currentChunk, blockFaces->down.coords, nullptr, chunks);
 }
 
 
@@ -149,11 +155,11 @@ void MeshBuilder::addFace(
 	const glm::vec3& lightPos, 
 	Chunk* currentChunk, 
 	std::vector<TextureCoord>& tex, 
-	AdjecentChunkPositions* chunkDirections,
-	std::unordered_map<std::string, Chunk*>* chunks
+	VectorXZ* chunkDirection,
+	std::unordered_map<VectorXZ, Chunk*>* chunks
 )
 {
-	if (canPlaceFace(directions->x, directions->y, directions->z, currentChunk, chunks)) {
+	if (canPlaceFace(directions->x, directions->y, directions->z, gridPosition, currentChunk, chunks, chunkDirection)) {
 		for (int i = 0, faceIndex = 0; i < 4; i++) {
 			ri->vertices.push_back((faces[faceIndex++] + currentChunk->position.x + gridPosition->x) * 0.5);
 			ri->vertices.push_back((faces[faceIndex++] + currentChunk->position.y + gridPosition->y) * 0.5);

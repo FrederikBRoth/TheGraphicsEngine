@@ -102,8 +102,11 @@ int main() {
 
 	MeshBuilder* stoneChunkBuilder = new MeshBuilder(world);
 	auto start = std::chrono::high_resolution_clock::now();
+	std::unordered_map <VectorXZ, Chunk*> chunks;
 
-	//RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone).solids;
+	chunks[tge::getKey(0, 0)] = stone;
+
+	RenderInformation ri = stoneChunkBuilder->getChunkMesh(tge::getKey(0, 0), &chunks).solids;
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);

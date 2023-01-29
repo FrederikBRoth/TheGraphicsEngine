@@ -3,7 +3,7 @@
 
 void ChunkController::createChunk(int x, int z)
 {
-	std::string key = getKey(x, z);
+	VectorXZ key = tge::getKey(x, z);
 	if (!chunkExists(key)) {
 		glm::vec3 position = glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z);
 		Chunk* newChunk = new Chunk(position);
@@ -14,7 +14,7 @@ void ChunkController::createChunk(int x, int z)
 
 void ChunkController::createChunkMesh(int x, int z)
 {
-	std::string key = getKey(x, z);
+	VectorXZ key = tge::getKey(x, z);
 	std::unique_lock<std::mutex> lock(generationMutex);
 	if (chunkExists(key)) {
 		mb->createChunkMesh(key, &chunkMap);
@@ -23,7 +23,7 @@ void ChunkController::createChunkMesh(int x, int z)
 
 void ChunkController::updateChunk(int x, int y, int z)
 {
-	std::string key = getKey(x, z);
+	VectorXZ key = tge::getKey(x, z);
 	if (chunkExists(key)) {
 		Chunk* newChunk = new Chunk(glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z));
 		newChunk->createHollowCube();
@@ -37,7 +37,7 @@ void ChunkController::updateChunk(int x, int y, int z)
 
 void ChunkController::removeChunk(int x, int z)
 {
-	std::string key = getKey(x, z);
+	VectorXZ key = tge::getKey(x, z);
 
 	if (chunkExists(key)) {
 		delete chunkMap[key];
@@ -51,7 +51,7 @@ bool ChunkController::removeBlock(int x, int y, int z)
 {
 	glm::ivec3 worldPos = glm::ivec3(x, y, z);
 	glm::ivec3 chunkPos = getChunkPosition(worldPos);
-	std::string key = getKey(chunkPos.x, chunkPos.z);
+	VectorXZ key = tge::getKey(chunkPos.x, chunkPos.z);
 	int chunkX = tge::modulus(x, 16);
 	int chunkZ = tge::modulus(z, 16);
 	int chunkY = abs(y);
@@ -75,16 +75,8 @@ bool ChunkController::removeBlock(int x, int y, int z)
 	return false;
 }
 
-std::string ChunkController::getKey(int x, int z)
-{
-	std::string key = "x";
-	key += std::to_string(x);
-	key += "z";
-	key += std::to_string(z);
-	return key;
-}
 
-bool ChunkController::chunkExists(std::string key)
+bool ChunkController::chunkExists(VectorXZ key)
 {
 	return chunkMap.count(key);
 }

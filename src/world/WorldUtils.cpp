@@ -1,4 +1,9 @@
 #include <world/WorldUtils.h>
+bool operator==(const VectorXZ& left, const VectorXZ& right) noexcept
+{
+	return (left.x == right.x) && (left.z == right.z);
+}
+
 namespace tge {
 	glm::ivec3 getBlockPosition(glm::vec3& position)
 	{
@@ -35,13 +40,11 @@ namespace tge {
 		return z * CHUNKAREA + y * CHUNKSIZE_X + x;
 	}
 
-	std::string getKey(int x, int z)
+	VectorXZ getKey(int x, int z)
 	{
-		std::string key = "x";
-		key += std::to_string(x);
-		key += "z";
-		key += std::to_string(z);
-		return key;
+		return { x, z };
 	}
 
 }
+
+

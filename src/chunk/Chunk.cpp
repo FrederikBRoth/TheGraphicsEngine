@@ -102,7 +102,6 @@ void Chunk::createHollowCube()
 		}
 		else {
 			chunk[i] = new Block(BlockType::GRASS);
-
 		}
 	}
 }
@@ -131,6 +130,11 @@ void Chunk::changeBlock(glm::ivec3 pos, BlockType block)
 	}
 	chunk[index]->type = block;
 
+}
+
+Block* Chunk::getLocalBlock(int x, int y, int z)
+{
+	return nullptr;
 }
 
 
