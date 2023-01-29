@@ -76,27 +76,43 @@ bool MeshBuilder::outOfBounds(int x, int y, int z)
 	if (z < 0 || z > CHUNKSIZE_Z - 1) {
 		return true;
 	}
-	//this->currentChunk->chunk[blockCoord.x][blockCoord]
 	return false;
 }
 
 bool MeshBuilder::canPlaceFace(int x, int y, int z, glm::vec3* pos, Chunk* currentChunk, std::unordered_map<VectorXZ, Chunk*>* chunks, VectorXZ* borderChunkLocation)
 {
-	
+
+	BlockType currentType = currentChunk->chunk[tge::getIndex(pos->x, pos->y, pos->z)]->type;
+
 	if (outOfBounds(x, y, z)) {
 		if (borderChunkLocation != nullptr && chunks->count(*borderChunkLocation)) {
 			glm::ivec3 newPos = { tge::modulus(x, 16), pos->y, tge::modulus(z, 16) };
-			if (chunks->at(*borderChunkLocation)->chunk[tge::getIndex(newPos.x, newPos.y, newPos.z)]->type == BlockType::AIR) {
-				return true;
+			BlockType type = chunks->at(*borderChunkLocation)->chunk[tge::getIndex(newPos.x, newPos.y, newPos.z)]->type;
+			if (currentType == BlockType::WATER) {
+				if (type == BlockType::AIR) {
+					return true;
+				}
+			}
+			else {
+				if (type == BlockType::AIR || type == BlockType::WATER) {
+					return true;
+				}
 			}
 			return false;
 		}
 		return false;
 	}
-	if (currentChunk->chunk[tge::getIndex(x, y, z)]->type == BlockType::AIR) {
-		return true;
+	BlockType nearbyType = currentChunk->chunk[tge::getIndex(x, y, z)]->type;
+	if (currentType == BlockType::WATER) {
+		if (nearbyType == BlockType::AIR) {
+			return true;
+		}
 	}
-
+	else {
+		if (nearbyType == BlockType::AIR || nearbyType == BlockType::WATER) {
+			return true;
+		}
+	}
 	return false;
 }
 
