@@ -35,4 +35,13 @@ namespace tge {
 		return z * CHUNKAREA + y * CHUNKSIZE_X + x;
 	}
 
+	std::string getKey(int x, int z)
+	{
+		std::string key = "x";
+		key += std::to_string(x);
+		key += "z";
+		key += std::to_string(z);
+		return key;
+	}
+
 }

@@ -8,6 +8,7 @@
 #include <world/World.h>
 #include <texturing/TextureInfo.h>
 struct AdjacentBlockPositions;
+struct AdjecentChunkPositions;
 struct Meshes {
     RenderInformation solids;
     RenderInformation water;
@@ -72,26 +73,31 @@ private:
         glm::vec3* directions,
         const glm::vec3& lightPos,
         Chunk* currentChunk,
-        std::vector<TextureCoord>& tex
+        std::vector<TextureCoord>& tex,
+        AdjecentChunkPositions* chunkDirections,
+        std::unordered_map<std::string, Chunk*>* chunks
     );
     void addBlock(RenderInformation* ri,
         glm::vec3* gridPosition,
         short* indicesIndex,
         AdjacentBlockPositions* directions,
         Chunk* currentChunk,
-        BlockFaces* blockFaces
+        BlockFaces* blockFaces,
+        AdjecentChunkPositions* chunkDirections,
+        std::unordered_map<std::string, Chunk*>* chunks
     );
     bool outOfBounds(int x, int y, int z);
-    bool canPlaceFace(int x, int y, int z, Chunk* currentChunk);
+    bool canPlaceFace(int x, int y, int z, Chunk* currentChunk, std::unordered_map<std::string, Chunk*>* chunks);
     TextureInfo* ti;
 public:
 	World* world;
 	std::unordered_map<std::string, MeshBuffer*> chunkMap;
 	MeshBuilder(World* world);
-	void createChunkMesh(std::string& key, Chunk* chunk);
-	void updateChunkMesh(std::string& key, Chunk* chunk);
+	void createChunkMesh(std::string& key, std::unordered_map<std::string, Chunk*>* chunks);
+	void updateChunkMesh(std::string& key, std::unordered_map<std::string, Chunk*>* chunks);
 	void removeChunkMesh(std::string& key);
-    Meshes getChunkMesh(Chunk* currentChunk);
+    Meshes getChunkMesh(std::string& key, std::unordered_map<std::string, Chunk*>* chunks);
+
 
 };
 #endif // !CHUNKGEN_H

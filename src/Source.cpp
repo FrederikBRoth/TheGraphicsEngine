@@ -103,7 +103,7 @@ int main() {
 	MeshBuilder* stoneChunkBuilder = new MeshBuilder(world);
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone).solids;
+	//RenderInformation ri = stoneChunkBuilder->getChunkMesh(stone).solids;
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
