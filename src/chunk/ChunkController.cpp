@@ -102,10 +102,10 @@ void ChunkController::chunkMeshGeneration()
 void ChunkController::chunkGeneration()
 {
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
-	int maxX = chunkPos.x + RENDER_DISTANCE;
-	int minX = chunkPos.x - RENDER_DISTANCE;
-	int maxZ = chunkPos.z + RENDER_DISTANCE;
-	int minZ = chunkPos.z - RENDER_DISTANCE;
+	int maxX = chunkPos.x + RENDER_DISTANCE + 2;
+	int minX = chunkPos.x - RENDER_DISTANCE - 2;
+	int maxZ = chunkPos.z + RENDER_DISTANCE + 2;
+	int minZ = chunkPos.z - RENDER_DISTANCE - 2;
 	for (int i = minX; i < maxX; i++) {
 		for (int j = minZ; j < maxZ; j++) {
 			createChunk(i, j);
@@ -116,10 +116,10 @@ void ChunkController::chunkGeneration()
 void ChunkController::chunkDegeneration()
 {
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
-	int maxX = chunkPos.x + RENDER_DISTANCE + 1;
-	int minX = chunkPos.x - RENDER_DISTANCE - 1;
-	int maxZ = chunkPos.z + RENDER_DISTANCE + 1;
-	int minZ = chunkPos.z - RENDER_DISTANCE - 1;
+	int maxX = chunkPos.x + RENDER_DISTANCE + 3;
+	int minX = chunkPos.x - RENDER_DISTANCE - 3;
+	int maxZ = chunkPos.z + RENDER_DISTANCE + 3;
+	int minZ = chunkPos.z - RENDER_DISTANCE - 3;
 	for (int i = minX; i < maxX; i++) {
 		removeChunk(i, maxZ);
 		removeChunk(i, minZ);
