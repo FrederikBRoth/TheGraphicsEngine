@@ -69,10 +69,32 @@ bool ChunkController::removeBlock(int x, int y, int z)
 			block->type = BlockType::AIR;
 			//std::unique_lock<std::mutex> lock(generationMutex);
 			mb->updateChunkMesh(key, &chunkMap);
+			updateChunkEdges(chunkX, chunkZ, key);
 			return true;
 		}
 	}
 	return false;
+}
+
+void ChunkController::updateChunkEdges(int x, int z, VectorXZ key)
+{
+	VectorXZ newKey;
+	if (x == 15) {
+		newKey = { key.x + 1, key.z };
+		mb->updateChunkMesh(newKey, &chunkMap);
+	}
+	if (x == 0) {
+		newKey = { key.x - 1, key.z };
+		mb->updateChunkMesh(newKey, &chunkMap);
+	}
+	if (z == 15) {
+		newKey = { key.x, key.z + 1 };
+		mb->updateChunkMesh(newKey, &chunkMap);
+	}
+	if (z == 0) {
+		newKey = { key.x, key.z - 1 };
+		mb->updateChunkMesh(newKey, &chunkMap);
+	}
 }
 
 
