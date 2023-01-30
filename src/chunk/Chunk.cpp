@@ -7,7 +7,7 @@ Chunk::Chunk(glm::vec3 position)
 	this->chunk = std::vector<Block*>(CHUNKVOLUME);
 	solidMesh = new MeshBuffer();
 	waterMesh = new MeshBuffer();
-
+	genFinished = { false };
 }
 
 
@@ -89,7 +89,7 @@ void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap, TreeGeneration* t
 		int randomIndex = rand() % trees.size();
 		tg->placeTree(trees[randomIndex], chunk);
 	}
-		
+	genFinished = { true };
 }
 
 void Chunk::createHollowCube()

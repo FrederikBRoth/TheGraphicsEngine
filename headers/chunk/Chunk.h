@@ -29,6 +29,6 @@ public:
 	void createStairsChunk();
 	void changeBlock(glm::ivec3 pos, BlockType block);
 	Block* getLocalBlock(int x, int y, int z);
-	
+	std::atomic<bool> genFinished;
 };
 #endif // !CHUNK_H

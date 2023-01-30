@@ -7,17 +7,22 @@ void ChunkController::createChunk(int x, int z)
 	if (!chunkExists(key)) {
 		glm::vec3 position = glm::vec3(x * CHUNKSIZE_X, 0.0f, z * CHUNKSIZE_Z);
 		Chunk* newChunk = new Chunk(position);
-		newChunk->createPerlinNoiseChunk(pn.generateNoiseMap(position, 20, 0.025), tg);
 		chunkMap.insert(std::make_pair(key, newChunk));
+	}
+}
+
+void ChunkController::createChunkBlocks(int x, int z)
+{
+	VectorXZ key = tge::getKey(x, z);
+	if (chunkExists(key) && chunkMap[key]->genFinished == false) {
+		chunkMap[key]->createPerlinNoiseChunk(pn.generateNoiseMap(chunkMap[key]->position, 20, 0.025), tg);
 	}
 }
 
 void ChunkController::createChunkMesh(int x, int z)
 {
 	VectorXZ key = tge::getKey(x, z);
-	std::unique_lock<std::mutex> lock(generationMutex);
 	if (chunkExists(key)) {
-
 		mb->createChunkMesh(key, &chunkMap);
 	}
 }
@@ -106,18 +111,25 @@ bool ChunkController::chunkExists(VectorXZ key)
 
 void ChunkController::chunkMeshGeneration()
 {
-	
 	while (isRunning) {
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
 		int maxX = chunkPos.x + RENDER_DISTANCE;
 		int minX = chunkPos.x - RENDER_DISTANCE;
 		int maxZ = chunkPos.z + RENDER_DISTANCE;
 		int minZ = chunkPos.z - RENDER_DISTANCE;
+		std::unique_lock<std::mutex> lock(generationMutex);
+		for (int i = minX-2; i < maxX+2; i++) {
+			for (int j = minZ-2; j < maxZ+2; j++) {
+				createChunkBlocks(i, j);
+			}
+		}
+		lock.unlock();
 		for (int i = minX; i < maxX; i++) {
 			for (int j = minZ; j < maxZ; j++) {
 				createChunkMesh(i, j);
 			}
 		}
+		
 	}
 	
 }
@@ -205,6 +217,6 @@ ChunkController::ChunkController(World* world)
 	this->mb = new MeshBuilder(world);
 	pn = TerrainNoise();
 	tg = new TreeGeneration();
-	std::this_thread::sleep_for(std::chrono::milliseconds(5));
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	chunkLoadThread = std::thread(&ChunkController::chunkMeshGeneration, this);
 }

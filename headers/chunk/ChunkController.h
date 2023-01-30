@@ -23,6 +23,7 @@ public:
 	ChunkController(World* world);
 	std::unordered_map<VectorXZ, Chunk*> chunkMap;
 	void createChunk(int x, int z);
+	void createChunkBlocks(int x, int z);
 	void createChunkMesh(int x, int z);
 	void updateChunk(int x, int y, int z);
 	void removeChunk(int x, int z);
