@@ -4,6 +4,7 @@
 #include <vector>
 #include <rendering/RenderInformation.h>
 #include <atomic>
+#include <rendering/Shader.h>
 
 enum class MeshShape {
 	LINE = 2,
@@ -39,5 +40,6 @@ public:
 	void loadMesh(RenderInformation& ri, MeshConfig& config);
 	void draw();
 	void bind();
+	bool isEmpty();
 };
 #endif

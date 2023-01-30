@@ -117,11 +117,13 @@ int main() {
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection;
-	Shader chunkShader = Shader("LightingShader.vert", "LightingShader.frag");
+	Shader solidShader = Shader("LightingShader.vert", "LightingShader.frag");
+	Shader waterShader = Shader("WaterTexture.vert", "WaterTexture.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
 	Shader hud = Shader("HudShader.vert", "HudShader.frag");
 
+	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	tm->bind();
@@ -152,16 +154,30 @@ int main() {
 		view = camera.GetViewMatrix();
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 400.0f);
 		model = glm::mat4(1.0f);
+		glDisable(GL_BLEND);
+		glEnable(GL_CULL_FACE);
+		solidShader.use();
+		solidShader.setMat4("model", model);
+		solidShader.setMat4("view", view);
+		solidShader.setMat4("projection", projection);
+ 		solidShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+		solidShader.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
+		solidShader.setVec3("lightPos", lightPos);
+		solidShader.setVec3("viewPos", camera.Position);
+		cc->renderSolids();
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		glDisable(GL_CULL_FACE);
+		waterShader.use();
+		waterShader.setMat4("model", model);
+		waterShader.setMat4("view", view);
+		waterShader.setMat4("projection", projection);
+		waterShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+		waterShader.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
+		waterShader.setVec3("lightPos", lightPos);
+		waterShader.setVec3("viewPos", camera.Position);
+		cc->renderWater();
 
-		chunkShader.use();
-		chunkShader.setMat4("model", model);
-		chunkShader.setMat4("view", view);
-		chunkShader.setMat4("projection", projection);
- 		chunkShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-		chunkShader.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
-		chunkShader.setVec3("lightPos", lightPos);
-		chunkShader.setVec3("viewPos", camera.Position);
-		cc->update();
 		//stone->mesh->draw();
 		//Renders hacky crosshair
 		hud.use();

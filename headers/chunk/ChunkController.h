@@ -33,6 +33,7 @@ public:
 	void chunkGeneration();
 	void chunkDegeneration();
 	glm::vec3 getChunkPosition(glm::vec3 position);
-	void update();
+	void renderSolids();
+	void renderWater();
 };
 #endif // !1

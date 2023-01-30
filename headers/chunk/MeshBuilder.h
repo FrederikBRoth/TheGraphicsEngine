@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <world/World.h>
 #include <texturing/TextureInfo.h>
+#include <chrono>
 struct AdjacentBlockPositions;
 struct AdjecentChunkPositions;
 struct Meshes {
@@ -92,6 +93,8 @@ private:
 public:
 	World* world;
 	std::unordered_map<VectorXZ, MeshBuffer*> chunkMap;
+    std::unordered_map<VectorXZ, MeshBuffer*> waterMap;
+
 	MeshBuilder(World* world);
 	void createChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks);
 	void updateChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks);

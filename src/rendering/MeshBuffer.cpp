@@ -52,6 +52,10 @@ MeshBuffer::MeshBuffer(const MeshBuffer& buffer)
 	eboId = buffer.eboId;
 	mc = buffer.mc;
 }
+bool MeshBuffer::isEmpty()
+{
+	return vertices.empty();
+}
 void MeshBuffer::draw()
 {
 	glBindVertexArray(vaoId);

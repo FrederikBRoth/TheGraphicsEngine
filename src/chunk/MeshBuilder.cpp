@@ -42,25 +42,40 @@ MeshBuilder::MeshBuilder(World* world)
 void MeshBuilder::createChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>*chunks)
 {
 	if (!chunkMap.count(key)) {
-		MeshBuffer* buffer = chunks->at(key)->mesh;
-		buffer->loadMesh(getChunkMesh(key, chunks).solids, MeshConfig(8, true, true, MeshShape::TRIANGLE));
-		chunkMap.insert(std::make_pair(key, buffer));
+		//auto start = std::chrono::high_resolution_clock::now();
+
+		MeshBuffer* solidBuffer = chunks->at(key)->solidMesh;
+		MeshBuffer* waterBuffer = chunks->at(key)->waterMesh;
+		Meshes meshes = getChunkMesh(key, chunks);
+		solidBuffer->loadMesh(meshes.solids, MeshConfig(8, true, true, MeshShape::TRIANGLE));
+		waterBuffer->loadMesh(meshes.water, MeshConfig(8, true, true, MeshShape::TRIANGLE));
+		chunkMap.insert(std::make_pair(key, solidBuffer));
+		waterMap.insert(std::make_pair(key, waterBuffer));
+		//auto stop = std::chrono::high_resolution_clock::now();
+		//auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+		//std::cout << "Runtime: " << duration.count() << " microseconds" << std::endl;
 	}
 
 }
 
 void MeshBuilder::updateChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks)
 {
-	MeshBuffer* buffer = chunks->at(key)->mesh;
-	buffer->loadMesh(getChunkMesh(key, chunks).solids, MeshConfig(8, true, true, MeshShape::TRIANGLE));
+	MeshBuffer* solidBuffer = chunks->at(key)->solidMesh;
+	MeshBuffer* waterBuffer = chunks->at(key)->waterMesh;
+	Meshes meshes = getChunkMesh(key, chunks);
+	solidBuffer->loadMesh(meshes.solids, MeshConfig(8, true, true, MeshShape::TRIANGLE));
+	waterBuffer->loadMesh(meshes.water, MeshConfig(8, true, true, MeshShape::TRIANGLE));
 	chunkMap.erase(key);
-	chunkMap.insert(std::make_pair(key, buffer));
-
+	chunkMap.insert(std::make_pair(key, solidBuffer));
+	waterMap.erase(key);
+	waterMap.insert(std::make_pair(key, waterBuffer));
 }
 
 void MeshBuilder::removeChunkMesh(VectorXZ& key)
 {
 	chunkMap.erase(key);
+	waterMap.erase(key);
+
 }
 
 bool MeshBuilder::outOfBounds(int x, int y, int z)
@@ -119,7 +134,8 @@ bool MeshBuilder::canPlaceFace(int x, int y, int z, glm::vec3* pos, Chunk* curre
 Meshes MeshBuilder::getChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks)
 {
 	Meshes meshes = Meshes();
-	short indicesIndex = 0;
+	short solidIndicesIndex = 0;
+	short waterIndicesIndex = 0;
 
 	AdjacentBlockPositions directions;
 	AdjecentChunkPositions chunkDirections;
@@ -134,7 +150,12 @@ Meshes MeshBuilder::getChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chu
 			directions.update(x, y, z);
 			glm::vec3 pos = glm::vec3(x, y, z);
 			BlockFaces* blockFaces = ti->blockInfo[type];
-			addBlock(&meshes.solids, &pos, &indicesIndex, &directions, chunks->at(key), blockFaces, &chunkDirections, chunks);
+			if (type == BlockType::WATER) {
+				addBlock(&meshes.water, &pos, &waterIndicesIndex, &directions, chunks->at(key), blockFaces, &chunkDirections, chunks);
+			}
+			else {
+				addBlock(&meshes.solids, &pos, &solidIndicesIndex, &directions, chunks->at(key), blockFaces, &chunkDirections, chunks);
+			}
 		}
 	}
 

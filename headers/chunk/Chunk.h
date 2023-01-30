@@ -16,7 +16,8 @@
 class Chunk
 {
 public:
-	MeshBuffer* mesh;
+	MeshBuffer* solidMesh;
+	MeshBuffer* waterMesh;
 	glm::vec3 position;
 	std::vector<Block*> chunk;
 	Chunk(glm::vec3 location);

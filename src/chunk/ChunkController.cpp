@@ -17,6 +17,7 @@ void ChunkController::createChunkMesh(int x, int z)
 	VectorXZ key = tge::getKey(x, z);
 	std::unique_lock<std::mutex> lock(generationMutex);
 	if (chunkExists(key)) {
+
 		mb->createChunkMesh(key, &chunkMap);
 	}
 }
@@ -169,7 +170,7 @@ glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 	return chunkPos;
 }
 
-void ChunkController::update()
+void ChunkController::renderSolids()
 {
 	glm::vec3 chunkPos = world->getChunkWorldPosition();
 	std::unique_lock<std::mutex> lock(generationMutex);
@@ -182,8 +183,20 @@ void ChunkController::update()
 		}
 		chunkMesh.second->draw();
 	}
-	chunkDegeneration();
+}
 
+void ChunkController::renderWater()
+{
+	for (auto& chunkMesh : mb->waterMap) {
+		if (!chunkMesh.second->isEmpty()) {
+			if (chunkMesh.second->doBind) {
+				chunkMesh.second->bind();
+				chunkMesh.second->doBind = { false };
+			}
+			chunkMesh.second->draw();
+		}
+	}
+	chunkDegeneration();
 }
 
 ChunkController::ChunkController(World* world)

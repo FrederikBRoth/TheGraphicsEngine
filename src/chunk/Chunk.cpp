@@ -5,7 +5,9 @@ Chunk::Chunk(glm::vec3 position)
 {
 	this->position = position;
 	this->chunk = std::vector<Block*>(CHUNKVOLUME);
-	mesh = new MeshBuffer();
+	solidMesh = new MeshBuffer();
+	waterMesh = new MeshBuffer();
+
 }
 
 
@@ -16,7 +18,8 @@ Chunk::~Chunk()
 	}
 	this->chunk.clear();
 	this->chunk.shrink_to_fit();
-	delete this->mesh;
+	delete this->solidMesh;
+	delete this->waterMesh;
 }
 
 void Chunk::createHalfChunk()
