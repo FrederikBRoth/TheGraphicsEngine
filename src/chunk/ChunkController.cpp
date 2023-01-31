@@ -179,6 +179,7 @@ glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 	if (position.z < 0) {
 		chunkPos.z = (position.z + 1) / 16 - 1;
 	}
+
 	return chunkPos;
 }
 
