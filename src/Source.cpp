@@ -16,6 +16,7 @@
 #include <controls/LineTrace.h>
 #include <entities/Line.h>
 #include <default/Window.h>
+#include <world/world-rendering/Renderer.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 // camera
@@ -118,8 +119,8 @@ int main() {
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection;
-	Shader solidShader = Shader("LightingShader.vert", "LightingShader.frag");
-	Shader waterShader = Shader("WaterTexture.vert", "WaterTexture.frag");
+	//Shader solidShader = Shader("LightingShader.vert", "LightingShader.frag");
+	//Shader waterShader = Shader("WaterTexture.vert", "WaterTexture.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
 	Shader hud = Shader("HudShader.vert", "HudShader.frag");
@@ -128,9 +129,11 @@ int main() {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	tm->bind();
-
 	glm::vec3 lightPos(1.2f, 48.0f, 2.0f);
 	const float radius = 1.0f;
+	
+	Renderer* renderer = new Renderer(mb, &camera);
+
 	while (!glfwWindowShouldClose(window.glWindow))
 	{
 		world->updateWorldPosition(camera.Position);
@@ -152,35 +155,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Binds the normal cube
 		//Sets projection matrices
-		view = camera.GetViewMatrix();
-		projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 400.0f);
-		model = glm::mat4(1.0f);
-		glDisable(GL_BLEND);
-		glEnable(GL_CULL_FACE);
-		solidShader.use();
-		solidShader.setMat4("model", model);
-		solidShader.setMat4("view", view);
-		solidShader.setMat4("projection", projection);
- 		solidShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-		solidShader.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
-		solidShader.setVec3("lightPos", lightPos);
-		solidShader.setVec3("viewPos", camera.Position);
-		cc->renderSolids();
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-		glDisable(GL_CULL_FACE);
-		waterShader.use();
-		waterShader.setMat4("model", model);
-		waterShader.setMat4("view", view);
-		waterShader.setMat4("projection", projection);
-		waterShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-		waterShader.setVec3("lightColor", 0.95f, 0.9f, 0.65f);
-		waterShader.setVec3("lightPos", lightPos);
-		waterShader.setVec3("viewPos", camera.Position);
-		cc->renderWater();
-
-		//stone->mesh->draw();
-		//Renders hacky crosshair
+		cc->chunkGeneration();
+		renderer->renderAll();
+		cc->chunkDegeneration();
 		hud.use();
 		e3->render();
 		//Preps light source cube 
