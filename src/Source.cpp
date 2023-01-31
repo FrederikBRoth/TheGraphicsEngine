@@ -24,7 +24,8 @@ Camera camera(glm::vec3(-0.5f, 48.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f,
 //float lastY = SCR_HEIGHT / 2.0f;
 //bool firstMouse = true;
 World* world = new World();
-ChunkController* cc = new ChunkController(world);
+MeshBuilder* mb = new MeshBuilder(world);
+ChunkController* cc = new ChunkController(world, mb);
 Window window = Window(SCR_WIDTH, SCR_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
 
 

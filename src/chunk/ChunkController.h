@@ -20,7 +20,7 @@ private:
 	std::mutex generationMutex;
 	std::atomic<bool> isRunning{ true };
 public:
-	ChunkController(World* world);
+	ChunkController(World* world, MeshBuilder* mb);
 	std::unordered_map<VectorXZ, Chunk*> chunkMap;
 	void createChunk(int x, int z);
 	void createChunkBlocks(int x, int z);

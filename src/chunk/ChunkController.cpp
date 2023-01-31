@@ -179,16 +179,12 @@ glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 	if (position.z < 0) {
 		chunkPos.z = (position.z + 1) / 16 - 1;
 	}
-
 	return chunkPos;
 }
 
 void ChunkController::renderSolids()
 {
-	glm::vec3 chunkPos = world->getChunkWorldPosition();
-	std::unique_lock<std::mutex> lock(generationMutex);
 	chunkGeneration();
-	lock.unlock();
 	for (auto& chunkMesh : mb->chunkMap) {
 		if (chunkMesh.second->doBind) {
 			chunkMesh.second->bind();
@@ -212,10 +208,10 @@ void ChunkController::renderWater()
 	chunkDegeneration();
 }
 
-ChunkController::ChunkController(World* world)
+ChunkController::ChunkController(World* world, MeshBuilder* mb)
 {
 	this->world = world;
-	this->mb = new MeshBuilder(world);
+	this->mb = mb;
 	pn = TerrainNoise();
 	tg = new TreeGeneration();
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));

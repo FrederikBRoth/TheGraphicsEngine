@@ -14,8 +14,8 @@ file(GLOB_RECURSE SOURCE_FILES
 	${CMAKE_SOURCE_DIR}/assets/*)
 # Add header files
 file(GLOB_RECURSE HEADER_FILES 
-	${CMAKE_SOURCE_DIR}/headers/*.h
-	${CMAKE_SOURCE_DIR}/headers/*.hpp)
+	${CMAKE_SOURCE_DIR}/src/*.h
+	${CMAKE_SOURCE_DIR}/src/*.hpp)
 
 
 # TODO: Add tests and install targets if needed.
