@@ -114,6 +114,7 @@ int main() {
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 
+
 	tm->loadTexture(GL_RGBA);
 
 	glm::mat4 model = glm::mat4(1.0f);
