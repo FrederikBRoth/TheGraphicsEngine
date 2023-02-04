@@ -57,7 +57,7 @@ void Chunk::createPerlinNoiseChunk(std::vector<int>& noiseMap, TreeGeneration* t
 		int z = i / (CHUNKSIZE_X * CHUNKSIZE_Y);
 		int id = z * CHUNKSIZE_X + x;
 		int offset = noiseMap[id];
-
+		
 		if (y < mid - offset) {
 			if (y == (mid - offset)-1) {
 				chunk[i] = new Block(BlockType::GRASS);

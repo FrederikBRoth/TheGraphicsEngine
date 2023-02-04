@@ -40,6 +40,7 @@ public:
     float MovementSpeed;
     float MouseSensitivity;
     float Zoom;
+    float velocity;
 
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -48,6 +49,7 @@ public:
         WorldUp = up;
         Yaw = yaw;
         Pitch = pitch;
+        velocity = 0.0f;
         updateCameraVectors();
     }
     // constructor with scalar values
@@ -57,6 +59,8 @@ public:
         WorldUp = glm::vec3(upX, upY, upZ);
         Yaw = yaw;
         Pitch = pitch;
+        velocity = 0.0f;
+
         updateCameraVectors();
     }
 
@@ -69,7 +73,7 @@ public:
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
     void ProcessKeyboard(Camera_Movement direction, float deltaTime)
     {
-        float velocity = MovementSpeed * deltaTime;
+        velocity = MovementSpeed * deltaTime;
         if (direction == Camera_Movement::FORWARD)
             Position += Front * velocity;
         if (direction == Camera_Movement::BACKWARD)
