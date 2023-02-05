@@ -55,11 +55,12 @@ void Window::addChunkController(ChunkController* cc)
 
 void Window::processInput()
 {
+	
 	if (glfwGetKey(glWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(glWindow, true);
 	}
 	const float cameraSpeed = 2.5f * deltaTime; // adjust accordingly
-	if (glfwGetKey(glWindow, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(glWindow, GLFW_KEY_W) == GLFW_PRESS) 
 		camera->ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
 	if (glfwGetKey(glWindow, GLFW_KEY_S) == GLFW_PRESS)
 		camera->ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
@@ -83,6 +84,16 @@ void Window::processInput()
 	}
 	if (glfwGetKey(glWindow, GLFW_KEY_T) == GLFW_RELEASE && traced) {
 		traced = false;
+	}
+
+	if (
+		glfwGetKey(glWindow, GLFW_KEY_W) != GLFW_PRESS && 
+		glfwGetKey(glWindow, GLFW_KEY_S) != GLFW_PRESS && 
+		glfwGetKey(glWindow, GLFW_KEY_A) != GLFW_PRESS && 
+		glfwGetKey(glWindow, GLFW_KEY_D) != GLFW_PRESS
+		) 
+	{
+		camera->ProcessKeyboard(Camera_Movement::NO_MOVEMENT, deltaTime);
 	}
 }
 

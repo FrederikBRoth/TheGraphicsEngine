@@ -2,5 +2,5 @@
 
 void AABB::updateBB(glm::vec3 location)
 {
-
+	boundingBox = location;
 }

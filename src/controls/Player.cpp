@@ -2,8 +2,10 @@
 
 void Player::checkCollision()
 {
+
 }
 
 void Player::update(Camera& camera, std::unordered_map<VectorXZ, Block*> chunkMap)
 {
+	boundingBox.updateBB(camera.Position);
 }

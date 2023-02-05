@@ -12,7 +12,8 @@ enum class Camera_Movement {
     FORWARD,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+    NO_MOVEMENT
 };
 
 // Default camera values
@@ -41,6 +42,7 @@ public:
     float MouseSensitivity;
     float Zoom;
     float velocity;
+    glm::vec3 relativeVelocity;
 
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -50,6 +52,7 @@ public:
         Yaw = yaw;
         Pitch = pitch;
         velocity = 0.0f;
+        relativeVelocity = { 0.0f, 0.0f, 0.0f };
         updateCameraVectors();
     }
     // constructor with scalar values
@@ -60,6 +63,8 @@ public:
         Yaw = yaw;
         Pitch = pitch;
         velocity = 0.0f;
+        relativeVelocity = { 0.0f, 0.0f, 0.0f };
+
 
         updateCameraVectors();
     }
@@ -73,15 +78,31 @@ public:
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
     void ProcessKeyboard(Camera_Movement direction, float deltaTime)
     {
-        velocity = MovementSpeed * deltaTime;
-        if (direction == Camera_Movement::FORWARD)
+        if (direction == Camera_Movement::NO_MOVEMENT) {
+            velocity = 0.0f;
+            relativeVelocity = { 0.0f, 0.0f, 0.0f };
+        }
+        else {
+            velocity = MovementSpeed * deltaTime;
+        }
+
+        if (direction == Camera_Movement::FORWARD) {
+            relativeVelocity = Front * velocity;
             Position += Front * velocity;
-        if (direction == Camera_Movement::BACKWARD)
+        }
+        if (direction == Camera_Movement::BACKWARD) {
+            relativeVelocity = -(Front * velocity);
             Position -= Front * velocity;
-        if (direction == Camera_Movement::LEFT)
+        }
+        if (direction == Camera_Movement::LEFT) {
+            relativeVelocity = -(Right * velocity);
             Position -= Right * velocity;
-        if (direction == Camera_Movement::RIGHT)
+        }
+        if (direction == Camera_Movement::RIGHT) {
+            relativeVelocity = Right * velocity;
             Position += Right * velocity;
+        }
+
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.

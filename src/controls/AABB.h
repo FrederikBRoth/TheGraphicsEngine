@@ -7,7 +7,9 @@
 
 class AABB
 {
-	std::vector<glm::vec3> boundingBox;
+public:
+	glm::vec3 dimension;
+	glm::vec3 boundingBox;
 	void updateBB(glm::vec3 location);
 };
 
