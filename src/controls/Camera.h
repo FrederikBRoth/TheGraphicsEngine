@@ -21,7 +21,7 @@ enum class Camera_Movement {
 // Default camera values
 const float YAW = 0.0f;
 const float PITCH = 0.0f;
-const float SPEED = 10.0f;
+const float SPEED = 5.0f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 45.0f;
 
@@ -83,33 +83,52 @@ public:
     {
         if (direction == Camera_Movement::NO_FORWARDBACK && direction == Camera_Movement::NO_RIGHTLEFT) {
             velocity = 0.0f;
-            relativeVelocity = { 0.0f, 0.0f, 0.0f };
-            relativeForwardVelocity = { 0.0f, 0.0f, 0.0f };
-            relativeRightVelocity = { 0.0f, 0.0f, 0.0f };
+            relativeVelocity.x = 0.0f;
+            relativeVelocity.z = 0.0f;
+            relativeForwardVelocity.x = 0.0f;
+            relativeForwardVelocity.z = 0.0f;
+
+            relativeRightVelocity.x = 0.0f;
+            relativeRightVelocity.z = 0.0f;
+
         }
         else {
             velocity = MovementSpeed * deltaTime;
         }
         if (direction == Camera_Movement::NO_FORWARDBACK) {
-            relativeForwardVelocity = { 0.0f, 0.0f, 0.0f };
+            relativeForwardVelocity.x = 0.0f;
+            relativeForwardVelocity.z = 0.0f;
+
         }
         if (direction == Camera_Movement::NO_RIGHTLEFT) {
-            relativeRightVelocity = { 0.0f, 0.0f, 0.0f };
+            relativeRightVelocity.x = 0.0f;
+            relativeRightVelocity.z = 0.0f;
+
         }
         if (direction == Camera_Movement::FORWARD) {
-            relativeForwardVelocity = Front * velocity;
+            relativeForwardVelocity.x = (Front * velocity).x;
+            relativeForwardVelocity.z = (Front * velocity).z;
         }
         if (direction == Camera_Movement::BACKWARD) {
-            relativeForwardVelocity = -(Front * velocity);
+            relativeForwardVelocity.x = -(Front * velocity).x;
+            relativeForwardVelocity.z = -(Front * velocity).z;
         }
         if (direction == Camera_Movement::LEFT) {
-            relativeRightVelocity = -(Right * velocity);
+            relativeRightVelocity.x = -(Right * velocity).x;
+            relativeRightVelocity.z = -(Right * velocity).z;
         }
         if (direction == Camera_Movement::RIGHT) {
-            relativeRightVelocity = Right * velocity;
+            relativeRightVelocity.x = (Right * velocity).x;
+            relativeRightVelocity.z = (Right * velocity).z;
         }
-        relativeVelocity = relativeForwardVelocity + relativeRightVelocity;
+        glm::vec3 temp = relativeForwardVelocity + relativeRightVelocity;
+        relativeVelocity = { temp.x, relativeVelocity.y, temp.z };
 
+    }
+
+    void tempJump() {
+
+        this->relativeVelocity.y = 0.10f;
     }
 
     void updatePosition() {

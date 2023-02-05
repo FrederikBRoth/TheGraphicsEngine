@@ -12,7 +12,7 @@ class Window
 private:
 	int width, height;
 	float deltaTime, lastFrame, lastX, lastY;
-	bool traced, firstMouse;
+	bool traced, firstMouse, jumped, jetpack, jetpackToggle;
 	std::string title;
 	Camera* camera;
 	World* world;

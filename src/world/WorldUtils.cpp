@@ -7,7 +7,7 @@ bool operator==(const VectorXZ& left, const VectorXZ& right) noexcept
 namespace tge {
 	glm::ivec3 getBlockPosition(glm::vec3& position)
 	{
-		return glm::ivec3((position.x * 2), (position.y * 2), (position.z * 2));
+		return glm::ivec3(floor(position.x * 2), floor(position.y * 2), floor(position.z * 2));
 	}
 	glm::ivec3 getChunkPosition(glm::ivec3& worldPos)
 	{

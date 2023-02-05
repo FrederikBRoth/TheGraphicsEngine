@@ -9,6 +9,7 @@ Window::Window(int width, int height, std::string title, Camera* camera, World* 
 	lastY = height / 2.0f;
 	firstMouse = true;
 	traced = false;
+	jumped = false;
 	deltaTime = 0.0f;
 	lastFrame = 0.0f;
 
@@ -68,6 +69,29 @@ void Window::processInput()
 		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(glWindow, GLFW_KEY_D) == GLFW_PRESS)
 		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
+	if (jetpack) {
+		if (glfwGetKey(glWindow, GLFW_KEY_SPACE) == GLFW_PRESS && !jumped) {
+			camera->tempJump();
+			jumped = true;
+		}
+		if (glfwGetKey(glWindow, GLFW_KEY_SPACE) == GLFW_RELEASE && jumped) {
+			jumped = false;
+		}
+	}
+	else {
+		if (glfwGetKey(glWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			camera->tempJump();
+		}
+	}
+
+	if (glfwGetKey(glWindow, GLFW_KEY_F) == GLFW_PRESS && !jetpackToggle) {
+		jetpack = !jetpack;
+		jetpackToggle = true;
+	}
+	if (glfwGetKey(glWindow, GLFW_KEY_F) == GLFW_RELEASE && jetpackToggle) {
+		jetpackToggle = false;
+	}
+
 	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_PRESS)
 		cc->updateChunk(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
 	if (glfwGetKey(glWindow, GLFW_KEY_T) == GLFW_PRESS && !traced) {
@@ -95,6 +119,7 @@ void Window::processInput()
 	{
 		camera->ProcessKeyboard(Camera_Movement::NO_RIGHTLEFT, deltaTime);
 	}
+
 
 		
 }

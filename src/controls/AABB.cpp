@@ -8,5 +8,5 @@ void AABB::updateBB(glm::vec3 location)
 AABB::AABB(glm::vec3 dimension)
 {
 	this->dimension = dimension;
-	this->boundingBox = { 0.0f, 0.0f, 0.0f };
+	this->boundingBox = { 0, 0, 0 };
 }
