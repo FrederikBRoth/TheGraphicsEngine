@@ -29,6 +29,7 @@ class Block
 {
 public:
 	BlockType type;
+	bool isCollidable;
 	Block(BlockType type);
 };
 #endif // !BLOCK_H

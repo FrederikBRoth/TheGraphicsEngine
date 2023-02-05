@@ -35,6 +35,7 @@ namespace tge {
 	int modulus(int a, int b);
 	float logisticInterpolation(float limit, float growth, float x);
 	int getIndex(int x, int y, int z);
+	int getIndexFromWorldPos(int x, int y, int z);
 	VectorXZ getKey(int x, int z);
 }
 

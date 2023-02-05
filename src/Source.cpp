@@ -17,10 +17,11 @@
 #include <entities/Line.h>
 #include <default/Window.h>
 #include <world/world-rendering/Renderer.h>
+#include <controls/Player.h>
 const unsigned int SCR_WIDTH = 1000;
 const unsigned int SCR_HEIGHT = 750;
 // camera
-Camera camera(glm::vec3(-0.5f, 48.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
+Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 //float lastX = SCR_WIDTH / 2.0f;
 //float lastY = SCR_HEIGHT / 2.0f;
 //bool firstMouse = true;
@@ -28,7 +29,7 @@ World* world = new World();
 MeshBuilder* mb = new MeshBuilder(world);
 ChunkController* cc = new ChunkController(world, mb);
 Window window = Window(SCR_WIDTH, SCR_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
-
+Player* player = new Player();
 
 int main() {
 	window.start();
@@ -141,10 +142,11 @@ int main() {
 		//Gets the current frame for input processing
 		window.updateDeltaTime();
 		window.processInput();
+		camera.updatePosition();
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
-
+		player->update(camera, &cc->chunkMap);
 		//std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
-		std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
+		//std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
 
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;

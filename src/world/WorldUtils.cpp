@@ -40,6 +40,17 @@ namespace tge {
 		return z * CHUNKAREA + y * CHUNKSIZE_X + x;
 	}
 
+	int getIndexFromWorldPos(int x, int y, int z)
+	{
+		int chunkX = tge::modulus(x, 16);
+		int chunkZ = tge::modulus(z, 16);
+		int chunkY = abs(y);
+		return (chunkZ * CHUNKAREA + chunkY * CHUNKSIZE_X + chunkX);
+	}
+
+
+
+	
 	VectorXZ getKey(int x, int z)
 	{
 		return { x, z };

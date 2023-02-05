@@ -86,15 +86,17 @@ void Window::processInput()
 		traced = false;
 	}
 
-	if (
-		glfwGetKey(glWindow, GLFW_KEY_W) != GLFW_PRESS && 
-		glfwGetKey(glWindow, GLFW_KEY_S) != GLFW_PRESS && 
-		glfwGetKey(glWindow, GLFW_KEY_A) != GLFW_PRESS && 
-		glfwGetKey(glWindow, GLFW_KEY_D) != GLFW_PRESS
-		) 
+	if (glfwGetKey(glWindow, GLFW_KEY_W) != GLFW_PRESS && glfwGetKey(glWindow, GLFW_KEY_S) != GLFW_PRESS) 
 	{
-		camera->ProcessKeyboard(Camera_Movement::NO_MOVEMENT, deltaTime);
+		camera->ProcessKeyboard(Camera_Movement::NO_FORWARDBACK, deltaTime);
 	}
+
+	if (glfwGetKey(glWindow, GLFW_KEY_A) != GLFW_PRESS && glfwGetKey(glWindow, GLFW_KEY_D) != GLFW_PRESS)
+	{
+		camera->ProcessKeyboard(Camera_Movement::NO_RIGHTLEFT, deltaTime);
+	}
+
+		
 }
 
 void Window::mouseCallback(GLFWwindow* window, double xposIn, double yposIn)
