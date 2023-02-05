@@ -73,6 +73,7 @@ bool ChunkController::removeBlock(int x, int y, int z)
 		}
 		else {
 			block->type = BlockType::AIR;
+			block->isCollidable = false;
 			//std::unique_lock<std::mutex> lock(generationMutex);
 			mb->updateChunkMesh(key, &chunkMap);
 			updateChunkEdges(chunkX, chunkZ, key);

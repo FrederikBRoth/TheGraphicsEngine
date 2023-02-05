@@ -1,6 +1,6 @@
 #include <controls/Player.h>
 
-void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap)
+void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, glm::vec3 velocity)
 {
 	glm::vec3 minDim = tge::getBlockPosition(camera.Position - boundingBox->dimension);
 	glm::vec3 maxDim = tge::getBlockPosition(camera.Position + boundingBox->dimension);
@@ -16,26 +16,57 @@ void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>
 						return;
 					}
 					Block* block = chunkMap->at(key)->chunk[index];
-					
+					if(block != nullptr) {
+						if (block->isCollidable) {
+							if (velocity.y > 0) {
+								camera.Position.y = float(y) / 2.0f - boundingBox->dimension.y + 0.5111f;
+							}
+							else if (velocity.y < 0) {
+								camera.Position.y = float(y) / 2.0f + boundingBox->dimension.y + 0.5f;
+
+							}
+
+							if (velocity.x > 0) {
+								camera.Position.x = float(x) / 2.0f - boundingBox->dimension.x - 0.5f;
+							}
+							else if (velocity.x < 0) {
+								camera.Position.x = float(x) / 2.0f + boundingBox->dimension.x;
+							}
+
+							if (velocity.z > 0) {
+								camera.Position.z = float(z) / 2.0f - boundingBox->dimension.z;
+							}
+							else if (velocity.z < 0) {
+								camera.Position.z = float(z) / 2.0f + boundingBox->dimension.z + 0.0001f;
+							}
+						}
+					}
 					
 				}
 				
 			}
 		}
 	}
-	std::cout << "__________________________________________" << std::endl;
+
 
 }
 
 void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap)
 {
+
+	camera.Position.x += camera.relativeVelocity.x;
+	checkCollision(camera, chunkMap, {camera.relativeVelocity.x, 0.0f, 0.0f});
+	camera.Position.y += camera.relativeVelocity.y;
+	checkCollision(camera, chunkMap, {0.0f, camera.relativeVelocity.y,  0.0f });
+	camera.Position.z += camera.relativeVelocity.z;
+	checkCollision(camera, chunkMap, { 0.0f, 0.0f, camera.relativeVelocity.z });
 	boundingBox->updateBB(camera.Position);
-	checkCollision(camera, chunkMap);
+
 }
 
 Player::Player()
 {
-	boundingBox = new AABB({ 0.3f, 1.f, 0.3f });
+	boundingBox = new AABB({ 1.f, 1.f, 1.f });
 }
 
 Player::~Player()
