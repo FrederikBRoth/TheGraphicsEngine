@@ -11,6 +11,7 @@ private:
 	AABB* boundingBox;
 	void checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, glm::vec3 velocity);
 	bool grounded;
+	float acceleration;
 public:
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
 	Player();

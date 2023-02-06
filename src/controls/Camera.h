@@ -128,7 +128,7 @@ public:
 
     void tempJump() {
 
-        this->relativeVelocity.y = 0.10f;
+        this->relativeVelocity.y = 0.08f;
     }
 
     void updatePosition() {
