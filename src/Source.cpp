@@ -31,6 +31,7 @@ ChunkController* cc = new ChunkController(world, mb);
 Window window = Window(SCR_WIDTH, SCR_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
 Player* player = new Player();
 
+
 int main() {
 	window.start();
 	std::vector<float> vertices {
