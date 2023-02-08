@@ -12,6 +12,8 @@ private:
 	void checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, glm::vec3 velocity);
 	bool grounded;
 	float acceleration;
+	glm::ivec3 velocity;
+	glm::ivec3 accelerations;
 public:
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
 	Player();
