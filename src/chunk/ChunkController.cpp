@@ -53,7 +53,7 @@ void ChunkController::removeChunk(int x, int z)
 	}
 }
 
-bool ChunkController::removeBlock(int x, int y, int z)
+BlockType ChunkController::removeBlock(int x, int y, int z)
 {
 	glm::ivec3 worldPos = glm::ivec3(x, y, z);
 	glm::ivec3 chunkPos = getChunkPosition(worldPos);
@@ -63,13 +63,13 @@ bool ChunkController::removeBlock(int x, int y, int z)
 	int chunkY = abs(y);
 	int index = (chunkZ * CHUNKAREA + chunkY * CHUNKSIZE_X + chunkX);
 	if (index < 0 || index >= CHUNKVOLUME) {
-		return false;
+		return BlockType::NOTHING;
 	}
 	if (chunkExists(key)) {
 		Chunk* chunk = chunkMap[key];
 		Block* block = chunk->chunk.at(index);
 		if (block->type == BlockType::AIR) {
-			return false;
+			return BlockType::NOTHING;
 		}
 		else {
 			block->type = BlockType::AIR;
@@ -77,10 +77,10 @@ bool ChunkController::removeBlock(int x, int y, int z)
 			//std::unique_lock<std::mutex> lock(generationMutex);
 			mb->updateChunkMesh(key, &chunkMap);
 			updateChunkEdges(chunkX, chunkZ, key);
-			return true;
+			return block->type;
 		}
 	}
-	return false;
+	return BlockType::NOTHING;
 }
 
 void ChunkController::updateChunkEdges(int x, int z, VectorXZ key)

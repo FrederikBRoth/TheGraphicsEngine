@@ -12,7 +12,8 @@ enum class BlockType {
 	AIR,
 	WATER,
 	WOOD,
-	LEAF
+	LEAF,
+	NOTHING
 };
 enum class FaceType {
 	GRASS_TOP,

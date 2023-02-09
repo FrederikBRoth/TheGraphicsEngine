@@ -101,7 +101,7 @@ void Window::processInput()
 
 			lines.insert(lines.end(), new Line(linevert, 2));
 		}*/
-		glm::vec3 trace = LineTrace::trace(camera->Position, camera->Front, cc);
+		BlockType trace = LineTrace::trace(camera->Position, camera->Front, cc);
 		traced = true;
 
 		//std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;
