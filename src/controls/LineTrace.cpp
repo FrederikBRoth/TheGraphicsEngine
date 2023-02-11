@@ -12,9 +12,8 @@ BlockType LineTrace::trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkCo
         hit = cc->removeBlock(worldX, worldY, worldZ);
         if (hit != BlockType::NOTHING)
             break;
-
-
     };
+
     return hit;
 
 }
