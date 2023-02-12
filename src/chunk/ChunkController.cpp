@@ -65,6 +65,7 @@ BlockType ChunkController::removeBlock(int x, int y, int z)
 	if (index < 0 || index >= CHUNKVOLUME) {
 		return BlockType::NOTHING;
 	}
+
 	if (chunkExists(key)) {
 		Chunk* chunk = chunkMap[key];
 		Block* block = chunk->chunk.at(index);
