@@ -8,6 +8,7 @@
 #include <world/Constants.h>
 #include <string>
 #include <functional>
+#include <chunk/Block.h>
 struct VectorXZ {
 	int x, z;
 };
@@ -37,6 +38,7 @@ namespace tge {
 	int getIndex(int x, int y, int z);
 	int getIndexFromWorldPos(int x, int y, int z);
 	VectorXZ getKey(int x, int z);
+	std::string getBlockName(BlockType type);
 }
 
 

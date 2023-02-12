@@ -1,4 +1,5 @@
 #include <world/WorldUtils.h>
+
 bool operator==(const VectorXZ& left, const VectorXZ& right) noexcept
 {
 	return (left.x == right.x) && (left.z == right.z);
@@ -48,14 +49,32 @@ namespace tge {
 		return (chunkZ * CHUNKAREA + chunkY * CHUNKSIZE_X + chunkX);
 	}
 
-
-
-	
 	VectorXZ getKey(int x, int z)
 	{
 		return { x, z };
 	}
 
+	std::string getBlockName(BlockType type)
+	{
+		switch (type) {
+		case BlockType::AIR:
+			return "Air";
+		case BlockType::DIRT:
+			return "Dirt";
+		case BlockType::GRASS:
+			return "Grass";
+		case BlockType::LEAF:
+			return "Leaf";
+		case BlockType::STONE:
+			return "Stone";
+		case BlockType::WATER:
+			return "Water";
+		case BlockType::WOOD:
+			return "Wood";
+		default:
+			return "No block with that type is described in the get block name function";
+		}
+	}
 }
 
 

@@ -72,12 +72,13 @@ BlockType ChunkController::removeBlock(int x, int y, int z)
 			return BlockType::NOTHING;
 		}
 		else {
+			BlockType before = block->type;
 			block->type = BlockType::AIR;
 			block->isCollidable = false;
 			//std::unique_lock<std::mutex> lock(generationMutex);
 			mb->updateChunkMesh(key, &chunkMap);
 			updateChunkEdges(chunkX, chunkZ, key);
-			return block->type;
+			return before;
 		}
 	}
 	return BlockType::NOTHING;
