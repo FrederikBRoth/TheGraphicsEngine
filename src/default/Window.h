@@ -7,6 +7,7 @@
 #include <world/World.h>
 #include <chunk/ChunkController.h>
 #include <controls/LineTrace.h>
+#include <controls/Player.h>
 class Window
 {
 private:
@@ -24,7 +25,7 @@ public:
 	void start();
 	void addWorld(World* world);
 	void addChunkController(ChunkController* cc);
-	void processInput();
+	void processInput(Player* player);
 	void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 	void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	void updateDeltaTime();

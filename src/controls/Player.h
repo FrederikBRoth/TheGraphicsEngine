@@ -19,6 +19,7 @@ private:
 	std::map<BlockType, int> inventory;
 public:
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
+	bool gravity;
 	Player();
 	~Player();
 };

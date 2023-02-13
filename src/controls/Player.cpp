@@ -52,7 +52,7 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 	checkCollision(camera, chunkMap, {0.0f, camera.relativeVelocity.y,  0.0f });
 	camera.Position.z += camera.relativeVelocity.z;
 	checkCollision(camera, chunkMap, { 0.0f, 0.0f, camera.relativeVelocity.z });
-	if (!grounded) {
+	if (!grounded && gravity) {
 		if (camera.relativeVelocity.y > -0.4f) {
 			camera.relativeVelocity.y -= 0.002f;
 		}
@@ -67,8 +67,9 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 Player::Player()
 {
 	boundingBox = new AABB({ 0.2f, 0.7f, 0.2f });
-	grounded = false;
+	grounded = true;
 	acceleration = 0.2f;
+	gravity = false;
 }
 
 Player::~Player()

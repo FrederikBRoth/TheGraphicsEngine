@@ -54,7 +54,7 @@ void Window::addChunkController(ChunkController* cc)
 	this->cc = cc;
 }
 
-void Window::processInput()
+void Window::processInput(Player* player)
 {
 	
 	if (glfwGetKey(glWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -86,6 +86,7 @@ void Window::processInput()
 
 	if (glfwGetKey(glWindow, GLFW_KEY_F) == GLFW_PRESS && !jetpackToggle) {
 		jetpack = !jetpack;
+		player->gravity = jetpack;
 		jetpackToggle = true;
 	}
 	if (glfwGetKey(glWindow, GLFW_KEY_F) == GLFW_RELEASE && jetpackToggle) {
