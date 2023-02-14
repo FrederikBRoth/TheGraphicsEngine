@@ -20,6 +20,7 @@ private:
 public:
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
 	bool gravity;
+	void addItem(BlockType type);
 	Player();
 	~Player();
 };

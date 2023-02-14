@@ -103,8 +103,10 @@ void Window::processInput(Player* player)
 			lines.insert(lines.end(), new Line(linevert, 2));
 		}*/
 		BlockType trace = LineTrace::trace(camera->Position, camera->Front, cc);
-		if (trace != BlockType::NOTHING)
+		if (trace != BlockType::NOTHING) {
 			std::cout << tge::getBlockName(trace) << std::endl;
+			player->addItem(trace);
+		}
 		traced = true;
 
 		//std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;

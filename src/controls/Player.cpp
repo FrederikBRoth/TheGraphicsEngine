@@ -64,6 +64,14 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 	
 }
 
+void Player::addItem(BlockType type)
+{
+	if (!inventory.count(type))
+		inventory.insert(std::pair(type, 0));
+	inventory[type]++;
+	std::cout << tge::getBlockName(type) << ": " << inventory[type] << std::endl;
+}
+
 Player::Player()
 {
 	boundingBox = new AABB({ 0.2f, 0.7f, 0.2f });
