@@ -12,6 +12,8 @@ class LineTrace
 {
 public:
 	static BlockType trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc);
+	static glm::vec3 detailedTrace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc);
+
 
 };
 #endif LINETRACE_H

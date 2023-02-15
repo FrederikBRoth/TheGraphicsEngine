@@ -146,8 +146,8 @@ int main() {
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
 		player->update(camera, &cc->chunkMap);
 
-		/*std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
-		std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;*/
+		//std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
+		//std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
 
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;

@@ -9,6 +9,7 @@ Window::Window(int width, int height, std::string title, Camera* camera, World* 
 	lastY = height / 2.0f;
 	firstMouse = true;
 	traced = false;
+	detailedTraced = false;
 	jumped = false;
 	deltaTime = 0.0f;
 	lastFrame = 0.0f;
@@ -95,7 +96,7 @@ void Window::processInput(Player* player)
 
 	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_PRESS)
 		cc->updateChunk(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
-	if (glfwGetKey(glWindow, GLFW_KEY_T) == GLFW_PRESS && !traced) {
+	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS && !traced) {
 		/*for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
 			glm::vec3 step = (camera.Position + (camera.Front * ((float)i * STEPSIZE)));
 			std::vector<float> linevert{ camera.Position.x , camera.Position.y , camera.Position.z, step.x, step.y, step.z };
@@ -111,10 +112,22 @@ void Window::processInput(Player* player)
 
 		//std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;
 	}
-	if (glfwGetKey(glWindow, GLFW_KEY_T) == GLFW_RELEASE && traced) {
+	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE && traced) {
 		traced = false;
 	}
+	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS && !detailedTraced) {
+		glm::vec3 trace = LineTrace::detailedTrace(camera->Position, camera->Front, cc);
+		std::cout << "X: " << trace.x << "Y: " << trace.y << "Z: "<< trace.z << std::endl;
+		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
+		std::cout << "X: " << camera->relativeVelocity.x << " Y: " << camera->relativeVelocity.y << " Z: " << camera->relativeVelocity.z << std::endl;
+		detailedTraced = true;
 
+		//std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;
+	}
+	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE && detailedTraced) {
+		detailedTraced = false;
+	}
+	
 	if (glfwGetKey(glWindow, GLFW_KEY_W) != GLFW_PRESS && glfwGetKey(glWindow, GLFW_KEY_S) != GLFW_PRESS) 
 	{
 		camera->ProcessKeyboard(Camera_Movement::NO_FORWARDBACK, deltaTime);

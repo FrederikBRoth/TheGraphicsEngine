@@ -55,6 +55,28 @@ void ChunkController::removeChunk(int x, int z)
 
 BlockType ChunkController::removeBlock(int x, int y, int z)
 {
+	Block* block = getBlock(x, y, z);
+	if (block != nullptr) {
+		BlockType before = block->type;
+		block->type = BlockType::AIR;
+		block->isCollidable = false;
+		//std::unique_lock<std::mutex> lock(generationMutex);
+		glm::ivec3 worldPos = glm::ivec3(x, y, z);
+		glm::ivec3 chunkPos = getChunkPosition(worldPos);
+		VectorXZ key = tge::getKey(chunkPos.x, chunkPos.z);
+		int chunkX = tge::modulus(x, 16);
+		int chunkZ = tge::modulus(z, 16);
+		int chunkY = abs(y);
+		int index = (chunkZ * CHUNKAREA + chunkY * CHUNKSIZE_X + chunkX);
+		mb->updateChunkMesh(key, &chunkMap);
+		updateChunkEdges(chunkX, chunkZ, key);
+		return before;	
+	}
+	return BlockType::NOTHING;
+}
+
+Block* ChunkController::getBlock(int x, int y, int z)
+{
 	glm::ivec3 worldPos = glm::ivec3(x, y, z);
 	glm::ivec3 chunkPos = getChunkPosition(worldPos);
 	VectorXZ key = tge::getKey(chunkPos.x, chunkPos.z);
@@ -63,25 +85,19 @@ BlockType ChunkController::removeBlock(int x, int y, int z)
 	int chunkY = abs(y);
 	int index = (chunkZ * CHUNKAREA + chunkY * CHUNKSIZE_X + chunkX);
 	if (index < 0 || index >= CHUNKVOLUME) {
-		return BlockType::NOTHING;
+		return nullptr;
 	}
 	if (chunkExists(key)) {
 		Chunk* chunk = chunkMap[key];
 		Block* block = chunk->chunk.at(index);
 		if (block->type == BlockType::AIR) {
-			return BlockType::NOTHING;
+			return nullptr;
 		}
 		else {
-			BlockType before = block->type;
-			block->type = BlockType::AIR;
-			block->isCollidable = false;
-			//std::unique_lock<std::mutex> lock(generationMutex);
-			mb->updateChunkMesh(key, &chunkMap);
-			updateChunkEdges(chunkX, chunkZ, key);
-			return before;
+			return chunk->chunk.at(index);
 		}
 	}
-	return BlockType::NOTHING;
+	return nullptr;
 }
 
 void ChunkController::updateChunkEdges(int x, int z, VectorXZ key)

@@ -33,5 +33,6 @@ public:
 	bool isCollidable;
 	Block(BlockType type);
 	std::string getBlockName(BlockType type);
+
 };
 #endif // !BLOCK_H
