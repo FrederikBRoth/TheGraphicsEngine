@@ -75,6 +75,12 @@ namespace tge {
 			return "No block with that type is described in the get block name function";
 		}
 	}
+
+	float difference(float a, float b) {
+		float result = abs(a) - abs(b);
+		return abs(result);
+	}
+
 }
 
 

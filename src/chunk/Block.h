@@ -26,6 +26,7 @@ enum class FaceType {
 	LEAF
 };
 
+
 class Block
 {
 public:

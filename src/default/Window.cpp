@@ -116,9 +116,9 @@ void Window::processInput(Player* player)
 		traced = false;
 	}
 	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS && !detailedTraced) {
-		glm::vec3 trace = LineTrace::detailedTrace(camera->Position, camera->Front, cc);
-		std::cout << "X: " << trace.x << "Y: " << trace.y << "Z: "<< trace.z << std::endl;
-		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
+		glm::vec3 trace = LineTrace::normalTrace(camera->Position, camera->Front, cc);
+		std::cout << "X: " << trace.x << " Y: " << trace.y << " Z: "<< trace.z << std::endl;
+		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << " Z: " << world->worldPos.z << " | ";
 		std::cout << "X: " << camera->relativeVelocity.x << " Y: " << camera->relativeVelocity.y << " Z: " << camera->relativeVelocity.z << std::endl;
 		detailedTraced = true;
 

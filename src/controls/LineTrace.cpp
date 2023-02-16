@@ -1,5 +1,6 @@
 #include <controls/LineTrace.h>
 #include <world/WorldUtils.h>
+
 BlockType LineTrace::trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc)
 {
     BlockType hit;
@@ -15,7 +16,7 @@ BlockType LineTrace::trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkCo
     };
     return hit;
 }
-glm::vec3 LineTrace::detailedTrace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc)
+glm::vec3 LineTrace::normalTrace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc)
 {
     Block* hit;
     for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
@@ -27,11 +28,31 @@ glm::vec3 LineTrace::detailedTrace(glm::vec3& playerPos, glm::vec3& playerFront,
         hit = cc->getBlock(worldX, worldY, worldZ);
         if (hit != nullptr) {
             glm::vec3 formatedCoord = glm::vec3(std::round(step.x * 100.0f) / 100.0f, std::round(step.y * 100.0f) / 100.0f, std::round(step.z * 100.0f) / 100.0f);
-            //return { step.x, step.y, step.z };
-            return formatedCoord;
+            float minX = worldX / 2.0f;
+            float maxX = worldX / 2.0f + 0.5f;
+            float minY = worldY / 2.0f;
+            float maxY = worldY / 2.0f + 0.5f;
+            float minZ = worldZ / 2.0f;
+            float maxZ = worldZ / 2.0f + 0.5f;
+            glm::vec3 relativeCoord = { 0,0,0 };
+            if (tge::difference(minX, formatedCoord.x) < 0.01)
+                relativeCoord = glm::vec3(-1, 0, 0);
+            if(tge::difference(maxX, formatedCoord.x) < 0.01)
+                relativeCoord = glm::vec3(1, 0, 0);
+            if(tge::difference(minY, formatedCoord.y) < 0.01)
+                relativeCoord = glm::vec3(0, -1, 0);
+            if(tge::difference(maxY, formatedCoord.y) < 0.01)
+                relativeCoord = glm::vec3(0, 1, 0);
+            if(tge::difference(minZ, formatedCoord.z) < 0.01)
+                relativeCoord = glm::vec3(0, 0, -1);
+            if(tge::difference(maxZ, formatedCoord.z) < 0.01)
+                relativeCoord = glm::vec3(0, 0, 1);
+            cc->createBlock(worldX, worldY, worldZ, relativeCoord);
+            return relativeCoord;
         }
     };
 
     return { 0,0,0 };
 }
+
 

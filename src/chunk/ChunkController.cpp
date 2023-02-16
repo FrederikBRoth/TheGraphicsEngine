@@ -100,6 +100,47 @@ Block* ChunkController::getBlock(int x, int y, int z)
 	return nullptr;
 }
 
+Block* ChunkController::getBlock(int index, VectorXZ key)
+{
+	if(index < 0 || index >= CHUNKVOLUME) {
+		return nullptr;
+	}
+	if (chunkExists(key)) {
+		Chunk* chunk = chunkMap[key];
+		Block* block = chunk->chunk.at(index);
+		return chunk->chunk.at(index);
+		
+	}
+	return nullptr;
+}
+
+void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative)
+{
+	Block* block = getBlock(x, y, z);
+	if (block != nullptr) {
+		//std::unique_lock<std::mutex> lock(generationMutex);
+		glm::ivec3 worldPos = glm::ivec3(x, y, z);
+		glm::ivec3 chunkPos = getChunkPosition(worldPos);
+		VectorXZ key = tge::getKey(chunkPos.x, chunkPos.z);
+		int chunkX = tge::modulus(x, 16);
+		int chunkZ = tge::modulus(z, 16);
+		int chunkY = abs(y);
+		glm::vec3 newBlockPos = glm::vec3(chunkX, chunkY, chunkZ) + relative;
+		int newindex = (newBlockPos.z * CHUNKAREA + newBlockPos.y * CHUNKSIZE_X + newBlockPos.x);
+		Block* newBlock = getBlock(newindex, key);
+		if (newBlock != nullptr) {
+			if (newBlock->type == BlockType::AIR) {
+				newBlock->type = BlockType::STONE;
+				newBlock->isCollidable = true;
+				mb->updateChunkMesh(key, &chunkMap);
+				updateChunkEdges(chunkX, chunkZ, key);
+			}
+
+		}
+
+	}
+}
+
 void ChunkController::updateChunkEdges(int x, int z, VectorXZ key)
 {
 	VectorXZ newKey;

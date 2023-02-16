@@ -39,6 +39,7 @@ namespace tge {
 	int getIndexFromWorldPos(int x, int y, int z);
 	VectorXZ getKey(int x, int z);
 	std::string getBlockName(BlockType type);
+	float difference(float a, float b);
 }
 
 
