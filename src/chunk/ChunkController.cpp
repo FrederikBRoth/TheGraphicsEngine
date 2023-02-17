@@ -126,6 +126,22 @@ void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative)
 		int chunkZ = tge::modulus(z, 16);
 		int chunkY = abs(y);
 		glm::vec3 newBlockPos = glm::vec3(chunkX, chunkY, chunkZ) + relative;
+		if (newBlockPos.x > 15) {
+			key = { key.x + 1, key.z };
+			newBlockPos.x = 0;
+		}
+		if (newBlockPos.x < 0) {
+			key = { key.x - 1, key.z };
+			newBlockPos.x = 15;
+		}
+		if (newBlockPos.z > 15) {
+			key = { key.x, key.z + 1 };
+			newBlockPos.z = 0;
+		}
+		if (newBlockPos.z < 0) {
+			key = { key.x, key.z - 1 };
+			newBlockPos.z = 15;
+		}
 		int newindex = (newBlockPos.z * CHUNKAREA + newBlockPos.y * CHUNKSIZE_X + newBlockPos.x);
 		Block* newBlock = getBlock(newindex, key);
 		if (newBlock != nullptr) {
