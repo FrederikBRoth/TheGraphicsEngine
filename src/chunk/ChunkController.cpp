@@ -134,6 +134,7 @@ void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative)
 			key = { key.x - 1, key.z };
 			newBlockPos.x = 15;
 		}
+
 		if (newBlockPos.z > 15) {
 			key = { key.x, key.z + 1 };
 			newBlockPos.z = 0;
