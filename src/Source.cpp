@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW\glfw3.h>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 #include <rendering/Shader.h>
 #include <controls/Camera.h>
 #include <stb_image.h>
@@ -182,7 +184,11 @@ int main() {
 		glm::mat4 projection2 = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);
 		text.use();
 		text.setMat4("projection", projection2);
-		st->renderText(text, "This is test", 1400.0f, 800.0f, 1.0f, glm::vec3(0.5, 0.5, 0.5));
+		float fps = (1.0f / window.getDeltaTime());
+		std::stringstream ss;
+		ss << "FPS: " << std::fixed << std::setprecision(2) << fps;
+
+		st->renderText(text, ss.str(), 1400.0f, 800.0f, 1.0f, glm::vec3(1, 0, 0));
 
 		glfwSwapBuffers(window.glWindow);
 		glfwPollEvents();
