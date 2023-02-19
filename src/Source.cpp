@@ -18,7 +18,7 @@
 #include <default/Window.h>
 #include <world/world-rendering/Renderer.h>
 #include <controls/Player.h>
-
+#include <gui/ScreenText.h>
 // camera
 Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 //float lastX = SCR_WIDTH / 2.0f;
@@ -29,6 +29,7 @@ MeshBuilder* mb = new MeshBuilder(world);
 ChunkController* cc = new ChunkController(world, mb);
 Window window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
 Player* player = new Player();
+ScreenText* st = new ScreenText();
 
 
 int main() {
@@ -116,6 +117,7 @@ int main() {
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 
 
+	st->setup("arial.ttf");
 	tm->loadTexture(GL_RGBA);
 
 	glm::mat4 model = glm::mat4(1.0f);
@@ -126,11 +128,14 @@ int main() {
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
 	Shader hud = Shader("HudShader.vert", "HudShader.frag");
+	Shader text = Shader("TextShader.vert", "TextShader.frag");
+
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	tm->bind();
+
+	
 	glm::vec3 lightPos(1.2f, 48.0f, 2.0f);
 	const float radius = 1.0f;
 	
@@ -147,7 +152,7 @@ int main() {
 
 		//std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
 		//std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
-
+		
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
 
@@ -159,6 +164,7 @@ int main() {
 		//Binds the normal cube
 		//Sets projection matrices
 		cc->chunkGeneration();
+		tm->bind();
 		renderer->renderAll();
 		cc->chunkDegeneration();
 		hud.use();
@@ -172,6 +178,11 @@ int main() {
 		lightSource.setMat4("view", view);
 		lightSource.setMat4("projection", projection);
 		e.render();
+
+		glm::mat4 projection2 = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);
+		text.use();
+		text.setMat4("projection", projection2);
+		st->renderText(text, "This is test", 1400.0f, 800.0f, 1.0f, glm::vec3(0.5, 0.5, 0.5));
 
 		glfwSwapBuffers(window.glWindow);
 		glfwPollEvents();

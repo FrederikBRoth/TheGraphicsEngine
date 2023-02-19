@@ -173,6 +173,11 @@ void Window::updateDeltaTime()
 	lastFrame = currentFrame;
 }
 
+float Window::getDeltaTime()
+{
+	return deltaTime;
+}
+
 void Window::staticMouseCallback(GLFWwindow* window, double xposIn, double yposIn)
 {
 	sWindow->mouseCallback(window, xposIn, yposIn);

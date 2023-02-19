@@ -48,18 +48,23 @@ message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 find_package(ASSIMP REQUIRED)
 message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
 
+find_package(FREETYPE REQUIRED)
+message(status "Found FREETYPE in ${FREETYPE_INCLUDE_DIR}")
+
 # STB_IMAGE
 add_library(STB_IMAGE "thirdparty/stb_image.cpp")
 
 # GLAD
 add_library(GLAD "thirdparty/glad.c")
 
+
+
 #add_custom_target(Assets ALL
 #    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
 #)
 #add_dependencies(Assets TheGraphicsEngine)
 # Put all libraries into a variable
-set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS} ${ASSIMP_LIBRARY} STB_IMAGE)
+set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS} ${ASSIMP_LIBRARY} STB_IMAGE ${FREETYPE_LIBRARY})
 include_directories(
 	"${CMAKE_SOURCE_DIR}/src"
 	"${CMAKE_SOURCE_DIR}/headers"

@@ -29,7 +29,7 @@ public:
 	void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 	void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	void updateDeltaTime();
-
+	float getDeltaTime();
 	static void staticMouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 	static void staticScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	static void setWindow(Window* window);
