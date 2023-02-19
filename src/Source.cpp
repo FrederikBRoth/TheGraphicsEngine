@@ -18,8 +18,7 @@
 #include <default/Window.h>
 #include <world/world-rendering/Renderer.h>
 #include <controls/Player.h>
-const unsigned int SCR_WIDTH = 1000;
-const unsigned int SCR_HEIGHT = 750;
+
 // camera
 Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 //float lastX = SCR_WIDTH / 2.0f;
@@ -28,7 +27,7 @@ Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f,
 World* world = new World();
 MeshBuilder* mb = new MeshBuilder(world);
 ChunkController* cc = new ChunkController(world, mb);
-Window window = Window(SCR_WIDTH, SCR_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
+Window window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
 Player* player = new Player();
 
 

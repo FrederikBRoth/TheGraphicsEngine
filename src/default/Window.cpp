@@ -94,8 +94,6 @@ void Window::processInput(Player* player)
 		jetpackToggle = false;
 	}
 
-	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_PRESS)
-		cc->updateChunk(world->getChunkWorldPosition().x, 0, world->getChunkWorldPosition().z);
 	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS && !traced) {
 		/*for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
 			glm::vec3 step = (camera.Position + (camera.Front * ((float)i * STEPSIZE)));

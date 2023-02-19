@@ -2,7 +2,7 @@
 void TransparentRenderer::render(std::unordered_map<VectorXZ, MeshBuffer*>& meshes, Camera* camera)
 {
 	glm::mat4 view = camera->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)1000 / (float)750, 0.1f, 400.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 400.0f);
 	glm::mat4 model = glm::mat4(1.0f);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
