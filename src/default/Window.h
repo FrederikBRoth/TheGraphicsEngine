@@ -7,7 +7,7 @@
 #include <world/World.h>
 #include <chunk/ChunkController.h>
 #include <controls/LineTrace.h>
-#include <controls/Player.h>
+#include <controls/player/Player.h>
 class Window
 {
 private:

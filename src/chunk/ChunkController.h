@@ -30,7 +30,7 @@ public:
 	BlockType removeBlock(int x, int y, int z);
 	Block* getBlock(int x, int y, int z);
 	Block* getBlock(int index, VectorXZ key);
-	void createBlock(int x, int y, int z, glm::vec3 relative);
+	void createBlock(int x, int y, int z, glm::vec3 relative, BlockType type);
 	void updateChunkEdges(int x, int z, VectorXZ key);
 	bool chunkExists(VectorXZ key);
 	void chunkMeshGeneration();

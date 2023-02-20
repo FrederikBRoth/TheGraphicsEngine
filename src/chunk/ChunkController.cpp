@@ -114,7 +114,7 @@ Block* ChunkController::getBlock(int index, VectorXZ key)
 	return nullptr;
 }
 
-void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative)
+void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative, BlockType type)
 {
 	Block* block = getBlock(x, y, z);
 	if (block != nullptr) {
@@ -147,7 +147,7 @@ void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative)
 		Block* newBlock = getBlock(newindex, key);
 		if (newBlock != nullptr) {
 			if (newBlock->type == BlockType::AIR) {
-				newBlock->type = BlockType::STONE;
+				newBlock->type = type;
 				newBlock->isCollidable = true;
 				mb->updateChunkMesh(key, &chunkMap);
 				updateChunkEdges(chunkX, chunkZ, key);

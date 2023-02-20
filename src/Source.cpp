@@ -19,8 +19,9 @@
 #include <entities/Line.h>
 #include <default/Window.h>
 #include <world/world-rendering/Renderer.h>
-#include <controls/Player.h>
+#include <controls/player/Player.h>
 #include <gui/ScreenText.h>
+#include <gui/gui-elements/InventoryGui.h>
 // camera
 Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 //float lastX = SCR_WIDTH / 2.0f;
@@ -119,8 +120,6 @@ int main() {
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 
 
-	st->setup("arial.ttf");
-	tm->loadTexture(GL_RGBA);
 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
@@ -132,6 +131,8 @@ int main() {
 	Shader hud = Shader("HudShader.vert", "HudShader.frag");
 	Shader text = Shader("TextShader.vert", "TextShader.frag");
 
+	st->setup("arial.ttf", text);
+	tm->loadTexture(GL_RGBA);
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
@@ -142,7 +143,7 @@ int main() {
 	const float radius = 1.0f;
 	
 	Renderer* renderer = new Renderer(mb, &camera);
-
+	InventoryGui* gui = new InventoryGui(st, player);
 	while (!glfwWindowShouldClose(window.glWindow))
 	{
 		world->updateWorldPosition(camera.Position);
@@ -188,8 +189,8 @@ int main() {
 		std::stringstream ss;
 		ss << "FPS: " << std::fixed << std::setprecision(2) << fps;
 
-		st->renderText(text, ss.str(), 1400.0f, 800.0f, 1.0f, glm::vec3(1, 0, 0));
-
+		st->renderText(ss.str(), 1400.0f, 800.0f, 1.0f, glm::vec3(1, 0, 0));
+		gui->renderGui();
 		glfwSwapBuffers(window.glWindow);
 		glfwPollEvents();
 	}

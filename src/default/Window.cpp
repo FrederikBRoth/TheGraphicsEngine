@@ -70,6 +70,12 @@ void Window::processInput(Player* player)
 		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(glWindow, GLFW_KEY_D) == GLFW_PRESS)
 		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
+	if (glfwGetKey(glWindow, GLFW_KEY_1) == GLFW_PRESS)
+		player->inventory->selected = BlockType::STONE;
+	if (glfwGetKey(glWindow, GLFW_KEY_2) == GLFW_PRESS)
+		player->inventory->selected = BlockType::DIRT;
+	if (glfwGetKey(glWindow, GLFW_KEY_3) == GLFW_PRESS)
+		player->inventory->selected = BlockType::WOOD;
 	if (jetpack) {
 		if (glfwGetKey(glWindow, GLFW_KEY_SPACE) == GLFW_PRESS && !jumped) {
 			camera->tempJump();
@@ -104,7 +110,7 @@ void Window::processInput(Player* player)
 		BlockType trace = LineTrace::trace(camera->Position, camera->Front, cc);
 		if (trace != BlockType::NOTHING) {
 			std::cout << tge::getBlockName(trace) << std::endl;
-			player->addItem(trace);
+			player->inventory->addItem(trace);
 		}
 		traced = true;
 
@@ -114,7 +120,7 @@ void Window::processInput(Player* player)
 		traced = false;
 	}
 	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS && !detailedTraced) {
-		glm::vec3 trace = LineTrace::normalTrace(camera->Position, camera->Front, cc);
+		glm::vec3 trace = LineTrace::normalTrace(camera->Position, camera->Front, cc, player);
 		std::cout << "X: " << trace.x << " Y: " << trace.y << " Z: "<< trace.z << std::endl;
 		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << " Z: " << world->worldPos.z << " | ";
 		std::cout << "X: " << camera->relativeVelocity.x << " Y: " << camera->relativeVelocity.y << " Z: " << camera->relativeVelocity.z << std::endl;

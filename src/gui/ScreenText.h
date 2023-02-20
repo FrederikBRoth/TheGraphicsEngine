@@ -20,11 +20,13 @@ struct Character {
 
 class ScreenText
 {
+private:
+    Shader* s;
 public:
     unsigned int vao, vbo;
     std::map<char, Character> characters;
-	void setup(std::string fontName);
-    void renderText(Shader& s, std::string text, float x, float y, float scale, glm::vec3 color);
+	void setup(std::string fontName, Shader& s);
+    void renderText(std::string text, float x, float y, float scale, glm::vec3 color);
 };
 
 #endif // !SCREENTEXT_H

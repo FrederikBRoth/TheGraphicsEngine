@@ -1,4 +1,4 @@
-#include <controls/Player.h>
+#include <controls/player/Player.h>
 
 void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, glm::vec3 velocity)
 {
@@ -64,13 +64,6 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 	
 }
 
-void Player::addItem(BlockType type)
-{
-	if (!inventory.count(type))
-		inventory.insert(std::pair(type, 0));
-	inventory[type]++;
-	std::cout << tge::getBlockName(type) << ": " << inventory[type] << std::endl;
-}
 
 Player::Player()
 {
@@ -78,9 +71,11 @@ Player::Player()
 	grounded = true;
 	acceleration = 0.2f;
 	gravity = false;
+	inventory = new Inventory();
 }
 
 Player::~Player()
 {
 	delete boundingBox;
+	delete inventory;
 }

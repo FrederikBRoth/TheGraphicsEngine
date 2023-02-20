@@ -4,6 +4,7 @@
 #include <world/WorldUtils.h>
 #include <chunk/Chunk.h>
 #include <map>
+#include <controls/player/Inventory.h>
 #ifndef PLAYER_H
 #define PLAYER_H
 class Player
@@ -16,11 +17,10 @@ private:
 	glm::ivec3 velocity;
 	glm::ivec3 accelerations;
 	//Should probably be its own and also something better and more generic. This will suffice for now
-	std::map<BlockType, int> inventory;
 public:
+	Inventory* inventory;
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
 	bool gravity;
-	void addItem(BlockType type);
 	Player();
 	~Player();
 };

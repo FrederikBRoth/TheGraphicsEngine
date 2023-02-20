@@ -1,6 +1,6 @@
 #include <gui/ScreenText.h>	
 
-void ScreenText::setup(std::string fontName)
+void ScreenText::setup(std::string fontName, Shader& s)
 {
     FT_Library ft;
     if (FT_Init_FreeType(&ft))
@@ -80,16 +80,16 @@ void ScreenText::setup(std::string fontName)
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
+    this->s = &s;
 }
 
-void ScreenText::renderText(Shader& s, std::string text, float x, float y, float scale, glm::vec3 color)
+void ScreenText::renderText(std::string text, float x, float y, float scale, glm::vec3 color)
 {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // activate corresponding render state	
-    s.use();
-    s.setVec3("textColor", color.x, color.y, color.z);
+    s->use();
+    s->setVec3("textColor", color.x, color.y, color.z);
     //glUniform3f(glGetUniformLocation(s.Program, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(vao);
