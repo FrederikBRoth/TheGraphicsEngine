@@ -6,12 +6,14 @@
 #include <map>
 class Inventory
 {
-private:
-	std::map<BlockType, int> storage;
 public:
-	BlockType selected;
+	const int inventorySize = 10;
+	std::vector<BlockType> inventory;
+	std::map<BlockType, int> storage;
+	int selected;
 	void addItem(BlockType type);
-	void removeItem(BlockType type);
+	void removeItem();
+	void cycleSelection(int incr);
 	Inventory();
 };
 #endif // !INVENTORY_H

@@ -13,8 +13,8 @@ constexpr float STEPSIZE = 0.001f;
 class LineTrace
 {
 public:
-	static BlockType trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc);
-	static glm::vec3 normalTrace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc, Player* player);
+	static BlockType remove(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc);
+	static glm::vec3 create(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc, Player* player);
 
 
 };

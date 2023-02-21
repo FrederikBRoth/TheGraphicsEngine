@@ -114,7 +114,7 @@ Block* ChunkController::getBlock(int index, VectorXZ key)
 	return nullptr;
 }
 
-void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative, BlockType type)
+void ChunkController::updateBlock(int x, int y, int z, glm::vec3 relative, BlockType type)
 {
 	Block* block = getBlock(x, y, z);
 	if (block != nullptr) {
@@ -134,7 +134,6 @@ void ChunkController::createBlock(int x, int y, int z, glm::vec3 relative, Block
 			key = { key.x - 1, key.z };
 			newBlockPos.x = 15;
 		}
-
 		if (newBlockPos.z > 15) {
 			key = { key.x, key.z + 1 };
 			newBlockPos.z = 0;
@@ -258,31 +257,6 @@ glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 	return chunkPos;
 }
 
-void ChunkController::renderSolids()
-{
-	chunkGeneration();
-	for (auto& chunkMesh : mb->chunkMap) {
-		if (chunkMesh.second->doBind) {
-			chunkMesh.second->bind();
-			chunkMesh.second->doBind = { false };
-		}
-		chunkMesh.second->draw();
-	}
-}
-
-void ChunkController::renderWater()
-{
-	for (auto& chunkMesh : mb->waterMap) {
-		if (!chunkMesh.second->isEmpty()) {
-			if (chunkMesh.second->doBind) {
-				chunkMesh.second->bind();
-				chunkMesh.second->doBind = { false };
-			}
-			chunkMesh.second->draw();
-		}
-	}
-	chunkDegeneration();
-}
 
 ChunkController::ChunkController(World* world, MeshBuilder* mb)
 {

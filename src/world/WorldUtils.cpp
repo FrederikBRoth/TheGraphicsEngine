@@ -71,6 +71,8 @@ namespace tge {
 			return "Water";
 		case BlockType::WOOD:
 			return "Wood";
+		case BlockType::NOTHING:
+			return "Nothing";
 		default:
 			return "No block with that type is described in the get block name function";
 		}

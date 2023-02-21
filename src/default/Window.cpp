@@ -70,12 +70,20 @@ void Window::processInput(Player* player)
 		camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(glWindow, GLFW_KEY_D) == GLFW_PRESS)
 		camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
-	if (glfwGetKey(glWindow, GLFW_KEY_1) == GLFW_PRESS)
-		player->inventory->selected = BlockType::STONE;
-	if (glfwGetKey(glWindow, GLFW_KEY_2) == GLFW_PRESS)
-		player->inventory->selected = BlockType::DIRT;
-	if (glfwGetKey(glWindow, GLFW_KEY_3) == GLFW_PRESS)
-		player->inventory->selected = BlockType::WOOD;
+	if (glfwGetKey(glWindow, GLFW_KEY_E) == GLFW_PRESS && !invCycledUp) {
+		player->inventory->cycleSelection(1);
+		invCycledUp = true;
+	}
+	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_PRESS && !invCycledDown) {
+		player->inventory->cycleSelection(-1);
+		invCycledDown = true;
+	}
+	if (glfwGetKey(glWindow, GLFW_KEY_E) == GLFW_RELEASE && invCycledUp) 
+		invCycledUp = false;
+	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_RELEASE && invCycledDown) 
+		invCycledDown = false;
+	
+
 	if (jetpack) {
 		if (glfwGetKey(glWindow, GLFW_KEY_SPACE) == GLFW_PRESS && !jumped) {
 			camera->tempJump();
@@ -107,7 +115,7 @@ void Window::processInput(Player* player)
 
 			lines.insert(lines.end(), new Line(linevert, 2));
 		}*/
-		BlockType trace = LineTrace::trace(camera->Position, camera->Front, cc);
+		BlockType trace = LineTrace::remove(camera->Position, camera->Front, cc);
 		if (trace != BlockType::NOTHING) {
 			std::cout << tge::getBlockName(trace) << std::endl;
 			player->inventory->addItem(trace);
@@ -120,7 +128,7 @@ void Window::processInput(Player* player)
 		traced = false;
 	}
 	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS && !detailedTraced) {
-		glm::vec3 trace = LineTrace::normalTrace(camera->Position, camera->Front, cc, player);
+		glm::vec3 trace = LineTrace::create(camera->Position, camera->Front, cc, player);
 		std::cout << "X: " << trace.x << " Y: " << trace.y << " Z: "<< trace.z << std::endl;
 		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << " Z: " << world->worldPos.z << " | ";
 		std::cout << "X: " << camera->relativeVelocity.x << " Y: " << camera->relativeVelocity.y << " Z: " << camera->relativeVelocity.z << std::endl;

@@ -1,7 +1,7 @@
 #include <controls/LineTrace.h>
 
 
-BlockType LineTrace::trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc)
+BlockType LineTrace::remove(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc)
 {
     BlockType hit;
     for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
@@ -16,7 +16,7 @@ BlockType LineTrace::trace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkCo
     };
     return hit;
 }
-glm::vec3 LineTrace::normalTrace(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc, Player* player)
+glm::vec3 LineTrace::create(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc, Player* player)
 {
     Block* hit;
     for (int i = 1; i < (int)DISTANCE / STEPSIZE; i++) {
@@ -47,7 +47,12 @@ glm::vec3 LineTrace::normalTrace(glm::vec3& playerPos, glm::vec3& playerFront, C
                 relativeCoord = glm::vec3(0, 0, -1);
             if(tge::difference(maxZ, formatedCoord.z) < 0.01)
                 relativeCoord = glm::vec3(0, 0, 1);
-            cc->createBlock(worldX, worldY, worldZ, relativeCoord, player->inventory->selected);
+            BlockType type = player->inventory->inventory[player->inventory->selected];
+            if (type != BlockType::NOTHING) {
+                cc->updateBlock(worldX, worldY, worldZ, relativeCoord, player->inventory->inventory[player->inventory->selected]);
+                player->inventory->removeItem();
+
+            }
             return relativeCoord;
         }
     };

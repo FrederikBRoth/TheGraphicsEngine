@@ -131,7 +131,7 @@ int main() {
 	Shader hud = Shader("HudShader.vert", "HudShader.frag");
 	Shader text = Shader("TextShader.vert", "TextShader.frag");
 
-	st->setup("arial.ttf", text);
+	st->setup("minecraft_font.ttf", text);
 	tm->loadTexture(GL_RGBA);
 
 	glDisable(GL_BLEND);
@@ -166,8 +166,8 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Binds the normal cube
 		//Sets projection matrices
-		cc->chunkGeneration();
 		tm->bind();
+		cc->chunkGeneration();
 		renderer->renderAll();
 		cc->chunkDegeneration();
 		hud.use();
