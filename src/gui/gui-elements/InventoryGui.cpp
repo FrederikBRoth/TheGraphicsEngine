@@ -15,13 +15,13 @@ void InventoryGui::renderGui()
 	for (auto& block : player->inventory->inventory) {
 		std::string name = tge::getBlockName(block);
 		if (i == player->inventory->selected) {
-			st->renderText(name, start + (30 - (name.size() * 3)), 100, 0.5, glm::vec3(1, 1, 1));
-			st->renderText(std::to_string(player->inventory->storage[block]), start + 40, 70, 0.5, glm::vec3(1, 1, 1));
-			st->renderText("V", start + 40, 130, 0.5, glm::vec3(1, 1, 1));
+			st->renderText(name, start + (30 - (name.size() * 3)), 100, 0.5, glm::vec3(0.6, 0.6, 0.6));
+			st->renderText(std::to_string(player->inventory->storage[block]), start + 40, 70, 0.5, glm::vec3(0.6, 0.6, 0.6));
+			st->renderText("V", start + 40, 130, 0.5, glm::vec3(0.9, 0.84, 0.2));
 		}
 		else {
-			st->renderText(name, start + (30 - (name.size() * 3)), 100, 0.5, glm::vec3(1, 1, 1));
-			st->renderText(std::to_string(player->inventory->storage[block]), start + 40, 70, 0.5, glm::vec3(1, 1, 1));
+			st->renderText(name, start + (30 - (name.size() * 3)), 100, 0.5, glm::vec3(0.6, 0.6, 0.6));
+			st->renderText(std::to_string(player->inventory->storage[block]), start + 40, 70, 0.5, glm::vec3(0.6, 0.6, 0.6));
 		}
 		start += widthIncr;
 		i++;
