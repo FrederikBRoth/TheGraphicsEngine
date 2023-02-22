@@ -12,6 +12,7 @@ void InventoryGui::renderGui()
 	int widthIncr = (SCREEN_WIDTH - start*2) / player->inventory->inventorySize;
 	int incr = 45;
 	int i = 0;
+
 	for (auto& block : player->inventory->inventory) {
 		std::string name = tge::getBlockName(block);
 		if (i == player->inventory->selected) {
