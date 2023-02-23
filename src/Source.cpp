@@ -37,70 +37,7 @@ ScreenText* st = new ScreenText();
 
 int main() {
 	window.start();
-	std::vector<float> vertices {
-		// positions // normals // texture coords
-		
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-
-		-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		
-		0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		-0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f
-
-	};
-
-	//Very hacky crosshair lmao
-	std::vector<float> triangleTestvert{
-		0.005f, -0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		0.005f, 0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		-0.005f, 0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-		-0.005f, -0.005f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f
-	};
-	std::vector<unsigned short> indices{
-	0, 1, 3,
-	1, 2, 3
-	};
-	std::vector<float> lineTest{
-		5.5f, 5.5f, 5.5f, 0.5f, 0.5f, -0.5f
-	};
-
-	Mesh e = Mesh(vertices, 36);
-	IndexedMesh* e3 = new IndexedMesh(indices, triangleTestvert);
+	
 	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 	
 	Chunk* stone = new Chunk(glm::vec3(0.0f, -16.0f, 0.0f));
@@ -128,7 +65,6 @@ int main() {
 	//Shader waterShader = Shader("WaterTexture.vert", "WaterTexture.frag");
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
-	Shader hud = Shader("HudShader.vert", "HudShader.frag");
 	Shader text = Shader("TextShader.vert", "TextShader.frag");
 
 	st->setup("minecraft_font.ttf", text);
@@ -170,24 +106,14 @@ int main() {
 		cc->chunkGeneration();
 		renderer->renderAll();
 		cc->chunkDegeneration();
-		hud.use();
-		e3->render();
-		//Preps light source cube 
-		model = glm::mat4(1.0f);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f));
-		lightSource.use();
-		lightSource.setMat4("model", model);
-		lightSource.setMat4("view", view);
-		lightSource.setMat4("projection", projection);
-		e.render();
-
+	
 		glm::mat4 projection2 = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);
 		text.use();
 		text.setMat4("projection", projection2);
 		float fps = (1.0f / window.getDeltaTime());
 		std::stringstream ss;
 		ss << "FPS: " << std::fixed << std::setprecision(2) << fps;
+		st->renderText("><", SCREEN_WIDTH / 2 - 13.4f, SCREEN_HEIGHT / 2 - 11, 0.5f, glm::vec3(1, 0, 0));
 
 		st->renderText(ss.str(), 1400.0f, 800.0f, 1.0f, glm::vec3(1, 0, 0));
 		gui->renderGui();
