@@ -12,6 +12,7 @@ public:
 	glm::vec3 boundingBox;
 	void updateBB(glm::vec3 location);
 	AABB(glm::vec3 dimension);
+	AABB() = default;
 };
 
 #endif // !AABB_H

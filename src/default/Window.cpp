@@ -45,16 +45,6 @@ void Window::start()
 	glfwSetScrollCallback(glWindow, Window::staticScrollCallback);
 }
 
-void Window::addWorld(World* world)
-{
-	this->world = world;
-}
-
-void Window::addChunkController(ChunkController* cc)
-{
-	this->cc = cc;
-}
-
 void Window::processInput(Player* player)
 {
 	

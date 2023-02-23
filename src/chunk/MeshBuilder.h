@@ -78,6 +78,7 @@ private:
         VectorXZ* chunkDirection,
         std::unordered_map<VectorXZ, Chunk*>* chunks
     );
+  
     void addBlock(RenderInformation* ri,
         glm::vec3* gridPosition,
         short* indicesIndex,
@@ -89,8 +90,8 @@ private:
     );
     bool outOfBounds(int x, int y, int z);
     bool canPlaceFace(int x, int y, int z, glm::vec3* pos, Chunk* currentChunk, std::unordered_map<VectorXZ, Chunk*>* chunks, VectorXZ* borderChunkLocation);
-    TextureInfo* ti;
 public:
+    TextureInfo* ti;
 	World* world;
 	std::unordered_map<VectorXZ, MeshBuffer*> chunkMap;
     std::unordered_map<VectorXZ, MeshBuffer*> waterMap;
@@ -100,6 +101,8 @@ public:
 	void updateChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks);
 	void removeChunkMesh(VectorXZ& key);
     Meshes getChunkMesh(VectorXZ& key, std::unordered_map<VectorXZ, Chunk*>* chunks);
+    void addSingleBlock(RenderInformation* ri, BlockFaces* blockFaces, glm::vec3* position);
+    void addSingleFace(RenderInformation* ri, const std::array<float, 12>& faces, short& indicesIndex, const glm::vec3& lightPos, std::vector<TextureCoord>& tex, glm::vec3* position);
 
 };
 #endif // !CHUNKGEN_H

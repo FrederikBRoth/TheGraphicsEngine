@@ -10,3 +10,5 @@ AABB::AABB(glm::vec3 dimension)
 	this->dimension = dimension;
 	this->boundingBox = { 0, 0, 0 };
 }
+
+

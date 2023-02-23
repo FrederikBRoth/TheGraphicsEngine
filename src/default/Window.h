@@ -23,8 +23,6 @@ public:
 	GLFWwindow* glWindow;
 	Window(int width, int height, std::string title, Camera* camera, World* world, ChunkController* cc);
 	void start();
-	void addWorld(World* world);
-	void addChunkController(ChunkController* cc);
 	void processInput(Player* player);
 	void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
 	void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);

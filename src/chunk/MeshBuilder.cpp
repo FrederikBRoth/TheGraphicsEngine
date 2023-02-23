@@ -218,6 +218,53 @@ void MeshBuilder::addFace(
 	}
 }
 
+void MeshBuilder::addSingleBlock(
+	RenderInformation* ri,
+	BlockFaces* blockFaces,
+	glm::vec3* position
+)
+{
+	short indicesIndex = 0;
+	addSingleFace(ri, front, indicesIndex, frontNormals, blockFaces->front.coords, position);
+	addSingleFace(ri, back, indicesIndex, backNormals, blockFaces->back.coords, position);
+	addSingleFace(ri, right, indicesIndex, rightNormals, blockFaces->right.coords, position);
+	addSingleFace(ri, left, indicesIndex,  leftNormals,  blockFaces->left.coords, position);
+	addSingleFace(ri, top, indicesIndex, topNormals, blockFaces->up.coords, position);
+	addSingleFace(ri, bottom, indicesIndex, bottomNormals, blockFaces->down.coords, position);
+}
+
+
+void MeshBuilder::addSingleFace(
+	RenderInformation* ri,
+	const std::array<float, 12>& faces,
+	short& indicesIndex,
+	const glm::vec3& lightPos,
+	std::vector<TextureCoord>& tex,
+	glm::vec3* position
+)
+{
+
+	for (int i = 0, faceIndex = 0; i < 4; i++) {
+		ri->vertices.push_back((faces[faceIndex++] + position->x) * 0.5);
+		ri->vertices.push_back((faces[faceIndex++] + position->y) * 0.5);
+		ri->vertices.push_back((faces[faceIndex++] + position->z) * 0.5);
+		//adding 3 vectors for normals
+		ri->vertices.push_back(lightPos.x);
+		ri->vertices.push_back(lightPos.y);
+		ri->vertices.push_back(lightPos.z);
+		ri->vertices.push_back(tex[i].xCoord);
+		ri->vertices.push_back(tex[i].yCoord);
+	}
+	ri->indices.push_back(indicesIndex);
+	ri->indices.push_back(indicesIndex + 1);
+	ri->indices.push_back(indicesIndex + 2);
+	ri->indices.push_back(indicesIndex + 2);
+	ri->indices.push_back(indicesIndex + 3);
+	ri->indices.push_back(indicesIndex);
+	indicesIndex += 4;
+	
+}
+
 
 //https://stackoverflow.com/questions/59458264/exception-thrown-read-access-violation-it-was-0xffffffffffffffff
 
