@@ -11,6 +11,7 @@ Renderer::Renderer(MeshBuilder* meshes, Camera* camera)
 
 void Renderer::renderAll()
 {
+	meshes->ti->texture->bind();
 	sr->render(meshes->chunkMap, camera);
 	tr->render(meshes->waterMap, camera);
 }

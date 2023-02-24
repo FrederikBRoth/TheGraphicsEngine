@@ -25,21 +25,20 @@
 Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 
 World* world = new World();
+TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 MeshBuilder* mb = new MeshBuilder(world);
 ChunkController* cc = new ChunkController(world, mb);
 Window window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
 Player* player = new Player();
 ScreenText* st = new ScreenText();
 PhysicsHandler ph = PhysicsHandler();
-
+std::vector<Entity> entities;
 int main() {
 	window.start();
+	mb->ti->texture = tm;
 	
-	TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
-
 	Chunk* stone = new Chunk(glm::vec3(0.0f, -16.0f, 0.0f));
 	stone->createSolidChunk();
-	TextureInfo* ti = new TextureInfo();
 	MeshBuilder* stoneChunkBuilder = new MeshBuilder(world);
 	auto start = std::chrono::high_resolution_clock::now();
 	std::unordered_map <VectorXZ, Chunk*> chunks;
@@ -50,7 +49,7 @@ int main() {
 	std::cout << "Runtime: " << duration.count() << " ms" << std::endl;
 
 	Item test = Item(glm::vec3(0.5f, 0.5f, 0.5f), camera.Position, "Item");
-
+	world->entities.emplace_back(test);
 
 	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 view = glm::mat4(1.0f);
@@ -59,7 +58,7 @@ int main() {
 	Shader lightSource = Shader("LightSourceShader.vert", "LightSourceShader.frag");
 	Shader lineS = Shader("LineShader.vert", "LineShader.frag");
 	Shader text = Shader("TextShader.vert", "TextShader.frag");
-	Shader shader = Shader("LightingShader.vert", "LightingShader.frag");
+	
 	tm->loadTexture(GL_RGBA);
 
 	st->setup("minecraft_font.ttf", text);
@@ -75,7 +74,9 @@ int main() {
 
 	Renderer* renderer = new Renderer(mb, &camera);
 	InventoryGui* gui = new InventoryGui(st, player);
-	test.ri = ri;
+	glm::vec3 test2 = camera.Position;
+	test2.y += 30;
+	mb->addSingleBlock(&test.ri, mb->ti->blockInfo[BlockType::DIRT], &test2);
 	test.makeMesh();
 	while (!glfwWindowShouldClose(window.glWindow))
 	{
@@ -99,10 +100,9 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Binds the normal cube
 		//Sets projection matrices
-		tm->bind();
+
 		cc->chunkGeneration();
 		renderer->renderAll();
-		test.mb->bind();
 		test.mb->draw();
 
 		cc->chunkDegeneration();

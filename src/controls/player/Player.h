@@ -1,3 +1,5 @@
+#ifndef PLAYER_H
+#define PLAYER_H
 #include <controls/AABB.h>
 #include <controls/Camera.h>
 #include <unordered_map>
@@ -5,8 +7,6 @@
 #include <chunk/Chunk.h>
 #include <map>
 #include <controls/player/Inventory.h>
-#ifndef PLAYER_H
-#define PLAYER_H
 class Player
 {
 private:
@@ -21,6 +21,7 @@ public:
 	Inventory* inventory;
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
 	bool gravity;
+
 	Player();
 	~Player();
 };

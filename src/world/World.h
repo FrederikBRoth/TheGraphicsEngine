@@ -9,9 +9,11 @@
 #include <string>
 #include <texturing/TextureMap.h>
 #include <world/WorldUtils.h>
+class Entity;
 class World
 {
 public:
+	std::vector<Entity> entities;
 	glm::ivec3 worldPos;
 	void updateWorldPosition(glm::vec3& position);
 	glm::vec3 getWorldPosition();

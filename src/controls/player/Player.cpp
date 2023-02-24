@@ -65,6 +65,9 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 }
 
 
+
+
+
 Player::Player()
 {
 	boundingBox = new AABB({ 0.2f, 0.7f, 0.2f });

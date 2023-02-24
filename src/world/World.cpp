@@ -1,5 +1,5 @@
 #include <world/World.h>
-
+#include <entities/Entity.h>
 
 void World::updateWorldPosition(glm::vec3& position)
 {
