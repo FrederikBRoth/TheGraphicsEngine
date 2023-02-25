@@ -12,6 +12,7 @@ void World::updateWorldPosition(glm::vec3& position)
 glm::vec3 World::getWorldPosition()
 {
 	return worldPos;
+
 }
 
 glm::vec3 World::getChunkWorldPosition()
