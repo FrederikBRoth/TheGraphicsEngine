@@ -61,12 +61,18 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 		camera.relativeVelocity.y = 0.0f;
 	}
 	boundingBox->updateBB(camera.Position);
+	yaw = camera.Yaw;
+	position = camera.Position;
 	
 }
 
-
-
-
+void Player::dropItem(World* world, MeshBuilder* mb)
+{
+	Item item = Item(glm::vec3(0.3f, 0.3f, 0.3f), position, "Item", yaw, 0.5f);
+	mb->addSingleBlock(&item.ri, mb->ti->blockInfo[BlockType::DIRT], item.getPosition());
+	item.makeMesh();
+	world->entities.insert(world->entities.begin(), item);	
+}
 
 Player::Player()
 {

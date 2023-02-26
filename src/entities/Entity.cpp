@@ -5,6 +5,16 @@ glm::vec3* Entity::getPosition()
 	return &position;
 }
 
+float Entity::getScale()
+{
+	return scale;
+}
+
+float Entity::getRotation()
+{
+	return yaw;
+}
+
 void Entity::checkCollision(ChunkController* cc)
 {
 }
@@ -15,11 +25,11 @@ void Entity::makeMesh()
 	mb->bind();
 }
 
-Entity::Entity(glm::vec3 dimension, glm::vec3 position)
+Entity::Entity(glm::vec3 dimension, glm::vec3 position, float yaw, float scale)
 {
 	boundingBox = AABB(dimension);
 	this->position = position;
-	scale = glm::ivec3(1.0f, 1.0f, 1.0f);
-	rotation = glm::ivec3(1.0f, 1.0f, 1.0f);
+	this->scale = scale;
+	this->yaw = yaw;
 	mb = new MeshBuffer();
 }

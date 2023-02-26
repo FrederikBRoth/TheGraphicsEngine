@@ -8,5 +8,7 @@ public:
 	std::string name;
 	Item(glm::vec3 collisionBox, glm::vec3 position, std::string name);
 
+	Item(glm::vec3 collisionBox, glm::vec3 position, std::string name, float yaw, float scale);
+
 };
 #endif

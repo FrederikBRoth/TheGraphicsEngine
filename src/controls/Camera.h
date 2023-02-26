@@ -132,6 +132,7 @@ public:
     }
 
     void updatePosition() {
+
         Position += relativeRightVelocity + relativeForwardVelocity;
     }
 

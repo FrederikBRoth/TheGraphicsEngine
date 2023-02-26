@@ -22,7 +22,7 @@
 #include <entities/collision/PhysicsHandler.h>
 #include <entities/Item.h>
 
-Camera camera(glm::vec3(-0.5f, 24.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
+Camera camera(glm::vec3(-0.5f, 20.0f, 3.5f), glm::vec3(0.0f, 1.0f, 0.0f), -63.f, -18.0f);
 
 World* world = new World();
 TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
@@ -74,10 +74,7 @@ int main() {
 
 	Renderer* renderer = new Renderer(mb, &camera);
 	InventoryGui* gui = new InventoryGui(st, player);
-	glm::vec3 test2 = camera.Position;
-	test2.y += 30;
-	mb->addSingleBlock(&test.ri, mb->ti->blockInfo[BlockType::DIRT], &test2);
-	test.makeMesh();
+
 	while (!glfwWindowShouldClose(window.glWindow))
 	{
 		world->updateWorldPosition(camera.Position);
@@ -89,6 +86,8 @@ int main() {
 
 		//std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
 		//std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
+		//std::cout << "X: " << camera.Position.x << " Y: " << camera.Position.y << "d Z: " << camera.Position.z << std::endl;
+		std::cout << world->entities.size() << std::endl;
 		
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;
@@ -103,8 +102,9 @@ int main() {
 
 		cc->chunkGeneration();
 		renderer->renderAll();
-		test.mb->draw();
-
+		for (auto& mesh : world->entities) {
+			mesh.mb->draw();
+		}
 		cc->chunkDegeneration();
 	
 		glm::mat4 projection2 = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);

@@ -7,6 +7,9 @@
 #include <chunk/Chunk.h>
 #include <map>
 #include <controls/player/Inventory.h>
+#include <world/World.h>
+#include <entities/Item.h>
+
 class Player
 {
 private:
@@ -16,11 +19,14 @@ private:
 	float acceleration;
 	glm::ivec3 velocity;
 	glm::ivec3 accelerations;
+	glm::vec3 position;
+	float yaw;
 	//Should probably be its own and also something better and more generic. This will suffice for now
 public:
 	Inventory* inventory;
 	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
 	bool gravity;
+	void dropItem(World* world, MeshBuilder* mb);
 
 	Player();
 	~Player();

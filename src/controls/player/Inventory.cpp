@@ -14,7 +14,7 @@ void Inventory::addItem(BlockType type)
 	storage[type]++;
 }
 
-void Inventory::removeItem()
+BlockType Inventory::removeItem()
 {
 	BlockType type = inventory[selected];
 	if (storage.count(type)) {
@@ -24,6 +24,7 @@ void Inventory::removeItem()
 			inventory[selected] = BlockType::NOTHING;
 		}
 	}
+	return type;
 }
 
 void Inventory::cycleSelection(int incr)

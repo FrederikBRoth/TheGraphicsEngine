@@ -245,9 +245,9 @@ void MeshBuilder::addSingleFace(
 {
 
 	for (int i = 0, faceIndex = 0; i < 4; i++) {
-		ri->vertices.push_back((faces[faceIndex++] + position->x) * 0.5);
-		ri->vertices.push_back((faces[faceIndex++] + position->y) * 0.5);
-		ri->vertices.push_back((faces[faceIndex++] + position->z) * 0.5);
+		ri->vertices.push_back((faces[faceIndex++] + position->x));
+		ri->vertices.push_back((faces[faceIndex++] + position->y));
+		ri->vertices.push_back((faces[faceIndex++] + position->z));
 		//adding 3 vectors for normals
 		ri->vertices.push_back(lightPos.x);
 		ri->vertices.push_back(lightPos.y);

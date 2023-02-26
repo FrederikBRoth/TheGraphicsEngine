@@ -8,12 +8,14 @@
 #include <chunk/ChunkController.h>
 #include <controls/LineTrace.h>
 #include <controls/player/Player.h>
+#include <entities/Item.h>
+
 class Window
 {
 private:
 	int width, height;
 	float deltaTime, lastFrame, lastX, lastY;
-	bool traced, detailedTraced, firstMouse, jumped, jetpack, jetpackToggle, invCycledUp, invCycledDown;
+	bool traced, detailedTraced, firstMouse, jumped, jetpack, jetpackToggle, invCycledUp, invCycledDown, spawnItem;
 	std::string title;
 	Camera* camera;
 	World* world;

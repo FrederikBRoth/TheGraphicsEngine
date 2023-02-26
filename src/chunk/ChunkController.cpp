@@ -257,6 +257,11 @@ glm::vec3 ChunkController::getChunkPosition(glm::vec3 position)
 	return chunkPos;
 }
 
+MeshBuilder* ChunkController::getMeshBuilder()
+{
+	return mb;
+}
+
 
 ChunkController::ChunkController(World* world, MeshBuilder* mb)
 {

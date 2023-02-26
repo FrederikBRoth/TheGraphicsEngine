@@ -12,7 +12,7 @@ public:
 	std::map<BlockType, int> storage;
 	int selected;
 	void addItem(BlockType type);
-	void removeItem();
+	BlockType removeItem();
 	void cycleSelection(int incr);
 	Inventory();
 };

@@ -72,7 +72,13 @@ void Window::processInput(Player* player)
 		invCycledUp = false;
 	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_RELEASE && invCycledDown) 
 		invCycledDown = false;
-	
+	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_PRESS && !spawnItem) {
+		player->dropItem(world, cc->getMeshBuilder());
+		spawnItem = true;
+	}
+	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_RELEASE && spawnItem) {
+		spawnItem = false;
+	}
 
 	if (jetpack) {
 		if (glfwGetKey(glWindow, GLFW_KEY_SPACE) == GLFW_PRESS && !jumped) {
