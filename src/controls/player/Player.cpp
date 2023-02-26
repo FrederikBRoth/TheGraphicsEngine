@@ -43,7 +43,7 @@ void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>
 	}
 }
 
-void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap)
+void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, World* world)
 {
 	grounded = false;
 	camera.Position.x += camera.relativeVelocity.x;
@@ -63,6 +63,7 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 	boundingBox->updateBB(camera.Position);
 	yaw = camera.Yaw;
 	position = camera.Position;
+	pickupItems(world);
 	
 }
 
@@ -70,7 +71,7 @@ void Player::dropItem(World* world, MeshBuilder* mb)
 {
 	BlockType type = inventory->removeItem();
 	if (type != BlockType::NOTHING) {
-		Item* item = new Item(glm::vec3(0.3f, 0.3f, 0.3f), position, "Item", yaw, glm::vec3(0.2f, 0.2f, 0.2f));
+		Item* item = new Item(glm::vec3(0.3f, 0.3f, 0.3f), position, type, yaw, glm::vec3(0.1f, 0.1f, 0.1f));
 		item->velocity.x *= camera->Front.x;
 		item->velocity.z *= camera->Front.z;
 
@@ -78,6 +79,32 @@ void Player::dropItem(World* world, MeshBuilder* mb)
 		item->makeMesh();
 		world->entities.insert(world->entities.begin(), item);	
 	}
+}
+
+void Player::pickupItems(World* world) {
+	glm::vec3 minDim = position - boundingBox->dimension;
+	glm::vec3 maxDim = position + boundingBox->dimension;
+	std::vector<Entity*>::iterator it = world->entities.begin();
+	while (it != world->entities.end()) {
+		
+		if ((*it)->interactable &&
+			minDim.x <= (*it)->position.x &&
+			(*it)->position.x <= maxDim.x &&
+			minDim.y <= (*it)->position.y &&
+			(*it)->position.y <= maxDim.y &&
+			minDim.z <= (*it)->position.z &&
+			(*it)->position.z <= maxDim.z)
+		{
+			if (Item* c = dynamic_cast<Item*>(*it)) {
+				inventory->addItem(c->name);
+			}
+			delete (*it);
+			it = world->entities.erase(it);
+		} 
+		else ++it;
+
+	}
+
 }
 
 Player::Player(Camera* camera)

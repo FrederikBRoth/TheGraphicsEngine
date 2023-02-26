@@ -5,10 +5,10 @@ class Item : public Entity
 {
 private:
 public:
-	std::string name;
-	Item(glm::vec3 collisionBox, glm::vec3 position, std::string name);
+	BlockType name;
+	Item(glm::vec3 collisionBox, glm::vec3 position, BlockType name);
 
-	Item(glm::vec3 collisionBox, glm::vec3 position, std::string name, float yaw, glm::vec3 scale);
+	Item(glm::vec3 collisionBox, glm::vec3 position, BlockType name, float yaw, glm::vec3 scale);
 
 };
 #endif

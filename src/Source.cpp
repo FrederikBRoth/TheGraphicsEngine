@@ -79,13 +79,13 @@ int main() {
 		window.updateDeltaTime();
 		window.processInput(player);
 		glm::vec3 chunkPos = world->getChunkWorldPosition();
-		player->update(camera, &cc->chunkMap);
+		player->update(camera, &cc->chunkMap, world);
 		ph.update(world->entities, cc);
-		//std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
-		//std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
+		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
+		std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
 		//std::cout << "X: " << camera.Position.x << " Y: " << camera.Position.y << "d Z: " << camera.Position.z << std::endl;
 		//std::cout << world->entities.size() << std::endl;
-		std::cout << camera.Yaw << std::endl;
+		//std::cout << camera.Yaw << std::endl;
 		
 		float camX = sin((float)glfwGetTime()) * radius;
 		float camZ = cos((float)glfwGetTime()) * radius;

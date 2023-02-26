@@ -68,10 +68,15 @@ void Entity::makeMesh()
 
 Entity::Entity(glm::vec3 dimension, glm::vec3 position, float yaw, glm::vec3 scale)
 {
+	interactable = false;
 	boundingBox = AABB(dimension);
 	this->position = position;
 	this->scale = scale;
 	this->yaw = yaw;
 	velocity = glm::vec3(0.05f, -0.005f, 0.05f);
 	mb = new MeshBuffer();
+}
+
+Entity::~Entity()
+{
 }

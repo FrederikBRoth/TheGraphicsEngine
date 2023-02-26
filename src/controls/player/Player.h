@@ -25,9 +25,11 @@ private:
 	//Should probably be its own and also something better and more generic. This will suffice for now
 public:
 	Inventory* inventory;
-	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap);
+	void update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, World* world);
 	bool gravity;
 	void dropItem(World* world, MeshBuilder* mb);
+
+	void pickupItems(World* world);
 
 	Player(Camera* camera);
 	~Player();
