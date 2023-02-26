@@ -68,14 +68,21 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 
 void Player::dropItem(World* world, MeshBuilder* mb)
 {
-	Item item = Item(glm::vec3(0.3f, 0.3f, 0.3f), position, "Item", yaw, 0.5f);
-	mb->addSingleBlock(&item.ri, mb->ti->blockInfo[BlockType::DIRT], item.getPosition());
-	item.makeMesh();
-	world->entities.insert(world->entities.begin(), item);	
+	BlockType type = inventory->removeItem();
+	if (type != BlockType::NOTHING) {
+		Item* item = new Item(glm::vec3(0.3f, 0.3f, 0.3f), position, "Item", yaw, glm::vec3(0.2f, 0.2f, 0.2f));
+		item->velocity.x *= camera->Front.x;
+		item->velocity.z *= camera->Front.z;
+
+		mb->addSingleBlock(&item->ri, mb->ti->blockInfo[type], &glm::vec3(0.0f, 0.0f, 0.0f));
+		item->makeMesh();
+		world->entities.insert(world->entities.begin(), item);	
+	}
 }
 
-Player::Player()
+Player::Player(Camera* camera)
 {
+	this->camera = camera;
 	boundingBox = new AABB({ 0.2f, 0.7f, 0.2f });
 	grounded = true;
 	acceleration = 0.2f;

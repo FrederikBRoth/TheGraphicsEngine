@@ -8,7 +8,7 @@ private:
 	float gravity;
 
 public:
-	void update(std::vector<Entity> entities);
+	void update(std::vector<Entity*> entities, ChunkController* cc);
 
 };
 #endif

@@ -10,18 +10,19 @@
 class Entity {
 private:
 	AABB boundingBox;
-	glm::vec3 position;
-	float scale, yaw;
+	float yaw;
 public:
 	MeshBuffer* mb;
 	RenderInformation ri;
-	glm::vec3* getPosition();
-	float getScale();
+	glm::vec3 position, scale, velocity;
+
 	float getRotation();
 
+	void checkCollision(ChunkController* cc, glm::vec3 velocity);
 	void checkCollision(ChunkController* cc);
+
 	void makeMesh();
-	Entity(glm::vec3 dimension, glm::vec3 position, float yaw, float scale);
+	Entity(glm::vec3 dimension, glm::vec3 position, float yaw, glm::vec3 scale);
 
 };
 

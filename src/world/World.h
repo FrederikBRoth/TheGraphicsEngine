@@ -13,7 +13,7 @@ class Entity;
 class World
 {
 public:
-	std::vector<Entity> entities;
+	std::vector<Entity*> entities;
 	glm::ivec3 worldPos;
 	void updateWorldPosition(glm::vec3& position);
 	glm::vec3 getWorldPosition();

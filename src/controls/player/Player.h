@@ -21,6 +21,7 @@ private:
 	glm::ivec3 accelerations;
 	glm::vec3 position;
 	float yaw;
+	Camera* camera;
 	//Should probably be its own and also something better and more generic. This will suffice for now
 public:
 	Inventory* inventory;
@@ -28,7 +29,7 @@ public:
 	bool gravity;
 	void dropItem(World* world, MeshBuilder* mb);
 
-	Player();
+	Player(Camera* camera);
 	~Player();
 };
 #endif

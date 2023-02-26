@@ -16,8 +16,10 @@ void Inventory::addItem(BlockType type)
 
 BlockType Inventory::removeItem()
 {
+
 	BlockType type = inventory[selected];
-	if (storage.count(type)) {
+
+	if (storage.count(type) && type != BlockType::NOTHING) {
 		storage[type]--;
 		if (storage[type] == 0) {
 			storage.erase(type);

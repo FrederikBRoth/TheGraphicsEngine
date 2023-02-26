@@ -11,8 +11,8 @@
 class ItemRenderer
 {
 private:
-	Shader shader = Shader("LightingShader.vert", "LightingShader.frag");
+	Shader shader = Shader("ItemShader.vert", "ItemShader.frag");
 public:
-	void render(std::vector<Entity> meshes, Camera* camera);
+	void render(std::vector<Entity*> meshes, Camera* camera);
 };
 #endif // !ITEMRENDERER_H
