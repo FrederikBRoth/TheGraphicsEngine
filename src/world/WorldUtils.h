@@ -35,6 +35,7 @@ namespace tge {
 	glm::ivec3 getChunkPosition(glm::ivec3& worldPos);
 	int modulus(int a, int b);
 	float logisticInterpolation(float limit, float growth, float x);
+	float quadraticInterpolation(glm::vec2 roots, float growth, float x);
 	int getIndex(int x, int y, int z);
 	int getIndexFromWorldPos(int x, int y, int z);
 	VectorXZ getKey(int x, int z);

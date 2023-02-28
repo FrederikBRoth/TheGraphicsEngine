@@ -30,6 +30,8 @@ void Entity::checkCollision(ChunkController* cc, glm::vec3 velocity)
 						}
 						else if (velocity.y < 0) {
 							position.y = float(y) / 2.0f + boundingBox.dimension.y + 0.5f;
+							grounded = true;
+
 						}
 						if (velocity.x > 0) {
 							position.x = float(x) / 2.0f - boundingBox.dimension.x - 0.001f;
@@ -52,6 +54,7 @@ void Entity::checkCollision(ChunkController* cc, glm::vec3 velocity)
 
 void Entity::checkCollision(ChunkController* cc)
 {
+	grounded = false;
 	position.x += velocity.x;
 	checkCollision(cc, { velocity.x, 0.0f, 0.0f });
 	position.y += velocity.y;
@@ -73,7 +76,9 @@ Entity::Entity(glm::vec3 dimension, glm::vec3 position, float yaw, glm::vec3 sca
 	this->position = position;
 	this->scale = scale;
 	this->yaw = yaw;
-	velocity = glm::vec3(0.05f, -0.005f, 0.05f);
+	velocity = glm::vec3(0.05f, 0.05f, 0.05f);
+	calcVelocity = glm::vec3(0.05f, 0.05f, 0.05f);
+
 	mb = new MeshBuffer();
 }
 

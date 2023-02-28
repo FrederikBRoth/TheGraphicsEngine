@@ -53,8 +53,8 @@ void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkM
 	camera.Position.z += camera.relativeVelocity.z;
 	checkCollision(camera, chunkMap, { 0.0f, 0.0f, camera.relativeVelocity.z });
 	if (!grounded && gravity) {
-		if (camera.relativeVelocity.y > -0.4f) {
-			camera.relativeVelocity.y -= 0.002f;
+		if (camera.relativeVelocity.y > -0.25f) {
+			camera.relativeVelocity.y -= 0.0015f;
 		}
 	}
 	else {
@@ -72,8 +72,8 @@ void Player::dropItem(World* world, MeshBuilder* mb)
 	BlockType type = inventory->removeItem();
 	if (type != BlockType::NOTHING) {
 		Item* item = new Item(glm::vec3(0.3f, 0.3f, 0.3f), position, type, yaw, glm::vec3(0.1f, 0.1f, 0.1f));
-		item->velocity.x *= camera->Front.x;
-		item->velocity.z *= camera->Front.z;
+		item->velocity *= camera->Front;
+
 
 		mb->addSingleBlock(&item->ri, mb->ti->blockInfo[type], &glm::vec3(0.0f, 0.0f, 0.0f));
 		item->makeMesh();

@@ -35,7 +35,9 @@ namespace tge {
 		return limit / (1 + expf(growth * x)) - limit/2.0f;
 		
 	}
-
+	float quadraticInterpolation(glm::vec2 roots, float growth, float x) {
+		return growth * (x + roots.x) * (x + roots.y);
+	}
 	int getIndex(int x, int y, int z)
 	{
 		return z * CHUNKAREA + y * CHUNKSIZE_X + x;

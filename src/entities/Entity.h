@@ -14,13 +14,13 @@ private:
 public:
 	MeshBuffer* mb;
 	RenderInformation ri;
-	glm::vec3 position, scale, velocity;
-	bool interactable;
+	glm::vec3 position, scale, velocity, calcVelocity;
+	bool interactable, grounded;
 	float getRotation();
 
 	void checkCollision(ChunkController* cc, glm::vec3 velocity);
 	void checkCollision(ChunkController* cc);
-
+	virtual void update() = 0;
 	void makeMesh();
 	Entity(glm::vec3 dimension, glm::vec3 position, float yaw, glm::vec3 scale);
 	virtual ~Entity();

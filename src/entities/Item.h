@@ -10,5 +10,9 @@ public:
 
 	Item(glm::vec3 collisionBox, glm::vec3 position, BlockType name, float yaw, glm::vec3 scale);
 
+
+	// Inherited via Entity
+	virtual void update() override;
+
 };
 #endif

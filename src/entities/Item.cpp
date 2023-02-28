@@ -9,3 +9,13 @@ Item::Item(glm::vec3 collisionBox, glm::vec3 position, BlockType name, float yaw
 {
 	this->name = name;
 }
+
+void Item::update()
+{
+	if (grounded) {
+		velocity.x *= 0.91f;
+		velocity.z *= 0.91f;
+	}
+	velocity.x *= 0.98f;
+	velocity.z *= 0.98f;
+}
