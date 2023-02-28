@@ -30,7 +30,6 @@ namespace std {
 }
 
 namespace tge {
-
 	glm::ivec3 getBlockPosition(glm::vec3& position);
 	glm::ivec3 getChunkPosition(glm::ivec3& worldPos);
 	int modulus(int a, int b);
@@ -41,6 +40,7 @@ namespace tge {
 	VectorXZ getKey(int x, int z);
 	std::string getBlockName(BlockType type);
 	float difference(float a, float b);
+	std::string getPath(std::string item);
 }
 
 

@@ -72,6 +72,7 @@ int main() {
 	Renderer* renderer = new Renderer(mb, &camera);
 	InventoryGui* gui = new InventoryGui(st, player);
 
+	world->SoundEngine->play2D("assets/music/c418sweden.mp3", true);
 	while (!glfwWindowShouldClose(window.glWindow))
 	{
 		world->updateWorldPosition(camera.Position);

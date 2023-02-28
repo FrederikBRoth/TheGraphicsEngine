@@ -85,6 +85,11 @@ namespace tge {
 		return abs(result);
 	}
 
+	std::string getPath(std::string item)
+	{
+		return std::string(ROOT_DIR + item);
+	}
+
 }
 
 

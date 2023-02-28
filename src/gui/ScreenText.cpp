@@ -10,7 +10,7 @@ void ScreenText::setup(std::string fontName, Shader& s)
     }
 
     FT_Face face;
-    std::string path = ROOT_DIR + std::string("assets/fonts/") + fontName;
+    std::string path = std::string("assets/fonts/") + fontName;
     if (FT_New_Face(ft, path.c_str(), 0, &face))
     {
         std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;

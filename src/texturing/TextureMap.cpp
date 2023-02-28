@@ -23,8 +23,7 @@ TextureMap::TextureMap(std::string filepath, int tileHeight, int tileWidth) : te
 {
 	this->tileHeight = tileHeight;
 	this->tileWidth = tileWidth;
-	std::string path = ROOT_DIR + filepath;
-	const char* cString = path.c_str();
+	const char* cString = filepath.c_str();
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(cString, &this->textureHeight, &this->textureWidth,
 		&nrChannels, 0);

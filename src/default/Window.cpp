@@ -58,23 +58,12 @@ void Window::processInput(Player* player)
 		player->camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(glWindow, GLFW_KEY_D) == GLFW_PRESS)
 		player->camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
-	if (glfwGetKey(glWindow, GLFW_KEY_E) == GLFW_PRESS && !invCycledUp) {
-		player->inventory->cycleSelection(1);
-		invCycledUp = true;
-	}
-	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_PRESS && !invCycledDown) {
-		player->inventory->cycleSelection(-1);
-		invCycledDown = true;
-	}
-	if (glfwGetKey(glWindow, GLFW_KEY_E) == GLFW_RELEASE && invCycledUp) 
-		invCycledUp = false;
-	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_RELEASE && invCycledDown) 
-		invCycledDown = false;
-	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_PRESS && !spawnItem) {
+
+	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_PRESS && !spawnItem) {
 		player->dropItem(world, cc->getMeshBuilder());
 		spawnItem = true;
 	}
-	if (glfwGetKey(glWindow, GLFW_KEY_R) == GLFW_RELEASE && spawnItem) {
+	if (glfwGetKey(glWindow, GLFW_KEY_Q) == GLFW_RELEASE && spawnItem) {
 		spawnItem = false;
 	}
 
@@ -113,6 +102,8 @@ void Window::processInput(Player* player)
 		if (trace != BlockType::NOTHING) {
 			std::cout << tge::getBlockName(trace) << std::endl;
 			player->inventory->addItem(trace);
+			world->SoundEngine->play2D("assets/sounds/destroyBlockSound.mp3");
+
 		}
 		traced = true;
 
@@ -123,6 +114,10 @@ void Window::processInput(Player* player)
 	}
 	if (glfwGetMouseButton(glWindow, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS && !detailedTraced) {
 		glm::vec3 trace = LineTrace::create(player->camera->Position, player->camera->Front, cc, player);
+		if (trace != glm::vec3(0, 0, 0)) {
+			world->SoundEngine->play2D("assets/sounds/placeBlockSound.mp3");
+
+		}
 		detailedTraced = true;
 
 		//std::cout << trace.x << ", " << trace.y << ", " << trace.z << std::endl;

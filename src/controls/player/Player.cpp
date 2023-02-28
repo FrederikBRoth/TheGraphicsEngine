@@ -79,7 +79,8 @@ void Player::dropItem(World* world, MeshBuilder* mb)
 
 		mb->addSingleBlock(&item->ri, mb->ti->blockInfo[type], &glm::vec3(0.0f, 0.0f, 0.0f));
 		item->makeMesh();
-		world->entities.insert(world->entities.begin(), item);	
+		world->entities.insert(world->entities.begin(), item);
+		world->SoundEngine->play2D("assets/sounds/dropItemSound.mp3");
 	}
 }
 
@@ -99,6 +100,8 @@ void Player::pickupItems(World* world) {
 		{
 			if (Item* c = dynamic_cast<Item*>(*it)) {
 				inventory->addItem(c->name);
+				world->SoundEngine->play2D("assets/sounds/dropItemSound.mp3");
+
 			}
 			delete (*it);
 			it = world->entities.erase(it);

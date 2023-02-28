@@ -15,7 +15,7 @@ class Window
 private:
 	int width, height;
 	float deltaTime, lastFrame, lastX, lastY;
-	bool traced, detailedTraced, firstMouse, jumped, jetpack, jetpackToggle, invCycledUp, invCycledDown, spawnItem;
+	bool traced, detailedTraced, firstMouse, jumped, jetpack, jetpackToggle, spawnItem;
 	std::string title;
 	World* world;
 	ChunkController* cc;

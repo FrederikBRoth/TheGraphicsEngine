@@ -9,10 +9,13 @@
 #include <string>
 #include <texturing/TextureMap.h>
 #include <world/WorldUtils.h>
+#include <irrKlang/irrKlang.h>
+
 class Entity;
 class World
 {
 public:
+	irrklang::ISoundEngine* SoundEngine;
 	std::vector<Entity*> entities;
 	glm::ivec3 worldPos;
 	void updateWorldPosition(glm::vec3& position);

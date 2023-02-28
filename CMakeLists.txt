@@ -16,6 +16,8 @@ file(GLOB_RECURSE SOURCE_FILES
 file(GLOB_RECURSE HEADER_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.h
 	${CMAKE_SOURCE_DIR}/src/*.hpp)
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY shaders DESTINATION ${CMAKE_BINARY_DIR})
 
 
 # TODO: Add tests and install targets if needed.
@@ -46,10 +48,12 @@ message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
 
 # ASSIMP
 find_package(ASSIMP REQUIRED)
-message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
 
+# FREETYPE
 find_package(FREETYPE REQUIRED)
-message(status "Found FREETYPE in ${FREETYPE_INCLUDE_DIR}")
+
+# IRRKLANG
+find_package(IRRKLANG REQUIRED)
 
 # STB_IMAGE
 add_library(STB_IMAGE "thirdparty/stb_image.cpp")
@@ -64,7 +68,7 @@ add_library(GLAD "thirdparty/glad.c")
 #)
 #add_dependencies(Assets TheGraphicsEngine)
 # Put all libraries into a variable
-set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS} ${ASSIMP_LIBRARY} STB_IMAGE ${FREETYPE_LIBRARY})
+set(LIBS ${GLFW3_LIBRARY} ${OPENGL_LIBRARY} GLAD ${CMAKE_DL_LIBS} ${ASSIMP_LIBRARY} STB_IMAGE ${FREETYPE_LIBRARY} ${IRRKLANG_LIBRARY})
 include_directories(
 	"${CMAKE_SOURCE_DIR}/src"
 	"${CMAKE_SOURCE_DIR}/headers"
@@ -75,28 +79,3 @@ include_directories(
 )
 # Define the link libraries
 target_link_libraries(${PROJECT_NAME} ${LIBS})
-if(MSVC_IDE)
-	# Macro to preserve source files hierarchy in the IDE
-	macro(GroupSources curdir)
-		file(GLOB children RELATIVE ${PROJECT_SOURCE_DIR}/${curdir} ${PROJECT_SOURCE_DIR}/${curdir}/*)
-
-		foreach(child ${children})
-			if(IS_DIRECTORY ${PROJECT_SOURCE_DIR}/${curdir}/${child})
-				GroupSources(${curdir}/${child})
-			else()
-				string(REPLACE "/" "\\" groupname ${curdir})
-				string(REPLACE "src" "Sources" groupname ${groupname})
-				source_group(${groupname} FILES ${PROJECT_SOURCE_DIR}/${curdir}/${child})
-			endif()
-		endforeach()
-	endmacro()
-
-	# Run macro
-	GroupSources(src)
-endif()
-if(WIN32)
-	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_directory
-		"${PROJECT_SOURCE_DIR}/dll"
-		$<TARGET_FILE_DIR:${PROJECT_NAME}>)
-endif()

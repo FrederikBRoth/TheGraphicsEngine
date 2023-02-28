@@ -51,9 +51,11 @@ glm::vec3 LineTrace::create(glm::vec3& playerPos, glm::vec3& playerFront, ChunkC
             if (type != BlockType::NOTHING) {
                 cc->updateBlock(worldX, worldY, worldZ, relativeCoord, player->inventory->inventory[player->inventory->selected]);
                 player->inventory->removeItem();
-
+                return relativeCoord;
             }
-            return relativeCoord;
+            else {
+                return { 0,0,0 };
+            }
         }
     };
 

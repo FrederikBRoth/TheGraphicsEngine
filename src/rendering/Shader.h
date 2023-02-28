@@ -29,8 +29,8 @@ public:
 		try
 		{
 			// open files
-			vShaderFile.open(ROOT_DIR + pathPrefix + vertexPath);
-			fShaderFile.open(ROOT_DIR + pathPrefix + fragmentPath);
+			vShaderFile.open(pathPrefix + vertexPath);
+			fShaderFile.open(pathPrefix + fragmentPath);
 			std::stringstream vShaderStream, fShaderStream;
 			// read file’s buffer contents into streams
 			vShaderStream << vShaderFile.rdbuf();

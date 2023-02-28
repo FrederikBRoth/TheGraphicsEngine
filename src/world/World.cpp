@@ -31,5 +31,5 @@ void World::update()
 World::World()
 {
 	worldPos = glm::ivec3(0, 0, 0);
-
+	SoundEngine = irrklang::createIrrKlangDevice();
 }
