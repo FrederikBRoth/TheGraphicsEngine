@@ -5,8 +5,8 @@
 class PhysicsHandler
 {
 private:
-	float gravity;
-
+	float gravity = 0.2f;
+	float step = 0.0005f;
 public:
 	void update(std::vector<Entity*> entities, ChunkController* cc);
 

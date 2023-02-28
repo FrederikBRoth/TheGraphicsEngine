@@ -27,8 +27,8 @@ World* world = new World();
 TextureMap* tm = new TextureMap(std::string("assets/textures/TextureTable.png"), 16, 16);
 MeshBuilder* mb = new MeshBuilder(world);
 ChunkController* cc = new ChunkController(world, mb);
-Window window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, std::string("The Graphics Engine"), &camera, world, cc);
 Player* player = new Player(&camera);
+Window window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, std::string("The Graphics Engine"), player, world, cc);
 ScreenText* st = new ScreenText();
 PhysicsHandler ph = PhysicsHandler();
 std::vector<Entity> entities;
@@ -78,11 +78,10 @@ int main() {
 		//Gets the current frame for input processing
 		window.updateDeltaTime();
 		window.processInput(player);
-		glm::vec3 chunkPos = world->getChunkWorldPosition();
 		player->update(camera, &cc->chunkMap, world);
 		ph.update(world->entities, cc);
-		std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
-		std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;
+	/*	std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
+		std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;*/
 		//std::cout << "X: " << camera.Position.x << " Y: " << camera.Position.y << "d Z: " << camera.Position.z << std::endl;
 		//std::cout << world->entities.size() << std::endl;
 		//std::cout << camera.Yaw << std::endl;
@@ -105,13 +104,13 @@ int main() {
 		glm::mat4 projection2 = glm::ortho(0.0f, (float)SCREEN_WIDTH, 0.0f, (float)SCREEN_HEIGHT);
 		text.use();
 		text.setMat4("projection", projection2);
-		float fps = (1.0f / window.getDeltaTime());
 		//Crosshair
 		st->renderText("><", SCREEN_WIDTH / 2 - 13.4f, SCREEN_HEIGHT / 2 - 11, 0.5f, glm::vec3(1, 0, 0));
 		
+		float fps = (1.0f / window.getDeltaTime());
 		std::stringstream ss;
 		ss << "FPS: " << std::fixed << std::setprecision(2) << fps;
-		st->renderText(ss.str(), 1400.0f, 800.0f, 1.0f, glm::vec3(1, 0, 0));
+		st->renderText(ss.str(), 1800.0f, 1000.0f, 0.3f, glm::vec3(1, 0, 0));
 		gui->renderGui();
 
 		glfwSwapBuffers(window.glWindow);

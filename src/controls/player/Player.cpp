@@ -19,10 +19,12 @@ void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>
 						//The minus 0.001f is to eliminate floating point errors due to my stupid way of implementing collision
 						if (velocity.y > 0) {
 							camera.Position.y = float(y) / 2.0f - boundingBox->dimension.y / 2.0f + 0.1f;
+							camera.relativeVelocity.y = 0.0f;
 						}
 						else if (velocity.y < 0) {
 							camera.Position.y = float(y) / 2.0f + boundingBox->dimension.y + 0.5f;
 							grounded = true;
+							canJump = true;
 						}
 						if (velocity.x > 0) {
 							camera.Position.x = float(x) / 2.0f - boundingBox->dimension.x - 0.001f;
@@ -46,10 +48,10 @@ void Player::checkCollision(Camera& camera, std::unordered_map<VectorXZ, Chunk*>
 void Player::update(Camera& camera, std::unordered_map<VectorXZ, Chunk*>* chunkMap, World* world)
 {
 	grounded = false;
-	camera.Position.x += camera.relativeVelocity.x;
-	checkCollision(camera, chunkMap, {camera.relativeVelocity.x, 0.0f, 0.0f});
 	camera.Position.y += camera.relativeVelocity.y;
 	checkCollision(camera, chunkMap, {0.0f, camera.relativeVelocity.y,  0.0f });
+	camera.Position.x += camera.relativeVelocity.x;
+	checkCollision(camera, chunkMap, {camera.relativeVelocity.x, 0.0f, 0.0f});
 	camera.Position.z += camera.relativeVelocity.z;
 	checkCollision(camera, chunkMap, { 0.0f, 0.0f, camera.relativeVelocity.z });
 	if (!grounded && gravity) {
@@ -105,6 +107,14 @@ void Player::pickupItems(World* world) {
 
 	}
 
+}
+
+void Player::jump()
+{
+	if (canJump) {
+		camera->relativeVelocity.y = 0.05f;
+		canJump = false;
+	}
 }
 
 Player::Player(Camera* camera)

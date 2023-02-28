@@ -18,4 +18,7 @@ void Item::update()
 	}
 	velocity.x *= 0.98f;
 	velocity.z *= 0.98f;
+	if (abs(velocity.x) < 0.001f && abs(velocity.z) < 0.001f) {
+		interactable = true;
+	}
 }

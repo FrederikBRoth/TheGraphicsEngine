@@ -17,13 +17,13 @@ private:
 	float deltaTime, lastFrame, lastX, lastY;
 	bool traced, detailedTraced, firstMouse, jumped, jetpack, jetpackToggle, invCycledUp, invCycledDown, spawnItem;
 	std::string title;
-	Camera* camera;
 	World* world;
 	ChunkController* cc;
+	Player* player;
 	static Window* sWindow;
 public:
 	GLFWwindow* glWindow;
-	Window(int width, int height, std::string title, Camera* camera, World* world, ChunkController* cc);
+	Window(int width, int height, std::string title, Player* player, World* world, ChunkController* cc);
 	void start();
 	void processInput(Player* player);
 	void mouseCallback(GLFWwindow* window, double xposIn, double yposIn);
