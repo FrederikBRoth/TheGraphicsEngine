@@ -13,8 +13,6 @@ TextureInfo::TextureInfo()
 	textureInfo.emplace(FaceType::WOOD_SIDE, glm::vec2(2, 2));
 	textureInfo.emplace(FaceType::WOOD_TOP, glm::vec2(3, 2));
 
-
-
 	BlockFaces* grass = new BlockFaces(
 		BlockFace(FaceType::GRASS_SIDE, texture, textureInfo),
 		BlockFace(FaceType::GRASS_SIDE, texture, textureInfo),

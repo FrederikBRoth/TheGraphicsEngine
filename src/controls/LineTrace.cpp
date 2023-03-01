@@ -15,6 +15,7 @@ BlockType LineTrace::remove(glm::vec3& playerPos, glm::vec3& playerFront, ChunkC
             break;
     };
     return hit;
+
 }
 glm::vec3 LineTrace::create(glm::vec3& playerPos, glm::vec3& playerFront, ChunkController* cc, Player* player)
 {
