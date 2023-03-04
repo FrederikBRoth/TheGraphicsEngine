@@ -76,8 +76,7 @@ Entity::Entity(glm::vec3 dimension, glm::vec3 position, float yaw, glm::vec3 sca
 	this->position = position;
 	this->scale = scale;
 	this->yaw = yaw;
-	velocity = glm::vec3(0.05f, 0.05f, 0.05f);
-	calcVelocity = glm::vec3(0.05f, 0.05f, 0.05f);
+
 
 	mb = new MeshBuffer();
 }
