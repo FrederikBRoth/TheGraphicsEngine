@@ -5,6 +5,7 @@
 
 class Mob : public Entity
 {
+	std::string name;
 	// Inherited via Entity
 	virtual void update() override;
 };
