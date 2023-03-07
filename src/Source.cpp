@@ -80,7 +80,7 @@ int main() {
 		window.updateDeltaTime();
 		window.processInput(player);
 		player->update(camera, &cc->chunkMap, world);
-		ph.update(world->entities, cc);
+		ph.update(world->entities, cc, &window);
 	/*	std::cout << "X: " << world->worldPos.x << " Y: " << world->worldPos.y << "d Z: " << world->worldPos.z << " | ";
 		std::cout << "X: " << camera.relativeVelocity.x << " Y: " << camera.relativeVelocity.y << " Z: " << camera.relativeVelocity.z << std::endl;*/
 		//std::cout << "X: " << camera.Position.x << " Y: " << camera.Position.y << "d Z: " << camera.Position.z << std::endl;

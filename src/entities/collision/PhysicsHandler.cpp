@@ -1,6 +1,6 @@
 #include <entities\collision\PhysicsHandler.h>
 
-void PhysicsHandler::update(std::vector<Entity*> entities, ChunkController* cc)
+void PhysicsHandler::update(std::vector<Entity*> entities, ChunkController* cc, Window* window)
 {
 	for (auto& entity : entities) {
 		entity->checkCollision(cc);
