@@ -6,7 +6,6 @@ void PhysicsHandler::update(std::vector<Entity*> entities, ChunkController* cc, 
 
 		entity->checkCollision(cc);
 		entity->update();
-
 		if (entity->velocity.y > -gravity) {
 			entity->velocity.y -= step;
 		}
